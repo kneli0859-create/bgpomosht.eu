@@ -74,23 +74,54 @@ module.exports = async function handler(req, res) {
       try {
         var supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-        // Collect extra step2 fields into a JSON object
-        var knownKeys = ['wizardService', '\u041F\u0430\u043A\u0435\u0442', '\u041A\u043E\u043D\u0442\u0430\u043A\u0442', '\u0418\u043C\u0435', '\u0422\u0435\u043B\u0435\u0444\u043E\u043D', '\u0418\u043C\u0435\u0439\u043B', '\u0421\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u0435'];
+        // Field name lookup — handles both UTF-8 and Latin-1 encoded keys
+        function findField(patterns) {
+          for (var i = 0; i < patterns.length; i++) {
+            if (fields[patterns[i]] !== undefined) return fields[patterns[i]];
+          }
+          // Fallback: search by Buffer comparison for encoding mismatches
+          var keys = Object.keys(fields);
+          for (var j = 0; j < patterns.length; j++) {
+            var patBuf = Buffer.from(patterns[j], 'utf8');
+            for (var k = 0; k < keys.length; k++) {
+              var keyBuf = Buffer.from(keys[k], 'latin1');
+              if (patBuf.equals(keyBuf)) return fields[keys[k]];
+            }
+          }
+          return null;
+        }
+
+        var fName    = findField(['\u0418\u043C\u0435', 'Име']);
+        var fPhone   = findField(['\u0422\u0435\u043B\u0435\u0444\u043E\u043D', 'Телефон']);
+        var fEmail   = findField(['\u0418\u043C\u0435\u0439\u043B', 'Имейл']);
+        var fPkg     = findField(['\u041F\u0430\u043A\u0435\u0442', 'Пакет']);
+        var fContact = findField(['\u041A\u043E\u043D\u0442\u0430\u043A\u0442', 'Контакт']);
+        var fMsg     = findField(['\u0421\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u0435', 'Съобщение']);
+
+        // Collect remaining fields as extra data
+        var mappedKeys = new Set();
+        Object.keys(fields).forEach(function (k) {
+          if (k === 'wizardService') { mappedKeys.add(k); return; }
+          var v = fields[k];
+          if (v === fName || v === fPhone || v === fEmail || v === fPkg || v === fContact || v === fMsg) {
+            mappedKeys.add(k);
+          }
+        });
         var extraData = {};
         Object.entries(fields).forEach(function ([k, v]) {
-          if (knownKeys.indexOf(k) === -1 && v && v.toString().trim()) {
+          if (!mappedKeys.has(k) && v && v.toString().trim()) {
             extraData[k] = v;
           }
         });
 
         await supabase.from('submissions').insert({
           service:        fields.wizardService || null,
-          package:        fields['\u041F\u0430\u043A\u0435\u0442'] || null,
-          name:           fields['\u0418\u043C\u0435'] || 'Unknown',
-          phone:          fields['\u0422\u0435\u043B\u0435\u0444\u043E\u043D'] || 'Unknown',
-          email:          fields['\u0418\u043C\u0435\u0439\u043B'] || null,
-          contact_method: fields['\u041A\u043E\u043D\u0442\u0430\u043A\u0442'] || 'WhatsApp',
-          message:        fields['\u0421\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u0435'] || null,
+          package:        fPkg || null,
+          name:           fName || 'Unknown',
+          phone:          fPhone || 'Unknown',
+          email:          fEmail || null,
+          contact_method: fContact || 'WhatsApp',
+          message:        fMsg || null,
           extra_data:     extraData,
           files_count:    files.length,
           file_names:     files.map(function (f) { return f.filename; }),
