@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Страницата не е намерена | BG Помощ</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" sizes="32x32" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#0a0e27" />
+  <style>
+    .err-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; }
+    .err-code { font-family: 'Space Grotesk', sans-serif; font-size: clamp(6rem,20vw,12rem); font-weight: 800; line-height: 1; background: linear-gradient(135deg,#d4a843,#c8941e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
+    .err-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.4rem,4vw,2rem); font-weight: 700; color: #fff; margin-bottom: 14px; }
+    .err-text { font-size: 1rem; color: rgba(255,255,255,0.55); margin-bottom: 36px; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .err-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .err-icon { font-size: 3rem; color: rgba(212,168,67,0.3); margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon"><img src="logo.svg" alt="BG Помощ" width="42" height="47" /></span>
+        <span class="logo-text">BG <span class="logo-accent">Помощ</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="https://www.facebook.com/share/18jX2PKvU9/?mibextid=wwXIfr" class="nav-fb" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://wa.me/4915129893854?text=Здравейте!" class="btn btn-whatsapp nav-cta" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="err-page">
+    <div>
+      <div class="err-icon"><i class="fa-solid fa-file-circle-xmark"></i></div>
+      <div class="err-code">404</div>
+      <h1 class="err-title">Страницата не е намерена</h1>
+      <p class="err-text">Изглежда тази страница не съществува или е преместена. Върни се начало или се свържи с нас.</p>
+      <div class="err-actions">
+        <a href="index.html" class="btn btn-gold btn-lg">
+          <i class="fa-solid fa-house"></i> Към началото
+        </a>
+        <a href="https://wa.me/4915129893854?text=Здравейте!" class="btn btn-whatsapp btn-lg" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

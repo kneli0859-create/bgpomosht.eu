@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Визитна Карта – BG Помощ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="qrcode.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #060a1a;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px;
+  gap: 44px;
+}
+
+.page-title {
+  font-family: 'Space Grotesk', sans-serif;
+  color: rgba(212,168,67,0.45);
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-label {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+/* ════════════════════════════════
+   КАРТАТА
+════════════════════════════════ */
+.card {
+  width: 356px;   /* 85.6mm @ 96dpi */
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 0 0 1px rgba(212,168,67,0.3),
+    0 25px 70px rgba(0,0,0,0.75),
+    0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* ════════════════════════════════
+   ПРЕДНА СТРАНА
+════════════════════════════════ */
+.front {
+  background: linear-gradient(135deg, #080c22 0%, #12103a 45%, #0a0e27 100%);
+  display: flex;
+  flex-direction: column;
+  height: 224px; /* 54mm @ 96dpi */
+}
+
+.front-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Снимка */
+.photo-col {
+  width: 138px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: brightness(0.95) contrast(1.08) saturate(0.9);
+}
+
+/* Fade от снимката към съдържанието */
+.photo-col::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, transparent 55%, #0c1130 100%),
+    linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 30%);
+}
+
+/* Вертикална златна черта — разделител */
+.divider-line {
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(212,168,67,0.6) 20%,
+    rgba(212,168,67,0.6) 80%,
+    transparent 100%);
+  flex-shrink: 0;
+  margin: 14px 0;
+}
+
+/* Дясна инфо колона */
+.info-col {
+  flex: 1;
+  padding: 16px 16px 14px 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Фин радиален glow горе вдясно */
+.info-col::before {
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(212,168,67,0.09) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Лого + бранд */
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  position: relative; z-index: 1;
+}
+
+.logo-wrap {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(212,168,67,0.55));
+}
+
+.brand-info { display: flex; flex-direction: column; gap: 2px; }
+
+.brand-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.2px;
+  line-height: 1;
+}
+
+.brand-tagline {
+  font-size: 7px;
+  color: rgba(212,168,67,0.75);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+/* Имe */
+.name-block { position: relative; z-index: 1; }
+
+.name-main {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+}
+
+.name-role {
+  margin-top: 3px;
+  font-size: 7.5px;
+  color: rgba(212,168,67,0.9);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 600;
+}
+
+/* Контакти */
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4.5px;
+  position: relative; z-index: 1;
+}
+
+.c-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 7.5px;
+  color: rgba(255,255,255,0.72);
+}
+
+.c-item i {
+  color: #d4a843;
+  font-size: 7.5px;
+  width: 10px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Знамена + золота лента — дъно на предната страна */
+.front-footer {
+  display: flex;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.flag-bg {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+.flag-bg div:nth-child(1) { flex:1; background: rgba(255,255,255,0.88); }
+.flag-bg div:nth-child(2) { flex:1; background: #00966e; }
+.flag-bg div:nth-child(3) { flex:1; background: #d62612; }
+
+.flag-sep {
+  width: 1px;
+  background: rgba(0,0,0,0.4);
+  flex-shrink: 0;
+}
+
+.flag-eu {
+  flex: 1;
+  background: #003399;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.gold-bar {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #d4a843 15%, #f5d060 50%, #d4a843 85%, transparent);
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════
+   ЗАДНА СТРАНА
+════════════════════════════════ */
+.back {
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(26,17,69,0.9) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(8,12,34,0.95) 0%, transparent 60%),
+    linear-gradient(145deg, #0f0d35 0%, #080c22 50%, #0c0f28 100%);
+  display: flex;
+  flex-direction: column;
+  min-height: 224px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Фин диагонален pattern */
+.back::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 28px,
+    rgba(212,168,67,0.025) 28px,
+    rgba(212,168,67,0.025) 29px
+  );
+  pointer-events: none;
+}
+
+.back-content {
+  display: flex;
+  flex: 1;
+  padding: 18px 20px 16px 20px;
+  gap: 18px;
+  align-items: center;
+  position: relative; z-index: 1;
+}
+
+/* Ляв блок — текст */
+.back-text-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.back-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.back-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.3px;
+}
+
+.back-brand-sub {
+  font-size: 6.5px;
+  color: rgba(212,168,67,0.65);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 500;
+}
+
+.back-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212,168,67,0.5), transparent);
+  margin-bottom: 10px;
+}
+
+.back-headline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.35;
+  margin-bottom: 11px;
+}
+
+.back-headline em {
+  font-style: normal;
+  color: #d4a843;
+}
+
+.services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 13px;
+}
+
+.svc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 7.5px;
+  color: rgba(255,255,255,0.7);
+}
+
+.svc::before {
+  content: '';
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #d4a843;
+  flex-shrink: 0;
+}
+
+.back-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, #c8982e, #f0c860, #c8982e);
+  color: #0a0e27;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 6px 13px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 14px rgba(212,168,67,0.35);
+}
+
+/* Десен блок — QR */
+.back-qr-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.qr-frame {
+  background: #fff;
+  padding: 7px;
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(212,168,67,0.4),
+    0 8px 28px rgba(0,0,0,0.5),
+    0 0 20px rgba(212,168,67,0.2);
+  width: 96px; height: 96px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+#qrcode canvas, #qrcode img {
+  width: 82px !important;
+  height: 82px !important;
+}
+
+.qr-url {
+  font-size: 6.5px;
+  color: rgba(212,168,67,0.65);
+  letter-spacing: 0.5px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.qr-scan-txt {
+  font-size: 6.5px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+/* Задна страна — дъно */
+.back-footer {
+  display: flex;
+  height: 8px;
+  flex-shrink: 0;
+  position: relative; z-index: 1;
+}
+
+/* ════════════════════════════════
+   ПЕЧАТ
+════════════════════════════════ */
+.print-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,168,67,0.15);
+  border-radius: 14px;
+  padding: 22px 30px;
+  text-align: center;
+  max-width: 360px;
+}
+
+.print-box h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  color: #d4a843;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.print-box p {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.8rem;
+  line-height: 1.9;
+}
+
+.print-box strong { color: rgba(255,255,255,0.85); }
+
+.btn-print {
+  margin-top: 16px;
+  background: linear-gradient(135deg, #c8982e, #f0c860);
+  color: #0a0e27;
+  border: none;
+  padding: 12px 34px;
+  border-radius: 40px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(212,168,67,0.3);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.btn-print:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(212,168,67,0.45);
+}
+
+@media print {
+  body { background: #fff; padding: 10mm; gap: 10mm; }
+  .page-title, .card-label, .print-box { display: none; }
+  .card {
+    box-shadow: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+<body>
+
+<p class="page-title">✦ BG Помощ — Визитна Карта ✦</p>
+
+<!-- ══════════════════════════════
+     ПРЕДНА СТРАНА
+══════════════════════════════ -->
+<div class="card-wrap">
+  <p class="card-label">Предна страна</p>
+  <div class="card">
+    <div class="front">
+      <div class="front-main">
+
+        <!-- Снимка -->
+        <div class="photo-col">
+          <img src="images/hero-desk.webp" alt="Симеон Василев">
+        </div>
+
+        <!-- Вертикален разделител -->
+        <div class="divider-line"></div>
+
+        <!-- Инфо -->
+        <div class="info-col">
+
+          <!-- Лого + бранд -->
+          <div class="brand-row">
+            <div class="logo-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 118" width="48" height="56">
+                <defs>
+                  <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%"   stop-color="#fffbe0"/>
+                    <stop offset="30%"  stop-color="#f0c84a"/>
+                    <stop offset="55%"  stop-color="#d4a843"/>
+                    <stop offset="100%" stop-color="#7a5200"/>
+                  </linearGradient>
+                  <linearGradient id="lg2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%"   stop-color="#fff4b0"/>
+                    <stop offset="40%"  stop-color="#f0c84a"/>
+                    <stop offset="70%"  stop-color="#d4a843"/>
+                    <stop offset="100%" stop-color="#9a6800"/>
+                  </linearGradient>
+                  <linearGradient id="lgBG" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%"   stop-color="#ffffff"/>
+                    <stop offset="33%"  stop-color="#ffffff"/>
+                    <stop offset="33%"  stop-color="#00966e"/>
+                    <stop offset="66%"  stop-color="#00966e"/>
+                    <stop offset="66%"  stop-color="#d62612"/>
+                    <stop offset="100%" stop-color="#d62612"/>
+                  </linearGradient>
+                  <linearGradient id="lg3" x1="0%" y1="0%" x2="60%" y2="100%">
+                    <stop offset="0%"   stop-color="#1e1860"/>
+                    <stop offset="50%"  stop-color="#100e40"/>
+                    <stop offset="100%" stop-color="#04050f"/>
+                  </linearGradient>
+                  <filter id="fG" x="-60%" y="-60%" width="220%" height="220%">
+                    <feGaussianBlur in="SourceAlpha" stdDeviation="3.5" result="b1"/>
+                    <feColorMatrix in="b1" type="matrix"
+                      values="0 0 0 0 1  0 0 0 0 0.88  0 0 0 0 0.18  0 0 0 1.1 0"
+                      result="g1"/>
+                    <feMerge>
+                      <feMergeNode in="g1"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  <filter id="fS" x="-15%" y="-8%" width="130%" height="125%">
+                    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#d4a843" flood-opacity="0.4"/>
+                  </filter>
+                </defs>
+                <path d="M50 3 L95 17 L95 66 C95 91 73 108 50 115 C27 108 5 91 5 66 L5 17 Z" fill="url(#lg1)" filter="url(#fS)"/>
+                <path d="M50 10 L88 22 L88 66 C88 87 68 102 50 109 C32 102 12 87 12 66 L12 22 Z" fill="url(#lg3)"/>
+                <path d="M50 14 L84 25 L84 66 C84 84 66 97 50 104 C34 97 16 84 16 66 L16 25 Z" fill="none" stroke="url(#lg2)" stroke-width="0.5" stroke-opacity="0.45"/>
+                <!-- Декорация горе -->
+                <line x1="22" y1="30" x2="78" y2="30" stroke="url(#lg2)" stroke-width="0.7" opacity="0.8"/>
+                <polygon points="22,27 24.5,30 22,33 19.5,30" fill="url(#lg2)" opacity="0.85"/>
+                <polygon points="78,27 80.5,30 78,33 75.5,30" fill="url(#lg2)" opacity="0.85"/>
+                <polygon points="50,26.5 52,30 50,33.5 48,30" fill="url(#lg2)"/>
+                <!-- BG — цветове на знамето -->
+                <text x="50" y="65"
+                      font-family="'Space Grotesk', 'Arial Black', sans-serif"
+                      font-size="36" font-weight="800" letter-spacing="-1"
+                      fill="url(#lgBG)" text-anchor="middle" filter="url(#fG)">BG</text>
+                <!-- Разделител -->
+                <line x1="22" y1="73" x2="40" y2="73" stroke="url(#lg2)" stroke-width="0.8" opacity="0.85"/>
+                <polygon points="50,70.5 52.5,73 50,75.5 47.5,73" fill="url(#lg2)"/>
+                <line x1="60" y1="73" x2="78" y2="73" stroke="url(#lg2)" stroke-width="0.8" opacity="0.85"/>
+                <!-- ПОМОЩ -->
+                <text x="50" y="84"
+                      font-family="'Space Grotesk', Arial, sans-serif"
+                      font-size="7.5" font-weight="700" letter-spacing="3.5"
+                      fill="url(#lg2)" fill-opacity="0.9" text-anchor="middle">ПОМОЩ</text>
+              </svg>
+            </div>
+            <div class="brand-info">
+              <div class="brand-name">BG Помощ</div>
+              <div class="brand-tagline">Твоят довереник в Европа</div>
+            </div>
+          </div>
+
+          <!-- Имe -->
+          <div class="name-block">
+            <div class="name-main">Симеон Василев</div>
+            <div class="name-role">Личен асистент &amp; Консултант</div>
+          </div>
+
+          <!-- Контакти -->
+          <div class="contact-list">
+            <div class="c-item"><i class="fab fa-whatsapp"></i><span>+49 1512 989 3854</span></div>
+            <div class="c-item"><i class="fas fa-envelope"></i><span>simeonv38@gmail.com</span></div>
+            <div class="c-item"><i class="fas fa-clock"></i><span>08:30 – 21:00 &nbsp;·&nbsp; 7 дни</span></div>
+            <div class="c-item"><i class="fas fa-globe"></i><span>bgpomosht.eu</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Знамена -->
+      <div class="front-footer">
+        <div class="flag-bg">
+          <div></div><div></div><div></div>
+        </div>
+        <div class="flag-sep"></div>
+        <div class="flag-eu">
+          <svg width="100%" height="8" viewBox="0 0 178 8">
+            <rect width="178" height="8" fill="#003399"/>
+            <g fill="#ffcc00" font-size="6" text-anchor="middle" font-family="serif">
+              <text x="9"   y="6.5">★</text>
+              <text x="25"  y="6.5">★</text>
+              <text x="41"  y="6.5">★</text>
+              <text x="57"  y="6.5">★</text>
+              <text x="73"  y="6.5">★</text>
+              <text x="89"  y="6.5">★</text>
+              <text x="105" y="6.5">★</text>
+              <text x="121" y="6.5">★</text>
+              <text x="137" y="6.5">★</text>
+              <text x="153" y="6.5">★</text>
+              <text x="169" y="6.5">★</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="gold-bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     ЗАДНА СТРАНА
+══════════════════════════════ -->
+<div class="card-wrap">
+  <p class="card-label">Задна страна</p>
+  <div class="card">
+    <div class="gold-bar"></div>
+    <div class="back">
+      <div class="back-content">
+
+        <!-- Ляв блок -->
+        <div class="back-text-col">
+
+          <div>
+            <!-- Лого + бранд мини -->
+            <div class="back-logo-row">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 118" width="32" height="38"
+                   style="filter:drop-shadow(0 0 6px rgba(212,168,67,0.5))">
+                <defs>
+                  <linearGradient id="blg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fffbe0"/>
+                    <stop offset="40%" stop-color="#d4a843"/>
+                    <stop offset="100%" stop-color="#7a5200"/>
+                  </linearGradient>
+                  <linearGradient id="blg2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#fff4b0"/>
+                    <stop offset="50%" stop-color="#d4a843"/>
+                    <stop offset="100%" stop-color="#9a6800"/>
+                  </linearGradient>
+                  <linearGradient id="blgBG" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%"  stop-color="#ffffff"/>
+                    <stop offset="33%" stop-color="#ffffff"/>
+                    <stop offset="33%" stop-color="#00966e"/>
+                    <stop offset="66%" stop-color="#00966e"/>
+                    <stop offset="66%" stop-color="#d62612"/>
+                    <stop offset="100%" stop-color="#d62612"/>
+                  </linearGradient>
+                  <linearGradient id="blg3" x1="0%" y1="0%" x2="60%" y2="100%">
+                    <stop offset="0%"   stop-color="#1e1860"/>
+                    <stop offset="100%" stop-color="#04050f"/>
+                  </linearGradient>
+                </defs>
+                <path d="M50 3 L95 17 L95 66 C95 91 73 108 50 115 C27 108 5 91 5 66 L5 17 Z" fill="url(#blg1)"/>
+                <path d="M50 10 L88 22 L88 66 C88 87 68 102 50 109 C32 102 12 87 12 66 L12 22 Z" fill="url(#blg3)"/>
+                <text x="50" y="65" font-family="'Space Grotesk','Arial Black',sans-serif"
+                      font-size="36" font-weight="800" letter-spacing="-1"
+                      fill="url(#blgBG)" text-anchor="middle">BG</text>
+                <line x1="22" y1="73" x2="40" y2="73" stroke="url(#blg2)" stroke-width="0.8" opacity="0.8"/>
+                <polygon points="50,70.5 52.5,73 50,75.5 47.5,73" fill="url(#blg2)"/>
+                <line x1="60" y1="73" x2="78" y2="73" stroke="url(#blg2)" stroke-width="0.8" opacity="0.8"/>
+                <text x="50" y="84" font-family="'Space Grotesk',Arial,sans-serif"
+                      font-size="7.5" font-weight="700" letter-spacing="3.5"
+                      fill="url(#blg2)" fill-opacity="0.9" text-anchor="middle">ПОМОЩ</text>
+              </svg>
+              <div>
+                <div class="back-brand">BG Помощ</div>
+                <div class="back-brand-sub">bgpomosht.eu</div>
+              </div>
+            </div>
+
+            <div class="back-divider"></div>
+
+            <div class="back-headline">
+              Животът в Европа<br>
+              не трябва да е <em>труден</em>
+            </div>
+
+            <div class="services-list">
+              <div class="svc">Документи &amp; Преводи</div>
+              <div class="svc">Регистрации &amp; Осигуровки</div>
+              <div class="svc">Жилище &amp; Правни въпроси</div>
+              <div class="svc">На български · Без стрес</div>
+            </div>
+          </div>
+
+          <div class="back-cta">
+            <i class="fab fa-whatsapp" style="font-size:9px;"></i>
+            Безплатна консултация
+          </div>
+        </div>
+
+        <!-- Десен блок — QR -->
+        <div class="back-qr-col">
+          <div class="qr-frame">
+            <div id="qrcode"></div>
+          </div>
+          <div class="qr-scan-txt">Сканирай</div>
+          <div class="qr-url">bgpomosht.eu</div>
+        </div>
+
+      </div>
+
+      <!-- Знамена — задна страна -->
+      <div class="back-footer">
+        <div class="flag-bg">
+          <div></div><div></div><div></div>
+        </div>
+        <div class="flag-sep"></div>
+        <div class="flag-eu">
+          <svg width="100%" height="8" viewBox="0 0 178 8">
+            <rect width="178" height="8" fill="#003399"/>
+            <g fill="#ffcc00" font-size="6" text-anchor="middle" font-family="serif">
+              <text x="9" y="6.5">★</text><text x="25" y="6.5">★</text>
+              <text x="41" y="6.5">★</text><text x="57" y="6.5">★</text>
+              <text x="73" y="6.5">★</text><text x="89" y="6.5">★</text>
+              <text x="105" y="6.5">★</text><text x="121" y="6.5">★</text>
+              <text x="137" y="6.5">★</text><text x="153" y="6.5">★</text>
+              <text x="169" y="6.5">★</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="gold-bar"></div>
+  </div>
+</div>
+
+<!-- ПЕЧАТ -->
+<div class="print-box">
+  <h2>Как да отпечаташ?</h2>
+  <p>
+    <strong>1.</strong> Натисни бутона по-долу<br>
+    <strong>2.</strong> Избери "Save as PDF" или принтер<br>
+    <strong>3.</strong> Формат: <strong>85.6 × 54мм</strong> (стандартна визитка)<br>
+    <strong>4.</strong> QR води директно към сайта 📲
+  </p>
+  <button class="btn-print" onclick="window.print()">🖨️ Печат / Запази PDF</button>
+</div>
+
+<script>
+  new QRCode(document.getElementById("qrcode"), {
+    text: "https://bgpomosht.eu",
+    width: 82,
+    height: 82,
+    colorDark: "#0a0e27",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+  <title>Изпрати заявка — BG Помощ</title>
+  <meta name="description" content="Изпрати заявка за помощ с документи, CV, институции или превод. Отговаряме до 30 минути. BG Помощ — за българи в Европа." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://bgpomosht.eu/form.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bgpomosht.eu/form.html" />
+  <meta property="og:title" content="Изпрати заявка — BG Помощ" />
+  <meta property="og:description" content="Попълни формуляра и получи оферта до 30 минути." />
+  <meta property="og:image" content="https://bgpomosht.eu/images/hero-desk.webp" />
+  <meta property="og:locale" content="bg_BG" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" sizes="32x32" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#0a0e27" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon"><img src="logo.svg" alt="BG Помощ" width="42" height="47" /></span>
+        <span class="logo-text">BG <span class="logo-accent">Помощ</span></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Начало</a></li>
+        <li><a href="services.html">Услуги</a></li>
+        <li><a href="index.html#how-it-works">Как работим</a></li>
+        <li><a href="services.html#pricing">Цени</a></li>
+        <li><a href="blog.html">Блог</a></li>
+        <li><a href="form.html" class="page-active">Заявка</a></li>
+        <li class="nav-drop-item">
+          <span class="nav-drop-label">Контакт <i class="fa-solid fa-chevron-down nav-drop-arrow"></i></span>
+          <div class="nav-contact-popup">
+            <a href="https://wa.me/4915129893854" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> +49 1512 9893854</a>
+            <a href="mailto:simeonv38@gmail.com"><i class="fa-solid fa-envelope"></i> simeonv38@gmail.com</a>
+            <a href="https://www.facebook.com/share/18jX2PKvU9/?mibextid=wwXIfr" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i> Facebook страница</a>
+          </div>
+        </li>
+        <li class="nav-mobile-actions">
+          <a href="https://www.facebook.com/share/18jX2PKvU9/?mibextid=wwXIfr" class="nav-mobile-fb" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/4915129893854?text=Здравейте!%20Имам%20нужда%20от%20помощ%20с%20документи." class="nav-mobile-wa" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
+        </li>
+      </ul>
+      <div class="nav-right">
+        <a href="https://www.facebook.com/share/18jX2PKvU9/?mibextid=wwXIfr" class="nav-fb" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://wa.me/4915129893854?text=Здравейте!%20Имам%20нужда%20от%20помощ%20с%20документи." class="btn btn-whatsapp nav-cta" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="container page-hero-inner">
+      <span class="section-tag">Контакт</span>
+      <h1>Изпрати <span class="gradient-text">своята заявка</span></h1>
+      <p>Попълни формуляра и ще се свържем с теб до 30 минути с конкретна оферта. Без ангажименти.</p>
+    </div>
+  </div>
+
+  <!-- WIZARD SECTION -->
+  <section class="contact section" id="contact">
+    <div class="container">
+
+      <!-- Contact info pills -->
+      <div class="contact-info-bar reveal">
+        <div class="contact-info-pill">
+          <i class="fa-brands fa-whatsapp"></i>
+          <a href="https://wa.me/4915129893854" target="_blank" rel="noopener">+49 1512 9893854</a>
+        </div>
+        <div class="contact-info-pill">
+          <i class="fa-solid fa-envelope"></i>
+          <a href="mailto:simeonv38@gmail.com">simeonv38@gmail.com</a>
+        </div>
+        <div class="contact-info-pill">
+          <i class="fa-solid fa-clock"></i>
+          <span>08:30 — 21:00, 7 дни</span>
+        </div>
+        <div class="contact-info-pill">
+          <i class="fa-solid fa-bolt"></i>
+          <span>Отговор до 30 мин</span>
+        </div>
+      </div>
+
+      <!-- WIZARD PROGRESS BAR -->
+      <div class="wizard-progress reveal">
+        <div class="wizard-step-indicator active" data-step="1">
+          <div class="wsi-circle"><span>1</span></div>
+          <span class="wsi-label">Какво ви трябва?</span>
+        </div>
+        <div class="wsi-line" id="wsiLine1"></div>
+        <div class="wizard-step-indicator" data-step="2">
+          <div class="wsi-circle"><span>2</span></div>
+          <span class="wsi-label">Детайли</span>
+        </div>
+        <div class="wsi-line" id="wsiLine2"></div>
+        <div class="wizard-step-indicator" data-step="3">
+          <div class="wsi-circle"><span>3</span></div>
+          <span class="wsi-label">Вашите данни</span>
+        </div>
+        <div class="wsi-line" id="wsiLine3"></div>
+        <div class="wizard-step-indicator" data-step="4">
+          <div class="wsi-circle"><span>4</span></div>
+          <span class="wsi-label">Преглед</span>
+        </div>
+      </div>
+
+      <!-- PRICE INDICATOR -->
+      <div class="price-indicator" id="priceIndicator">
+        <div class="pi-left">
+          <div class="pi-service-label">
+            <i class="fa-solid fa-tag pi-icon"></i>
+            <span id="piService">—</span>
+          </div>
+        </div>
+        <div class="pi-center">
+          <div class="pi-label-text">Ориентировъчна цена</div>
+          <div class="pi-price" id="piPrice">—</div>
+        </div>
+        <div class="pi-right">
+          <div class="pi-note">Финалната цена се потвърждава след консултация</div>
+        </div>
+      </div>
+
+      <!-- WIZARD PANELS -->
+      <div class="wizard-container reveal">
+
+        <!-- Step 1: Service selection -->
+        <div class="wizard-panel active" id="wizardPanel1">
+          <div class="service-cards-grid">
+            <!-- Най-търсени услуги -->
+            <div class="service-card" data-value="Търся работа" data-package="Търся работа — от €29">
+              <div class="service-card-icon"><i class="fa-solid fa-briefcase"></i></div>
+              <div class="service-card-title">Търся работа</div>
+              <div class="service-card-price">от €29</div>
+            </div>
+            <div class="service-card" data-value="Търсене на жилище" data-package="Търсене на жилище — от €49">
+              <div class="service-card-icon"><i class="fa-solid fa-house-chimney"></i></div>
+              <div class="service-card-title">Търсене на жилище</div>
+              <div class="service-card-price">от €49</div>
+            </div>
+            <div class="service-card" data-value="Помощ с институция" data-package="Помощ с институция — от €39">
+              <div class="service-card-icon"><i class="fa-solid fa-building-columns"></i></div>
+              <div class="service-card-title">Помощ с институция</div>
+              <div class="service-card-price">от €39</div>
+            </div>
+            <div class="service-card" data-value="Документ или превод" data-package="Документ / превод — от €29">
+              <div class="service-card-icon"><i class="fa-solid fa-file-lines"></i></div>
+              <div class="service-card-title">Документ или превод</div>
+              <div class="service-card-price">от €29</div>
+            </div>
+            <!-- Пакет за нови + финанси -->
+            <div class="service-card" data-value="Тъкмо пристигнах" data-package="Нов в страната — от €49">
+              <div class="service-card-icon"><i class="fa-solid fa-plane-arrival"></i></div>
+              <div class="service-card-title">Тъкмо пристигнах</div>
+              <div class="service-card-price">от €49</div>
+            </div>
+            <div class="service-card" data-value="Данъчна декларация" data-package="Данъчна декларация — от €49">
+              <div class="service-card-icon"><i class="fa-solid fa-receipt"></i></div>
+              <div class="service-card-title">Данъчна декларация</div>
+              <div class="service-card-price">от €49</div>
+            </div>
+            <!-- Онлайн услуги от България -->
+            <div class="service-card" data-value="КЕП онлайн подпис" data-package="КЕП онлайн подпис — от €19">
+              <div class="service-card-icon"><i class="fa-solid fa-pen-nib"></i></div>
+              <div class="service-card-title">КЕП онлайн подпис</div>
+              <div class="service-card-price">от €19</div>
+            </div>
+            <div class="service-card" data-value="е-Услуги от България" data-package="е-Услуги от България — от €39">
+              <div class="service-card-icon"><i class="fa-solid fa-laptop-code"></i></div>
+              <div class="service-card-title">е-Услуги от България</div>
+              <div class="service-card-price">от €39</div>
+            </div>
+            <!-- Развитие + премиум -->
+            <div class="service-card" data-value="Онлайн курс / Сертификат" data-package="Онлайн курс — от €49">
+              <div class="service-card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+              <div class="service-card-title">Онлайн курс / Сертификат</div>
+              <div class="service-card-price">от €49</div>
+            </div>
+            <div class="service-card" data-value="Пълно обслужване А до Я" data-package="Пълно обслужване — от €129">
+              <div class="service-card-icon"><i class="fa-solid fa-bell-concierge"></i></div>
+              <div class="service-card-title">Пълно обслужване А до Я</div>
+              <div class="service-card-price">от €129</div>
+            </div>
+            <div class="service-card" data-value="VIP Абонамент" data-package="VIP Абонамент — €149/мес">
+              <div class="service-card-icon"><i class="fa-solid fa-crown"></i></div>
+              <div class="service-card-title">VIP Абонамент</div>
+              <div class="service-card-price">€149 / месец</div>
+            </div>
+            <div class="service-card" data-value="Друго" data-package="Друго">
+              <div class="service-card-icon"><i class="fa-solid fa-comment-dots"></i></div>
+              <div class="service-card-title">Друго</div>
+              <div class="service-card-price">по договаряне</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Dynamic details (rendered by JS) -->
+        <div class="wizard-panel" id="wizardPanel2">
+          <div id="dynamicStep2Content"></div>
+        </div>
+
+        <!-- Step 3: Contact details -->
+        <div class="wizard-panel" id="wizardPanel3">
+          <div class="wizard-step-card">
+            <h3 class="wizard-panel-title">Вашите данни</h3>
+            <p class="wizard-panel-subtitle">За да се свържем с вас</p>
+            <div class="wizard-form-row">
+              <div class="form-group">
+                <label for="wName">Вашето Име <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <i class="fa-solid fa-user"></i>
+                  <input type="text" id="wName" name="wName" placeholder="Иван Иванов" autocomplete="name" />
+                </div>
+                <span class="field-error" id="wNameError">Моля, въведете вашето Име</span>
+              </div>
+              <div class="form-group">
+                <label for="wPhone">Телефон / WhatsApp <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <i class="fa-solid fa-mobile-screen"></i>
+                  <input type="tel" id="wPhone" name="wPhone" placeholder="+49 123 456 789" autocomplete="tel" />
+                </div>
+                <span class="field-error" id="wPhoneError">Моля, въведете телефон</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="wEmail">Имейл (по избор)</label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="wEmail" name="wEmail" placeholder="ivan@example.com" autocomplete="email" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="wPackage">Кой пакет ви интересува?</label>
+              <div class="input-wrap select-wrap">
+                <i class="fa-solid fa-list-check"></i>
+                <select id="wPackage" name="wPackage">
+                  <option value="">— Избери пакет —</option>
+                  <option value="Търся работа — от €29">Търся работа — от €29</option>
+                  <option value="Търсене на жилище — от €49">Търсене на жилище — от €49</option>
+                  <option value="Помощ с институция — от €39">Помощ с институция — от €39</option>
+                  <option value="Документ / превод — от €29">Документ / превод — от €29</option>
+                  <option value="Нов в страната — от €49">Нов в страната — от €49</option>
+                  <option value="Данъчна декларация — от €49">Данъчна декларация — от €49</option>
+                  <option value="КЕП онлайн подпис — от €19">КЕП онлайн подпис — от €19</option>
+                  <option value="е-Услуги от България — от €39">е-Услуги от България — от €39</option>
+                  <option value="Онлайн курс — от €49">Онлайн курс — от €49</option>
+                  <option value="Пълно обслужване — от €129">Пълно обслужване — от €129</option>
+                  <option value="VIP Абонамент — €149/мес">VIP Абонамент — €149/мес</option>
+                </select>
+                <i class="fa-solid fa-chevron-down select-arrow"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Как предпочитате да се свържем? <span class="required">*</span></label>
+              <div class="contact-method-group" id="contactMethodGroup">
+                <button type="button" class="contact-method-btn selected" data-method="WhatsApp">
+                  <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </button>
+                <button type="button" class="contact-method-btn" data-method="Обаждане">
+                  <i class="fa-solid fa-phone"></i> Обаждане
+                </button>
+                <button type="button" class="contact-method-btn" data-method="Имейл">
+                  <i class="fa-solid fa-envelope"></i> Имейл
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="wMessage">Допълнително съобщение (по избор)</label>
+              <div class="input-wrap textarea-wrap">
+                <i class="fa-solid fa-comment-dots"></i>
+                <textarea id="wMessage" name="wMessage" placeholder="Всичко допълнително, което искате да споделите..." rows="3"></textarea>
+              </div>
+            </div>
+            <div class="form-group ref-form-group" id="refFormGroup" style="display:none">
+              <label for="wRefCode"><i class="fa-solid fa-gift" style="color:var(--gold)"></i> Реферален код <span class="ref-form-badge">Безплатна консултация</span></label>
+              <div class="input-wrap ref-code-input-wrap">
+                <i class="fa-solid fa-tag"></i>
+                <input type="text" id="wRefCode" name="wRefCode" readonly />
+              </div>
+              <span class="ref-form-note">Поканен си от приятел! Безплатна консултация е включена автоматично.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Summary + Send -->
+        <div class="wizard-panel" id="wizardPanel4">
+          <div id="wizardSummaryContainer"></div>
+        </div>
+
+      </div><!-- end wizard-container -->
+
+      <!-- WIZARD NAVIGATION -->
+      <div class="wizard-nav reveal">
+        <button class="btn btn-outline" id="wizardBackBtn" style="visibility:hidden">
+          <i class="fa-solid fa-arrow-left"></i> Назад
+        </button>
+        <button class="btn btn-gold" id="wizardNextBtn">
+          Напред <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <span class="logo-icon"><img src="logo.svg" alt="BG Помощ" width="42" height="47" /></span>
+            <span class="logo-text">BG <span class="logo-accent">Помощ</span></span>
+          </a>
+          <p>Помагаме на българи в Европа да се справят с документи, институции и административни предизвикателства — бързо, лесно и на български.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/share/18jX2PKvU9/?mibextid=wwXIfr" class="social-link social-link-fb" target="_blank" rel="noopener" aria-label="Facebook">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="https://wa.me/4915129893854" class="social-link" target="_blank" rel="noopener" aria-label="WhatsApp">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="mailto:simeonv38@gmail.com" class="social-link" aria-label="Имейл">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Услуги</h4>
+          <ul>
+            <li><a href="services.html#job-search">Търся работа</a></li>
+            <li><a href="services.html#institution">Проблем с институция</a></li>
+            <li><a href="services.html#newcomer">Нов в страната</a></li>
+            <li><a href="services.html#documents">Документи и преводи</a></li>
+            <li><a href="services.html#housing">Търсене на жилище</a></li>
+            <li><a href="services.html#courses">Онлайн курсове</a></li>
+            <li><a href="services.html#vip">VIP Абонамент</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Информация</h4>
+          <ul>
+            <li><a href="index.html#how-it-works">Как работим</a></li>
+            <li><a href="services.html#pricing">Цени</a></li>
+            <li><a href="index.html#referral">Препоръчай приятел</a></li>
+            <li><a href="about.html">За нас</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="blog.html">Блог</a></li>
+            <li><a href="form.html">Заявка</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Контакти</h4>
+          <ul class="footer-contacts">
+            <li>
+              <i class="fa-solid fa-phone"></i>
+              <a href="tel:+4915129893854">+49 1512 9893854</a>
+            </li>
+            <li>
+              <i class="fa-brands fa-whatsapp"></i>
+              <a href="https://wa.me/4915129893854" target="_blank" rel="noopener">WhatsApp</a>
+            </li>
+            <li>
+              <i class="fa-solid fa-envelope"></i>
+              <a href="mailto:simeonv38@gmail.com">simeonv38@gmail.com</a>
+            </li>
+            <li>
+              <i class="fa-solid fa-clock"></i>
+              <span>08:30 — 21:00, 7 дни</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 BG Помощ. Всички права запазени.</p>
+        <div class="footer-legal">
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutz</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING FACEBOOK BUTTON -->
+  <a href="https://www.facebook.com/share/18jX2PKvU9/?mibextid=wwXIfr" class="facebook-float" target="_blank" rel="noopener" aria-label="Facebook">
+    <i class="fa-brands fa-facebook-f"></i>
+    <span class="fb-tooltip">Намери ни!</span>
+  </a>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/4915129893854?text=Здравейте!%20Имам%20нужда%20от%20помощ%20с%20документи." class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="wa-tooltip">Пиши ни сега!</span>
+  </a>
+
+  <!-- BACK TO TOP -->
+  <button class="back-to-top" id="backToTop" aria-label="Нагоре">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script src="country-data.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

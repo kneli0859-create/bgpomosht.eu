@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 112" width="100" height="112" role="img" aria-label="BG Помощ">
+  <defs>
+
+    <!-- Gold metallic gradient — diagonal -->
+    <linearGradient id="gGoldD" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#fff0a0"/>
+      <stop offset="20%"  stop-color="#e8c04a"/>
+      <stop offset="45%"  stop-color="#d4a843"/>
+      <stop offset="70%"  stop-color="#c08c22"/>
+      <stop offset="90%"  stop-color="#8c5c00"/>
+      <stop offset="100%" stop-color="#6e4400"/>
+    </linearGradient>
+
+    <!-- Gold metallic gradient — vertical (for text/details) -->
+    <linearGradient id="gGoldV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#fff2a8"/>
+      <stop offset="30%"  stop-color="#e8c04a"/>
+      <stop offset="55%"  stop-color="#d4a843"/>
+      <stop offset="80%"  stop-color="#c08c22"/>
+      <stop offset="100%" stop-color="#9a6e14"/>
+    </linearGradient>
+
+    <!-- Gold shimmer — light for thin lines -->
+    <linearGradient id="gGoldL" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#d4a843" stop-opacity="0"/>
+      <stop offset="30%"  stop-color="#ffe07a"/>
+      <stop offset="50%"  stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="70%"  stop-color="#ffe07a"/>
+      <stop offset="100%" stop-color="#d4a843" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Dark interior gradient -->
+    <linearGradient id="gDark" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%"   stop-color="#20196a"/>
+      <stop offset="40%"  stop-color="#11104a"/>
+      <stop offset="100%" stop-color="#05061a"/>
+    </linearGradient>
+
+    <!-- Interior radial glow -->
+    <radialGradient id="gGlow" cx="50%" cy="38%" r="52%">
+      <stop offset="0%"   stop-color="#d4a843" stop-opacity="0.22"/>
+      <stop offset="60%"  stop-color="#9a6e14" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#d4a843" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Clip path for inner shield -->
+    <clipPath id="shieldClip">
+      <path d="M50 9 L90 21 L90 63 C90 83 70 99 50 106 C30 99 10 83 10 63 L10 21 Z"/>
+    </clipPath>
+
+    <!-- Gold glow for star & text -->
+    <filter id="fGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="0 0 0 0 1   0 0 0 0 0.80   0 0 0 0 0.20   0 0 0 0.65 0"
+        result="goldBlur"/>
+      <feMerge>
+        <feMergeNode in="goldBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Soft outer drop shadow -->
+    <filter id="fShadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5"
+        flood-color="#d4a843" flood-opacity="0.38"/>
+    </filter>
+
+    <!-- Inner bevel highlight -->
+    <filter id="fBevel" x="-5%" y="-5%" width="110%" height="115%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1" result="b"/>
+      <feOffset in="b" dx="-1" dy="-1" result="bOff"/>
+      <feComposite in="SourceGraphic" in2="bOff" operator="over"/>
+    </filter>
+
+  </defs>
+
+  <!-- ═══════════════════════════════════════
+       SHIELD — outer gold border layer
+       ═══════════════════════════════════════ -->
+  <path d="M50 3 L96 16 L96 63 C96 87 74 104 50 111 C26 104 4 87 4 63 L4 16 Z"
+        fill="url(#gGoldD)"
+        filter="url(#fShadow)"/>
+
+  <!-- SHIELD — dark interior -->
+  <path d="M50 9 L90 21 L90 63 C90 83 70 99 50 106 C30 99 10 83 10 63 L10 21 Z"
+        fill="url(#gDark)"/>
+
+  <!-- SHIELD — center radial glow -->
+  <path d="M50 9 L90 21 L90 63 C90 83 70 99 50 106 C30 99 10 83 10 63 L10 21 Z"
+        fill="url(#gGlow)"/>
+
+  <!-- SHIELD — inner decorative border line -->
+  <path d="M50 13 L86 24 L86 63 C86 80 68 95 50 102 C32 95 14 80 14 63 L14 24 Z"
+        fill="none"
+        stroke="url(#gGoldV)"
+        stroke-width="0.55"
+        stroke-opacity="0.5"/>
+
+  <!-- ═══════════════════════════════════════
+       TOP SECTION — divider + corner gems
+       ═══════════════════════════════════════ -->
+
+  <!-- Horizontal shimmer line just below the top shield edge -->
+  <line x1="15" y1="43" x2="85" y2="43"
+        stroke="url(#gGoldL)" stroke-width="0.6" stroke-opacity="0.55"/>
+
+  <!-- Small corner diamonds -->
+  <polygon points="23,37  25.5,39.5  23,42  20.5,39.5" fill="url(#gGoldV)" opacity="0.55"/>
+  <polygon points="77,37  79.5,39.5  77,42  74.5,39.5" fill="url(#gGoldV)" opacity="0.55"/>
+
+  <!-- ═══════════════════════════════════════
+       5-POINTED STAR  (center 50, 29 · R=11 · r=4.5)
+       Outer: 270°, 342°, 54°, 126°, 198°
+       Inner: 306°, 18°, 90°, 162°, 234°
+       ═══════════════════════════════════════ -->
+  <polygon
+    points="50,18
+            52.65,25.86  60.46,25.90
+            54.28,30.89  56.47,38.90
+            50,33.5
+            43.53,38.90  45.72,30.89
+            39.54,25.90  47.35,25.86"
+    fill="url(#gGoldD)"
+    filter="url(#fGlow)"/>
+
+  <!-- Tiny star center dot -->
+  <circle cx="50" cy="29" r="1.4" fill="#fff8d0" opacity="0.7"/>
+
+  <!-- ═══════════════════════════════════════
+       BG MONOGRAM
+       ═══════════════════════════════════════ -->
+  <text x="50" y="75"
+        font-family="Impact, 'Arial Black', 'Arial Bold', sans-serif"
+        font-size="36"
+        font-weight="900"
+        letter-spacing="-1"
+        fill="url(#gGoldV)"
+        text-anchor="middle"
+        filter="url(#fGlow)"
+        paint-order="stroke"
+        stroke="#c08c22"
+        stroke-width="0.5">BG</text>
+
+  <!-- ═══════════════════════════════════════
+       DIVIDER — line ◆ line
+       ═══════════════════════════════════════ -->
+  <line x1="19" y1="80" x2="39" y2="80" stroke="url(#gGoldV)" stroke-width="0.7" opacity="0.65"/>
+  <polygon points="50,77  53.2,80  50,83  46.8,80" fill="url(#gGoldV)" opacity="0.72"/>
+  <line x1="61" y1="80" x2="81" y2="80" stroke="url(#gGoldV)" stroke-width="0.7" opacity="0.65"/>
+
+  <!-- ═══════════════════════════════════════
+       ПОМОЩ label
+       ═══════════════════════════════════════ -->
+  <text x="50" y="95"
+        font-family="'Arial', 'Helvetica Neue', sans-serif"
+        font-size="8.2"
+        font-weight="700"
+        letter-spacing="3.4"
+        fill="url(#gGoldV)"
+        fill-opacity="0.84"
+        text-anchor="middle">ПОМОЩ</text>
+
+</svg>
