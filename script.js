@@ -654,7 +654,7 @@ function buildStep2HTML(service) {
             <div class="job-pkg-badge">Популярно</div>
             <div class="job-pkg-icon"><i class="fa-solid fa-plane-arrival"></i></div>
             <div class="job-pkg-name">Стандартен пакет</div>
-            <div class="job-pkg-price">€99</div>
+            <div class="job-pkg-price">€79</div>
             <ul class="job-pkg-features">
               <li><i class="fa-solid fa-check"></i> Anmeldung, каса, банка, данъци</li>
               <li><i class="fa-solid fa-check"></i> Ние попълваме всички формуляри</li>
@@ -665,7 +665,7 @@ function buildStep2HTML(service) {
             <div class="job-pkg-badge job-pkg-badge-gold">Всичко включено</div>
             <div class="job-pkg-icon"><i class="fa-solid fa-star"></i></div>
             <div class="job-pkg-name">Премиум пакет</div>
-            <div class="job-pkg-price">€149</div>
+            <div class="job-pkg-price">€119</div>
             <ul class="job-pkg-features">
               <li><i class="fa-solid fa-check"></i> Всичко от стандартния</li>
               <li><i class="fa-solid fa-check"></i> Търсене на жилище + договор</li>
@@ -922,7 +922,7 @@ function buildStep2HTML(service) {
           <button type="button" class="job-pkg-card active" data-pkg="full-start">
             <div class="job-pkg-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
             <div class="job-pkg-name">Старт пакет</div>
-            <div class="job-pkg-price">€129</div>
+            <div class="job-pkg-price">€99</div>
             <ul class="job-pkg-features">
               <li><i class="fa-solid fa-check"></i> До 3 задачи включени</li>
               <li><i class="fa-solid fa-check"></i> Личен консултант</li>
@@ -933,7 +933,7 @@ function buildStep2HTML(service) {
             <div class="job-pkg-badge">Популярно</div>
             <div class="job-pkg-icon"><i class="fa-solid fa-bell-concierge"></i></div>
             <div class="job-pkg-name">Стандартен</div>
-            <div class="job-pkg-price">€199</div>
+            <div class="job-pkg-price">€129</div>
             <ul class="job-pkg-features">
               <li><i class="fa-solid fa-check"></i> До 6 задачи включени</li>
               <li><i class="fa-solid fa-check"></i> Приоритетна обработка</li>
@@ -943,8 +943,8 @@ function buildStep2HTML(service) {
           <button type="button" class="job-pkg-card" data-pkg="full-vip">
             <div class="job-pkg-badge job-pkg-badge-gold">Максимален</div>
             <div class="job-pkg-icon"><i class="fa-solid fa-gem"></i></div>
-            <div class="job-pkg-name">Пълен VIP</div>
-            <div class="job-pkg-price">€299</div>
+            <div class="job-pkg-name">Пълен пакет</div>
+            <div class="job-pkg-price">€139</div>
             <ul class="job-pkg-features">
               <li><i class="fa-solid fa-check"></i> Неограничени задачи</li>
               <li><i class="fa-solid fa-check"></i> Спешна обработка</li>
@@ -1239,7 +1239,7 @@ function buildStep2HTML(service) {
           <button type="button" class="job-pkg-card active" data-pkg="advice">
             <div class="job-pkg-icon"><i class="fa-solid fa-lightbulb"></i></div>
             <div class="job-pkg-name">Консултация + Насоки</div>
-            <div class="job-pkg-price">€49</div>
+            <div class="job-pkg-price">€39</div>
             <ul class="job-pkg-features">
               <li><i class="fa-solid fa-check"></i> Кои сайтове да ползвате</li>
               <li><i class="fa-solid fa-check"></i> Как да напишете запитване</li>
@@ -1250,7 +1250,7 @@ function buildStep2HTML(service) {
             <div class="job-pkg-badge">Популярно</div>
             <div class="job-pkg-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
             <div class="job-pkg-name">Търсим вместо вас</div>
-            <div class="job-pkg-price">€89</div>
+            <div class="job-pkg-price">€69</div>
             <ul class="job-pkg-features">
               <li><i class="fa-solid fa-check"></i> Активно търсене в реално време</li>
               <li><i class="fa-solid fa-check"></i> Писане на запитвания на немски</li>
@@ -1261,7 +1261,7 @@ function buildStep2HTML(service) {
             <div class="job-pkg-badge job-pkg-badge-gold">Пълен пакет</div>
             <div class="job-pkg-icon"><i class="fa-solid fa-key"></i></div>
             <div class="job-pkg-name">Търсене + Договор + Нанасяне</div>
-            <div class="job-pkg-price">€149</div>
+            <div class="job-pkg-price">€119</div>
             <ul class="job-pkg-features">
               <li><i class="fa-solid fa-check"></i> Всичко от "Търсим вместо вас"</li>
               <li><i class="fa-solid fa-check"></i> Проверка на договора за наем</li>
@@ -1361,12 +1361,12 @@ var _basePrices = {
   'Тъкмо пристигнах':         { price: 49,  display: 'от €49',  period: '', noExpress: false },
   'Документ или превод':      { price: 29,  display: 'от €29',  period: '', noExpress: false },
   'Онлайн курс / Сертификат': { price: 49,  display: 'от €49',  period: '', noExpress: false },
-  'Пълно обслужване А до Я':  { price: 129, display: 'от €129', period: '', noExpress: false },
+  'Пълно обслужване А до Я':  { price: 99, display: 'от €99', period: '', noExpress: false },
   'VIP Абонамент':            { price: 149, display: '€149',    period: '/мес', noExpress: true },
   'Данъчна декларация':       { price: 49,  display: 'от €49',  period: '', noExpress: false },
   'КЕП онлайн подпис':        { price: 19,  display: 'от €19',  period: '', noExpress: false },
   'е-Услуги от България':     { price: 39,  display: 'от €39',  period: '', noExpress: false },
-  'Търсене на жилище':        { price: 49,  display: 'от €49',  period: '', noExpress: false }
+  'Търсене на жилище':        { price: 39,  display: 'от €39',  period: '', noExpress: false }
 };
 
 function updatePriceIndicator(service, isExpress) {
@@ -2769,8 +2769,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'Онлайн курс / Сертификат':{ base: 29,  label: 'от €29', period: '' },
     'Търся работа':            { base: 29,  label: 'от €29', period: '' },
     'Нов в страната':          { base: 49,  label: 'от €49', period: '' },
-    'Търсене на жилище':       { base: 49,  label: 'от €49', period: '' },
-    'Пълно обслужване А до Я': { base: 129, label: 'от €129',period: '' },
+    'Търсене на жилище':       { base: 39,  label: 'от €39', period: '' },
+    'Пълно обслужване А до Я': { base: 99,  label: 'от €99', period: '' },
     'VIP Абонамент':           { base: 149, label: '€149',   period: '/мес' },
     'Данъчна декларация':      { base: 49,  label: 'от €49', period: '' },
     'КЕП онлайн подпис':       { base: 19,  label: 'от €19', period: '' },
