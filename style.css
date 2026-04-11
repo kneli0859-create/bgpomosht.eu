@@ -8124,6 +8124,483 @@ input:-webkit-autofill:focus {
     0 0 20px rgba(233,188,74,0.08);
 }
 
+/* ═══════════════════════════════════════════════════════
+   MOBILE RESPONSIVE — Premium Polish Fixes
+   Всичко подредено и четимо на телефон
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  /* ── HERO — compact, centered, readable ── */
+  .hero {
+    padding: 90px 0 50px;
+    min-height: auto;
+  }
+  .hero-content {
+    padding: 0 8px;
+  }
+  .hero-title {
+    font-size: clamp(1.9rem, 8vw, 2.8rem) !important;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    line-height: 1.12;
+  }
+  .hero-badge {
+    font-size: 11.5px;
+    padding: 8px 16px;
+    margin-bottom: 24px;
+  }
+  .hero-badge i {
+    font-size: 13px;
+  }
+
+  /* Hero subtitle — compact pills */
+  .hero-sub-premium {
+    gap: 12px;
+    margin: 0 auto 32px;
+  }
+  .hsvc-row {
+    gap: 6px;
+    justify-content: center;
+  }
+  .hsvc {
+    font-size: 0.82rem;
+    padding: 6px 12px;
+    gap: 6px;
+  }
+  .hsvc i {
+    font-size: 0.75rem;
+  }
+  .hsvc-tagline {
+    font-size: 0.95rem;
+    padding: 10px 16px;
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  /* Hero buttons — full width, stacked */
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 340px;
+    font-size: 14.5px !important;
+    padding: 15px 28px !important;
+  }
+  .hero-buttons .btn-gold {
+    box-shadow: 0 4px 20px rgba(233,188,74,0.4);
+  }
+
+  /* Scroll indicator — smaller */
+  .hero-scroll { bottom: 16px; }
+  .scroll-indicator { width: 22px; height: 36px; }
+
+  /* ── SECTION HEADERS — compact ── */
+  .section { padding: 60px 0; }
+  .section-header { margin-bottom: 36px; }
+  .section-tag {
+    font-size: 9.5px;
+    padding: 5px 14px;
+    letter-spacing: 0.14em;
+  }
+  .section-title {
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
+    letter-spacing: -0.02em;
+  }
+  .section-header .section-title::after {
+    width: 40px;
+    height: 2px;
+    margin-top: 12px;
+  }
+  .section-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    padding: 0 8px;
+  }
+
+  /* ── LUXURY DIVIDER — smaller on mobile ── */
+  .luxury-divider::before,
+  .luxury-divider::after {
+    max-width: 100px;
+  }
+  .luxury-divider span {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* ── SERVICE CARDS — single column, compact ── */
+  .problems-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+  .problem-card {
+    padding: 24px 20px;
+    gap: 12px;
+  }
+  .problem-card .card-icon-wrap {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+    border-radius: 16px;
+  }
+  .problem-card h3 {
+    font-size: 1.1rem;
+  }
+  .problem-card p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+  .problem-card .btn-outline {
+    padding: 11px 18px;
+    font-size: 0.83rem;
+  }
+  /* Hide corner accents on mobile — too busy */
+  .problem-card::after {
+    display: none !important;
+  }
+  .premium-card-badge {
+    top: 12px;
+    right: 12px;
+    font-size: 9px;
+    padding: 4px 10px;
+  }
+
+  /* ── HOW IT WORKS — vertical stack ── */
+  .hiw-wrapper {
+    flex-direction: column !important;
+    gap: 20px;
+  }
+  .hiw-connector {
+    display: none !important;
+  }
+  .hiw-step-num {
+    font-size: 3.5rem !important;
+  }
+  .hiw-step-card {
+    padding: 24px 20px;
+  }
+  .hiw-step-card h3 {
+    font-size: 1.05rem;
+  }
+  .hiw-step-card > p {
+    font-size: 0.88rem;
+  }
+  .hiw-list li {
+    font-size: 0.85rem;
+  }
+  .hiw-top {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hiw-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+
+  /* HIW stats bar */
+  .hiw-stats {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+  .hiw-stat-sep { display: none; }
+  .hiw-stat {
+    flex: 1 1 40%;
+    min-width: 100px;
+    padding: 8px 0;
+  }
+  .hiw-stat-num { font-size: 1.4rem; }
+  .hiw-stat-label { font-size: 0.72rem; }
+
+  .how-cta { text-align: center; }
+  .how-cta .btn {
+    width: 100%;
+    max-width: 340px;
+    font-size: 14px;
+    padding: 15px 24px;
+  }
+
+  /* ── TESTIMONIALS — single column ── */
+  .testimonials-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+  .wa-screenshot,
+  .msgr-screenshot {
+    border-radius: 16px;
+  }
+  .screenshot-country {
+    font-size: 0.78rem;
+    padding: 8px 12px;
+  }
+
+  /* ── REFERRAL — compact mobile ── */
+  .ref-how-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .ref-how-step {
+    max-width: 100%;
+    min-width: unset;
+    width: 100%;
+    padding: 20px 16px;
+  }
+  .ref-how-arrow { display: none !important; }
+  .ref-step-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+  .ref-how-step h4 {
+    font-size: 0.9rem;
+  }
+  .ref-how-step p {
+    font-size: 0.78rem;
+  }
+
+  .ref-rewards {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .ref-reward-card {
+    max-width: 100%;
+    min-width: unset;
+    width: 100%;
+    padding: 22px 20px;
+  }
+  .ref-reward-value {
+    font-size: 1.5rem;
+  }
+  .ref-reward-plus {
+    transform: rotate(90deg);
+  }
+
+  .ref-gen-inner {
+    padding: 18px 14px;
+  }
+  .ref-gen-input-row {
+    flex-direction: column;
+  }
+  .ref-gen-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+
+  /* ── CTA BANNER — compact ── */
+  .cta-banner {
+    padding: 64px 0 !important;
+  }
+  .cta-banner h2 {
+    font-size: clamp(1.4rem, 5.5vw, 1.9rem) !important;
+    padding: 0 8px;
+  }
+  .cta-banner h2::after {
+    width: 50px;
+    margin-top: 10px;
+  }
+  .cta-banner p {
+    font-size: 0.92rem;
+    margin-bottom: 28px;
+    padding: 0 8px;
+  }
+  .cta-banner .btn {
+    min-width: unset !important;
+    width: 100%;
+    max-width: 320px;
+    font-size: 14px !important;
+    padding: 15px 24px !important;
+  }
+
+  /* ── ABOUT TEASER — stacked mobile ── */
+  .about-teaser-grid {
+    grid-template-columns: 1fr !important;
+    gap: 36px;
+  }
+  .about-teaser-img {
+    height: 260px !important;
+    border-radius: 16px;
+  }
+  /* Hide decorative corner frame on mobile */
+  .about-teaser-photo::before,
+  .about-teaser-photo::after {
+    display: none;
+  }
+  .about-teaser-badge {
+    right: 12px !important;
+    bottom: -14px !important;
+    font-size: 0.76rem;
+    padding: 10px 14px;
+  }
+  .about-teaser-content h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.2;
+  }
+  .about-teaser-content p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+  .about-teaser-stats {
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .at-stat {
+    padding: 12px 16px;
+    border-radius: 12px;
+    flex: 1;
+  }
+  .at-num {
+    font-size: 1.5rem;
+  }
+  .at-label {
+    font-size: 0.68rem;
+  }
+  .btn-outline-gold {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 24px;
+    font-size: 0.85rem;
+  }
+
+  /* ── TRUST BADGES — stacked ── */
+  .trust-badges {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  .trust-badge {
+    padding: 20px 20px;
+    gap: 16px;
+  }
+  .trust-badge > i {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    border-radius: 10px;
+  }
+  .trust-badge strong { font-size: 0.9rem; }
+  .trust-badge p { font-size: 0.8rem; }
+
+  /* ── FOOTER — stacked, compact ── */
+  .footer {
+    padding: 60px 0 0 !important;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px;
+  }
+  .footer-brand p {
+    max-width: 100%;
+    font-size: 0.85rem;
+  }
+  .footer-col h4 {
+    font-size: 0.8rem;
+    margin-bottom: 14px;
+  }
+  .footer-col ul {
+    gap: 8px;
+  }
+  .footer-col ul a {
+    font-size: 0.85rem;
+  }
+  .footer-contacts li {
+    font-size: 0.85rem;
+  }
+  .footer-contacts li i {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 20px 0;
+  }
+
+  /* ── FLOATING BUTTONS — compact on mobile ── */
+  .whatsapp-float,
+  .facebook-float {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 14px !important;
+    font-size: 1.3rem !important;
+    right: 14px !important;
+  }
+  .whatsapp-float { bottom: 20px !important; }
+  .facebook-float { bottom: 82px !important; }
+
+  /* Tooltips hidden on mobile */
+  .wa-tooltip,
+  .fb-tooltip {
+    display: none !important;
+  }
+
+  /* Back to top — smaller */
+  .back-to-top {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+    right: 14px;
+    bottom: 144px;
+  }
+
+  /* Container — breathing room */
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* ── EXTRA SMALL SCREENS (≤480px) ── */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.75rem !important;
+  }
+  .hsvc {
+    font-size: 0.78rem;
+    padding: 5px 10px;
+  }
+  .hsvc-tagline {
+    font-size: 0.88rem;
+    padding: 8px 12px;
+  }
+  .section {
+    padding: 48px 0;
+  }
+  .section-title {
+    font-size: 1.35rem !important;
+  }
+  .problem-card {
+    padding: 20px 16px;
+  }
+  .problem-card .card-icon-wrap {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  .hiw-step-num {
+    font-size: 3rem !important;
+  }
+  .cta-banner {
+    padding: 48px 0 !important;
+  }
+  .container {
+    padding: 0 12px;
+  }
+  .ref-reward-value {
+    font-size: 1.3rem;
+  }
+  .about-teaser-img {
+    height: 220px !important;
+  }
+}
+
 /* ── REDUCE MOTION for a11y ── */
 @media (prefers-reduced-motion: reduce) {
   .hero-particle,
