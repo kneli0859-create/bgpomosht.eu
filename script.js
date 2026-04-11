@@ -1901,6 +1901,8 @@ function submitFormWithFiles(step2Data, btn) {
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (data.ok) {
+      // GA4 custom event
+      if (typeof gtag === 'function') { gtag('event', 'form_submit', { event_category: 'conversion', event_label: wizardService }); }
       btn.innerHTML = '<i class="fa-solid fa-check"></i> Изпратено!';
       btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
       btn.style.borderColor = '#10b981';
@@ -2306,6 +2308,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const waText = encodeURIComponent('Здравей! 🎁 Ползвам BG Помощ за документи в Европа и те препоръчвам! Кликни тук и получи безплатна консултация: ' + link);
       shareWa.href  = 'https://wa.me/?text=' + waText;
       shareFb.href  = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(link);
+      // GA4 referral share tracking
+      if (typeof gtag === 'function') { gtag('event', 'referral_share', { event_category: 'referral', event_label: code }); }
       shareViber.dataset.viberText = decodeURIComponent(waText);
     }
 
@@ -2885,3 +2889,11 @@ document.addEventListener('DOMContentLoaded', () => {
     build();
   }
 })();
+
+/* ---- GA4 CTA CLICK TRACKING ---- */
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('a.btn-gold, a.btn-whatsapp, a.nav-cta');
+  if (!btn || typeof gtag !== 'function') return;
+  var label = btn.textContent.trim().slice(0, 40) || btn.href;
+  gtag('event', 'cta_click', { event_category: 'engagement', event_label: label });
+});
