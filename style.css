@@ -7486,6 +7486,644 @@ input:-webkit-autofill:focus {
   text-shadow: 0 0 24px rgba(233,188,74,0.5);
 }
 
+/* ═══════════════════════════════════════════════════════
+   PREMIUM LUXURY POLISH v3 — Скъп, професионален дизайн
+   ═══════════════════════════════════════════════════════ */
+
+/* ── 0. LUXURY DIVIDER ELEMENT ── */
+.luxury-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  height: 2px;
+}
+.luxury-divider::before,
+.luxury-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  max-width: 200px;
+}
+.luxury-divider::before {
+  background: linear-gradient(90deg, transparent, rgba(233,188,74,0.45));
+}
+.luxury-divider::after {
+  background: linear-gradient(90deg, rgba(233,188,74,0.45), transparent);
+}
+.luxury-divider span {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(233,188,74,0.4);
+  border-radius: 1px;
+}
+
+/* ── 1. SERVICE CARDS — Luxury Corner Accents ── */
+.problem-card {
+  position: relative;
+  transition:
+    transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+/* Decorative corner accent — top-right gold corner */
+.problem-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(225deg, rgba(233,188,74,0.12) 0%, transparent 60%);
+  border-radius: 0 var(--radius-lg) 0 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.problem-card:hover::after {
+  opacity: 1;
+}
+
+/* Enhanced card hover — multi-layer depth */
+.glass-card.problem-card:hover {
+  transform: translateY(-10px);
+  box-shadow:
+    0 32px 80px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(233,188,74,0.18),
+    0 0 60px rgba(233,188,74,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+/* Card icon — larger, richer */
+.problem-card .card-icon-wrap {
+  width: 68px;
+  height: 68px;
+  border-radius: 20px;
+  font-size: 28px;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* Card title — subtle gold underline on hover */
+.problem-card h3 {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+.problem-card:hover h3 {
+  color: var(--gold-light);
+}
+.problem-card h3::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  transition: width 0.4s ease;
+  border-radius: 1px;
+}
+.problem-card:hover h3::after {
+  width: 100%;
+}
+
+/* Card CTA button — luxury feel */
+.problem-card .btn-outline {
+  margin-top: auto;
+  border-color: rgba(255,255,255,0.12);
+  font-size: 0.85rem;
+  padding: 12px 20px;
+  letter-spacing: 0.02em;
+  transition:
+    all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.problem-card:hover .btn-outline {
+  border-color: rgba(233,188,74,0.5);
+  color: var(--gold);
+  background: rgba(233,188,74,0.06);
+  box-shadow: 0 4px 20px rgba(233,188,74,0.12);
+}
+
+/* Premium card — extra luxury */
+.problem-card-premium {
+  border: 1px solid rgba(233,188,74,0.35) !important;
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(233,188,74,0.08),
+    0 0 60px rgba(233,188,74,0.05),
+    inset 0 1px 0 rgba(233,188,74,0.12);
+}
+.problem-card-premium::after {
+  width: 64px !important;
+  height: 64px !important;
+  background: linear-gradient(225deg, rgba(233,188,74,0.2) 0%, transparent 60%) !important;
+  opacity: 1 !important;
+}
+
+/* Premium badge — refined */
+.premium-card-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+  color: #04050e;
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 50px;
+  box-shadow: 0 4px 16px rgba(233,188,74,0.45);
+  z-index: 2;
+}
+
+/* ── 2. LUXURY SECTION DIVIDERS — via .luxury-divider HTML element ── */
+
+/* ── 3. SECTION TAG — Luxury Badge ── */
+.section-tag {
+  position: relative;
+  background: linear-gradient(135deg,
+    rgba(233,188,74,0.16) 0%,
+    rgba(155,109,255,0.06) 50%,
+    rgba(233,188,74,0.1) 100%
+  );
+  border: 1.5px solid rgba(233,188,74,0.4);
+  box-shadow:
+    0 0 28px rgba(233,188,74,0.14),
+    0 0 0 4px rgba(233,188,74,0.04),
+    inset 0 1px 0 rgba(233,188,74,0.18);
+}
+
+/* ── 4. SECTION TITLE — Premium Typography ── */
+.section-title {
+  position: relative;
+  display: inline-block;
+}
+.section-header .section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+  border-radius: 2px;
+  margin: 16px auto 0;
+  box-shadow: 0 0 12px rgba(233,188,74,0.3);
+}
+
+/* ── 5. HOW IT WORKS — Premium Steps ── */
+.hiw-step-card {
+  border: 1px solid rgba(255,255,255,0.08);
+  transition:
+    transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+.hiw-step-card:hover {
+  border-color: rgba(233,188,74,0.3);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(233,188,74,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* Step number — luxury treatment */
+.hiw-step-num {
+  text-shadow:
+    0 4px 30px rgba(233,188,74,0.15),
+    0 0 60px rgba(233,188,74,0.08);
+}
+
+/* Step connector — animated pulse */
+@keyframes connectorPulse {
+  0%, 100% { opacity: 0.3; transform: translateX(0); }
+  50% { opacity: 0.7; transform: translateX(4px); }
+}
+.hiw-connector-arrow {
+  animation: connectorPulse 2.5s ease-in-out infinite;
+}
+
+/* HIW Stats bar — luxury glass */
+.hiw-stats {
+  border: 1px solid rgba(233,188,74,0.15);
+  position: relative;
+  overflow: hidden;
+}
+.hiw-stats::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(233,188,74,0.25), transparent);
+}
+
+/* ── 6. TRUST BADGES — Luxury Cards ── */
+.trust-badge {
+  position: relative;
+  overflow: hidden;
+}
+.trust-badge::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle at top right, rgba(233,188,74,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.trust-badge > i {
+  background: linear-gradient(135deg, rgba(212,168,67,0.18), rgba(212,168,67,0.06));
+  border: 1px solid rgba(212,168,67,0.28);
+  box-shadow:
+    0 4px 16px rgba(212,168,67,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  transition:
+    transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow 0.35s ease;
+}
+
+/* ── 7. CTA BANNER — Dramatic Upgrade ── */
+.cta-banner {
+  padding: 120px 0;
+}
+.cta-banner h2 {
+  font-size: clamp(1.9rem, 3.5vw, 3rem);
+  letter-spacing: -0.02em;
+  position: relative;
+  display: inline-block;
+}
+/* Gold underline accent */
+.cta-banner h2::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  border-radius: 2px;
+  margin: 14px auto 0;
+  box-shadow: 0 0 16px rgba(233,188,74,0.4);
+}
+.cta-banner .btn {
+  min-width: 260px;
+  box-shadow:
+    0 0 30px rgba(212,168,67,0.3),
+    0 8px 32px rgba(0,0,0,0.3);
+}
+.cta-banner .btn-gold {
+  font-size: 16px;
+  padding: 18px 40px;
+}
+.cta-banner .btn-whatsapp {
+  font-size: 16px;
+  padding: 18px 40px;
+}
+
+/* ── 8. ABOUT TEASER — Premium Photo Frame ── */
+.about-teaser-photo {
+  position: relative;
+}
+/* Decorative gold corner frame */
+.about-teaser-photo::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 80px;
+  height: 80px;
+  border-top: 3px solid rgba(233,188,74,0.5);
+  border-left: 3px solid rgba(233,188,74,0.5);
+  border-radius: 20px 0 0 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.about-teaser-photo::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 80px;
+  height: 80px;
+  border-bottom: 3px solid rgba(233,188,74,0.5);
+  border-right: 3px solid rgba(233,188,74,0.5);
+  border-radius: 0 0 20px 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.about-teaser-img {
+  border: 1px solid rgba(233,188,74,0.25);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+.about-teaser-photo:hover .about-teaser-img {
+  box-shadow:
+    0 32px 100px rgba(0,0,0,0.6),
+    0 0 40px rgba(233,188,74,0.08);
+  transform: scale(1.02);
+}
+
+.about-teaser-badge {
+  background: rgba(4,5,14,0.9);
+  border: 1px solid rgba(233,188,74,0.35);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.5),
+    0 0 20px rgba(233,188,74,0.06);
+}
+
+/* About teaser stats — luxury treatment */
+.at-stat {
+  padding: 16px 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  transition: all 0.3s ease;
+}
+.at-stat:hover {
+  border-color: rgba(233,188,74,0.25);
+  background: rgba(233,188,74,0.04);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* ── 9. REFERRAL — Luxury Upgrade ── */
+.ref-how-step {
+  background: linear-gradient(160deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.015) 100%);
+  border: 1px solid rgba(255,255,255,0.09);
+  transition:
+    transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+.ref-how-step:hover {
+  transform: translateY(-6px);
+  border-color: rgba(233,188,74,0.3);
+  box-shadow:
+    0 20px 48px rgba(0,0,0,0.5),
+    0 0 30px rgba(233,188,74,0.06);
+}
+
+.ref-step-num {
+  box-shadow: 0 4px 12px rgba(212,168,67,0.4);
+}
+
+/* Reward cards — deeper luxury */
+.ref-reward-card {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition:
+    transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow 0.35s ease;
+}
+.ref-reward-card:hover {
+  transform: translateY(-5px);
+}
+.ref-reward-you:hover {
+  box-shadow:
+    0 20px 48px rgba(0,0,0,0.5),
+    0 0 40px rgba(233,188,74,0.1);
+}
+.ref-reward-friend:hover {
+  box-shadow:
+    0 20px 48px rgba(0,0,0,0.5),
+    0 0 40px rgba(34,197,94,0.08);
+}
+
+/* Reward card top glow */
+.ref-reward-you::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(233,188,74,0.4), transparent);
+}
+.ref-reward-friend::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34,197,94,0.35), transparent);
+}
+
+/* Generator card — luxury */
+.ref-gen-inner {
+  border: 1px solid rgba(233,188,74,0.15);
+}
+.ref-gen-btn {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+  color: #04050e;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 11px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(233,188,74,0.35);
+  transition:
+    transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow 0.3s ease;
+}
+.ref-gen-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 8px 28px rgba(233,188,74,0.5),
+    0 0 0 1px rgba(233,188,74,0.3);
+}
+
+/* ── 10. FOOTER — Premium Treatment ── */
+.footer {
+  padding: 100px 0 0;
+}
+.footer::before {
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(233,188,74,0.15) 15%,
+    rgba(233,188,74,0.4) 30%,
+    rgba(155,109,255,0.2) 50%,
+    rgba(233,188,74,0.4) 70%,
+    rgba(233,188,74,0.15) 85%,
+    transparent 100%
+  );
+}
+
+/* Footer brand — luxury logo area */
+.footer-brand .nav-logo {
+  margin-bottom: 4px;
+}
+
+/* Social links — richer */
+.social-link {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 17px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition:
+    all 0.32s cubic-bezier(0.34,1.56,0.64,1);
+}
+.social-link:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.social-link-fb:hover {
+  background: rgba(24,119,242,0.15);
+  border-color: rgba(24,119,242,0.35);
+  color: #3b8ff5;
+}
+
+/* Footer contact icons — richer */
+.footer-contacts li i {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 14px;
+  background: linear-gradient(135deg, rgba(212,168,67,0.1), rgba(212,168,67,0.03));
+  border: 1px solid rgba(212,168,67,0.18);
+  transition: all 0.3s ease;
+}
+.footer-contacts li:hover i {
+  background: rgba(212,168,67,0.15);
+  border-color: rgba(212,168,67,0.35);
+  box-shadow: 0 4px 12px rgba(212,168,67,0.15);
+}
+
+/* Footer bottom — subtle luxury */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 28px 0;
+}
+
+/* ── 11. FLOATING BUTTONS — Premium Feel ── */
+.whatsapp-float,
+.facebook-float {
+  border-radius: 18px;
+  width: 58px;
+  height: 58px;
+  font-size: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.whatsapp-float {
+  box-shadow:
+    0 8px 28px rgba(34,197,94,0.55),
+    0 0 0 3px rgba(34,197,94,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.facebook-float {
+  box-shadow:
+    0 8px 28px rgba(24,119,242,0.52),
+    0 0 0 3px rgba(24,119,242,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+/* ── 12. TESTIMONIALS GRID — Premium Cards ── */
+.testimonials-grid > div {
+  transition:
+    transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow 0.4s ease;
+}
+.testimonials-grid > div:hover {
+  transform: translateY(-6px);
+}
+
+/* WhatsApp & Messenger screenshots — luxury shadow */
+.wa-screenshot,
+.msgr-screenshot {
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.06);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+.testimonials-grid > div:hover .wa-screenshot,
+.testimonials-grid > div:hover .msgr-screenshot {
+  box-shadow:
+    0 32px 80px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(233,188,74,0.12),
+    0 0 40px rgba(233,188,74,0.04);
+}
+
+/* Screenshot country label — refined */
+.screenshot-country {
+  transition: color 0.3s ease;
+}
+.testimonials-grid > div:hover .screenshot-country {
+  color: rgba(255,255,255,0.7);
+}
+
+/* ── 13. HERO — Extra Premium Polish ── */
+/* Hero badge — richer glow */
+.hero-badge {
+  box-shadow:
+    0 0 24px rgba(233,188,74,0.15),
+    0 0 0 4px rgba(233,188,74,0.04),
+    inset 0 1px 0 rgba(233,188,74,0.18);
+  backdrop-filter: blur(16px);
+}
+
+/* Hero title — deeper text shadow for luxury depth */
+.hero-title {
+  text-shadow:
+    0 2px 8px rgba(0,0,0,0.8),
+    0 4px 40px rgba(0,0,0,0.6),
+    0 8px 80px rgba(0,0,0,0.4),
+    0 0 60px rgba(233,188,74,0.06);
+}
+
+/* Hero buttons — more separation */
+.hero-buttons {
+  gap: 20px;
+}
+.hero-buttons .btn-gold {
+  font-size: 16px;
+  padding: 18px 38px;
+  box-shadow:
+    0 6px 28px rgba(233,188,74,0.52),
+    0 16px 48px rgba(233,188,74,0.22);
+}
+.hero-buttons .btn-outline {
+  font-size: 15px;
+  padding: 17px 34px;
+}
+
+/* ── 14. PROBLEMS GRID — Staggered hover ── */
+.problems-grid .problem-card:nth-child(even) {
+  transition-delay: 0.05s;
+}
+
+/* ── 15. SCROLL INDICATOR — Luxury ── */
+.scroll-indicator {
+  border-color: rgba(233,188,74,0.25);
+}
+.scroll-dot {
+  background: var(--gold);
+}
+
+/* ── 16. BACK TO TOP — Premium ── */
+.back-to-top {
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  transition:
+    transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+.back-to-top:hover {
+  border-color: rgba(233,188,74,0.3);
+  box-shadow:
+    0 8px 28px rgba(0,0,0,0.5),
+    0 0 20px rgba(233,188,74,0.08);
+}
+
 /* ── REDUCE MOTION for a11y ── */
 @media (prefers-reduced-motion: reduce) {
   .hero-particle,
