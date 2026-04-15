@@ -196,6 +196,7 @@ function buildStep2HTML(service) {
         <p class="wizard-panel-subtitle">Изберете пакет — ние правим всичко вместо вас</p>
 
         <!-- ====== ПАКЕТ SELECTOR ====== -->
+        <input type="hidden" id="s2SelectedPkg" value="Само CV — €29" />
         <div class="job-pkg-grid">
           <button type="button" class="job-pkg-card active" data-pkg="cv">
             <div class="job-pkg-icon"><i class="fa-solid fa-file-lines"></i></div>
@@ -563,6 +564,7 @@ function buildStep2HTML(service) {
         <h3 class="wizard-panel-title">Помощ с институция</h3>
         <p class="wizard-panel-subtitle">Изберете какво ви трябва — ние свършваме работата</p>
 
+        <input type="hidden" id="s2SelectedPkg" value="Превод + обяснение — €39" />
         <div class="job-pkg-grid">
           <button type="button" class="job-pkg-card active" data-pkg="inst-translate">
             <div class="job-pkg-icon"><i class="fa-solid fa-language"></i></div>
@@ -639,6 +641,7 @@ function buildStep2HTML(service) {
         <h3 class="wizard-panel-title">Тъкмо пристигнах</h3>
         <p class="wizard-panel-subtitle">Изберете колко помощ ви трябва — ние правим останалото</p>
 
+        <input type="hidden" id="s2SelectedPkg" value="Стандартен пакет — €79" />
         <div class="job-pkg-grid">
           <button type="button" class="job-pkg-card" data-pkg="new-basic">
             <div class="job-pkg-icon"><i class="fa-solid fa-compass"></i></div>
@@ -840,6 +843,7 @@ function buildStep2HTML(service) {
         <h3 class="wizard-panel-title">Онлайн курс и сертификат</h3>
         <p class="wizard-panel-subtitle">Изберете пакет — от консултация до гарантиран сертификат</p>
 
+        <input type="hidden" id="s2SelectedPkg" value="Помощ стъпка по стъпка — €49" />
         <div class="job-pkg-grid">
           <button type="button" class="job-pkg-card" data-pkg="course-consult">
             <div class="job-pkg-icon"><i class="fa-solid fa-compass"></i></div>
@@ -918,6 +922,7 @@ function buildStep2HTML(service) {
         <h3 class="wizard-panel-title">Пълно обслужване от А до Я</h3>
         <p class="wizard-panel-subtitle">Изберете ниво — ние се грижим за всичко</p>
 
+        <input type="hidden" id="s2SelectedPkg" value="Старт пакет — €99" />
         <div class="job-pkg-grid">
           <button type="button" class="job-pkg-card active" data-pkg="full-start">
             <div class="job-pkg-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
@@ -1003,6 +1008,12 @@ function buildStep2HTML(service) {
               .join('')}
           </div>
         </div>
+        <div class="form-group">
+          <label for="s2VipDesc">Разкажете накратко ситуацията си (по избор)</label>
+          <div class="input-wrap textarea-wrap"><i class="fa-solid fa-comment-dots"></i>
+            <textarea id="s2VipDesc" rows="3" placeholder="Напр. пристигнах наскоро, трябват ми документи, CV, и помощ с институции..."></textarea>
+          </div>
+        </div>
       </div>`;
 
     case 'Данъчна декларация':
@@ -1010,6 +1021,7 @@ function buildStep2HTML(service) {
         <h3 class="wizard-panel-title">Данъчна декларация</h3>
         <p class="wizard-panel-subtitle">Изберете пакет — борим се за максимален възврат</p>
 
+        <input type="hidden" id="s2SelectedPkg" value="Проста декларация — €59" />
         <div class="job-pkg-grid">
           <button type="button" class="job-pkg-card" data-pkg="tax-old">
             <div class="job-pkg-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
@@ -1111,6 +1123,7 @@ function buildStep2HTML(service) {
         <h3 class="wizard-panel-title">КЕП — Квалифициран електронен подпис</h3>
         <p class="wizard-panel-subtitle">Изберете какво ви трябва — активираме от разстояние</p>
 
+        <input type="hidden" id="s2SelectedPkg" value="Нов КЕП (Evrotrust) — €29" />
         <div class="job-pkg-grid">
           <button type="button" class="job-pkg-card" data-pkg="kep-renew">
             <div class="job-pkg-icon"><i class="fa-solid fa-rotate"></i></div>
@@ -1181,6 +1194,7 @@ function buildStep2HTML(service) {
         <h3 class="wizard-panel-title">е-Услуги от България</h3>
         <p class="wizard-panel-subtitle">Изберете пакет — заявяваме вместо вас от разстояние</p>
 
+        <input type="hidden" id="s2SelectedPkg" value="Единична услуга — €39" />
         <div class="job-pkg-grid">
           <button type="button" class="job-pkg-card active" data-pkg="eserv-single">
             <div class="job-pkg-icon"><i class="fa-solid fa-file-circle-check"></i></div>
@@ -1235,6 +1249,7 @@ function buildStep2HTML(service) {
         <h3 class="wizard-panel-title">Търсене на жилище</h3>
         <p class="wizard-panel-subtitle">Изберете пакет — помагаме от търсенето до нанасянето</p>
 
+        <input type="hidden" id="s2SelectedPkg" value="Консултация + Насоки — €39" />
         <div class="job-pkg-grid">
           <button type="button" class="job-pkg-card active" data-pkg="advice">
             <div class="job-pkg-icon"><i class="fa-solid fa-lightbulb"></i></div>
@@ -1360,7 +1375,7 @@ var _basePrices = {
   'Помощ с институция':       { price: 39,  display: 'от €39',  period: '', noExpress: false },
   'Тъкмо пристигнах':         { price: 49,  display: 'от €49',  period: '', noExpress: false },
   'Документ или превод':      { price: 29,  display: 'от €29',  period: '', noExpress: false },
-  'Онлайн курс / Сертификат': { price: 49,  display: 'от €49',  period: '', noExpress: false },
+  'Онлайн курс / Сертификат': { price: 29,  display: 'от €29',  period: '', noExpress: false },
   'Пълно обслужване А до Я':  { price: 99, display: 'от €99', period: '', noExpress: false },
   'VIP Абонамент':            { price: 149, display: '€149',    period: '/мес', noExpress: true },
   'Данъчна декларация':       { price: 49,  display: 'от €49',  period: '', noExpress: false },
@@ -1492,6 +1507,21 @@ function showFilePreviews(files, preview, isImage) {
 }
 
 function initStep2Interactions() {
+  // Universal package tracker — update hidden input when any package card is clicked
+  var allPkgCards = document.querySelectorAll('.job-pkg-card');
+  var pkgHidden = document.getElementById('s2SelectedPkg');
+  if (allPkgCards.length && pkgHidden) {
+    allPkgCards.forEach(function(card) {
+      card.addEventListener('click', function() {
+        var nameEl = card.querySelector('.job-pkg-name');
+        var priceEl = card.querySelector('.job-pkg-price');
+        if (nameEl && priceEl) {
+          pkgHidden.value = nameEl.textContent.trim() + ' — ' + priceEl.textContent.trim();
+        }
+      });
+    });
+  }
+
   // Job package selector
   var jobPkgCards    = document.querySelectorAll('.job-pkg-card');
   var jobLetterSec   = document.getElementById('jobLetterSection');
@@ -1693,6 +1723,7 @@ function collectStep2Data() {
 }
 
 const STEP2_LABELS = {
+  s2SelectedPkg:  '💰 Избран пакет',
   s2Country:      '🌍 Държава',
   s2Position:     '💼 Позиция',
   s2Lang:         '🗣️ Език на CV',
@@ -1707,11 +1738,13 @@ const STEP2_LABELS = {
   s2LangTo:       '🌐 На език',
   s2WhenArrived:  '📅 Пристигане',
   s2Language:     '🗣️ Ниво на език',
+  s2CourseName:   '📚 Курс/Сертификат',
   s2CourseGoal:   '🎯 Цел',
   s2Education:    '🎓 Образование',
   s2FullDesc:     '📝 Описание',
   s2OtherDesc:    '📝 Описание',
   s2VipDocs:      '📊 Документи/мес',
+  s2VipDesc:      '📝 VIP описание',
   s2institution:  '🏛️ Институции',
   s2needs:        '📋 Нужди',
   s2sphere:       '🔭 Сфера',
@@ -1722,6 +1755,16 @@ const STEP2_LABELS = {
   s2HousingType:  '🏠 Тип жилище',
   s2HousingWhen:  '📅 Кога',
   s2HousingNote:  '📝 Допълнително',
+  s2TaxYear:      '📅 Данъчна година',
+  s2TaxCountry:   '🌍 Държава (работа)',
+  s2TaxStatus:    '💑 Семеен статус',
+  s2TaxDoc:       '📄 Lohnsteuerbescheinigung',
+  s2TaxNote:      '📝 Допълнително',
+  s2KepPhone:     '📱 Смартфон',
+  s2KepDoc:       '🪪 Документ за самоличност',
+  s2KepPurpose:   '🎯 Цел на КЕП',
+  s2eservice:     '📋 Е-услуги',
+  s2EservNote:    '📝 Допълнително',
   express:        '⚡ Спешна поръчка',
   // CV builder fields
   cvFirstName:    '👤 Собствено Иme',
