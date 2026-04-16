@@ -8814,6 +8814,23 @@ input:-webkit-autofill:focus {
     0 4px 18px rgba(0,0,0,0.3) !important;
 }
 
+/* Art Deco corner accents — subtle luxury framing */
+.hero-corner {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  animation: cornerFadeIn 1.2s ease 1.8s forwards;
+}
+.hero-corner--tl { top: 24px; left: 24px; }
+.hero-corner--br { bottom: 24px; right: 24px; }
+@keyframes cornerFadeIn {
+  to { opacity: 1; }
+}
+@media (max-width: 767px) {
+  .hero-corner { display: none; }
+}
+
 /* Hero photo parallax — GPU-accelerated, subtle zoom on scroll */
 .hero-bg-photo {
   will-change: transform;
