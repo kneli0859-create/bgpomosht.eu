@@ -11,6 +11,36 @@ const TO_EMAIL   = process.env.TO_EMAIL   || 'simeonv38@gmail.com';
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
 
+// Sanitize user input — strip HTML tags to prevent injection
+function sanitize(str) {
+  if (!str || typeof str !== 'string') return str;
+  return str.replace(/[<>]/g, function (ch) {
+    return ch === '<' ? '&lt;' : '&gt;';
+  });
+}
+
+// Allowed file extensions for uploads
+const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.pdf', '.doc', '.docx'];
+function isAllowedFile(filename) {
+  if (!filename) return false;
+  var ext = filename.toLowerCase().slice(filename.lastIndexOf('.'));
+  return ALLOWED_EXTENSIONS.indexOf(ext) !== -1;
+}
+
+// Simple in-memory rate limiting (per IP, resets on cold start)
+var ipHits = {};
+var RATE_WINDOW = 60 * 1000; // 1 minute
+var RATE_MAX = 5;            // max 5 submissions per minute per IP
+function checkRateLimit(ip) {
+  var now = Date.now();
+  if (!ipHits[ip] || now - ipHits[ip].start > RATE_WINDOW) {
+    ipHits[ip] = { start: now, count: 1 };
+    return true;
+  }
+  ipHits[ip].count++;
+  return ipHits[ip].count <= RATE_MAX;
+}
+
 // Disable Vercel default body parser — we handle multipart ourselves
 module.exports.config = { api: { bodyParser: false } };
 
@@ -26,8 +56,28 @@ module.exports = async function handler(req, res) {
     });
   }
 
+  // Rate limit check
+  var clientIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+  if (!checkRateLimit(clientIp)) {
+    return res.status(429).json({ ok: false, message: 'Твърде много заявки. Моля, опитайте отново след минута.' });
+  }
+
   try {
     const { fields, files } = await parseMultipart(req);
+
+    // Validate file types
+    var rejectedFiles = files.filter(function (f) { return !isAllowedFile(f.filename); });
+    if (rejectedFiles.length > 0) {
+      return res.status(400).json({
+        ok: false,
+        message: 'Невалиден тип файл. Приемаме: JPG, PNG, PDF, DOC, DOCX.'
+      });
+    }
+
+    // Sanitize all text fields
+    Object.keys(fields).forEach(function (k) {
+      fields[k] = sanitize(fields[k]);
+    });
 
     // Build attachments array for nodemailer
     const attachments = files.map(function (f) {

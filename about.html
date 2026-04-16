@@ -20,11 +20,18 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="bg_BG" />
+  <meta property="og:site_name" content="BG Помощ" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="За нас — BG Помощ" />
+  <meta name="twitter:description" content="Кои сме ние и защо помагаме на българи в Европа." />
+  <meta name="twitter:image" content="https://bgpomosht.eu/images/og-image.webp" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -36,6 +43,28 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
   <meta name="theme-color" content="#0a0e27" />
+
+  <!-- Schema.org AboutPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "За нас — BG Помощ",
+    "description": "Научи повече за BG Помощ — помагаме на българи в Европа с документи, работа и институции.",
+    "url": "https://bgpomosht.eu/about.html",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "BG Помощ",
+      "url": "https://bgpomosht.eu",
+      "logo": "https://bgpomosht.eu/logo.svg",
+      "telephone": "+4915129893854",
+      "email": "simeonv38@gmail.com",
+      "areaServed": ["DE","AT","CH","FR","IT","ES"],
+      "knowsLanguage": ["bg","de","en"],
+      "description": "Помагаме на българи в Европа с документи, CV-та, институции и формуляри."
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -82,7 +111,7 @@
 
   <!-- PAGE HERO -->
   <div class="page-hero about-page-hero">
-    <img src="images/hero-desk.webp" alt="BG Помощ офис" class="about-desk-img" />
+    <img src="images/hero-desk.webp" alt="BG Помощ офис" class="about-desk-img" loading="lazy" />
     <div class="about-desk-overlay"></div>
     <div class="container page-hero-inner">
       <span class="section-tag">За нас</span>
@@ -97,7 +126,7 @@
 
       <!-- Снимката — пълна ширина, над текста -->
       <div class="story-photo-wrap reveal">
-        <img src="images/image00003.webp" alt="BG Помощ в действие" class="story-photo" />
+        <img src="images/image00003.webp" alt="BG Помощ в действие" class="story-photo" loading="lazy" />
         <div class="story-photo-caption">
           <i class="fa-solid fa-location-dot"></i> Работим откъдето и да сме — за теб
         </div>
@@ -306,6 +335,6 @@
     <i class="fa-solid fa-chevron-up"></i>
   </button>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

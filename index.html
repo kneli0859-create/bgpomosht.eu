@@ -22,11 +22,13 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="bg_BG" />
+  <meta property="og:site_name" content="BG Помощ" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="BG Помощ — Документи за българи в Европа" />
   <meta name="twitter:description" content="CV-та, институции, формуляри — ние го правим вместо теб." />
+  <meta name="twitter:image" content="https://bgpomosht.eu/images/og-image.webp" />
 
   <!-- Preload hero image -->
   <link rel="preload" href="images/hero-portrait.webp" as="image" type="image/webp" />
@@ -34,7 +36,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -869,7 +871,7 @@
     <div class="container">
       <div class="about-teaser-grid">
         <div class="about-teaser-photo reveal">
-          <img src="images/hero-portrait.webp" alt="BG Помощ екип" class="about-teaser-img" />
+          <img src="images/hero-portrait.webp" alt="BG Помощ екип" class="about-teaser-img" loading="lazy" />
           <div class="about-teaser-badge">
             <i class="fa-solid fa-star" style="color:var(--gold)"></i>
             <span>Реални хора, реални резултати</span>
@@ -1025,6 +1027,6 @@
     <i class="fa-solid fa-chevron-up"></i>
   </button>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
