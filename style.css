@@ -8610,8 +8610,19 @@ input:-webkit-autofill:focus {
   .hero-scroll,
   .hero-badge,
   .hero-title .gradient-text,
-  .hero-title .flag-text {
+  .hero-title .flag-text,
+  .hero-title .wave-line,
+  .hero-particle,
+  .problem-card-premium,
+  .pqv2-vip,
+  .hiw-featured,
+  .wizard-step-indicator.active .wsi-circle,
+  .hiw-connector::after,
+  .wsi-line.active::after {
     animation: none !important;
+  }
+  .hero-bg-photo {
+    transform: none !important;
   }
   .reveal,
   .reveal-left,
