@@ -2584,10 +2584,12 @@ document.addEventListener('DOMContentLoaded', () => {
       banner.classList.add('cookie-visible');
       var ov = document.getElementById('cookieOverlay');
       if (ov) ov.classList.add('cookie-overlay-visible');
-      // Hide social proof + floating buttons behind overlay
+      // Hide everything behind overlay
       var spt = document.getElementById('sptWrap');
       if (spt) spt.style.display = 'none';
-      document.querySelectorAll('.whatsapp-float, .facebook-float, .back-to-top').forEach(function(el) { el.style.display = 'none'; });
+      var pcb = document.getElementById('prechatBubble');
+      if (pcb) pcb.style.display = 'none';
+      document.querySelectorAll('.whatsapp-float, .facebook-float, .back-to-top, .prechat-bubble').forEach(function(el) { el.style.display = 'none'; });
     }));
 
     document.getElementById('cookieBtnAll').addEventListener('click', function () {
@@ -2632,7 +2634,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Restore hidden elements
     var spt = document.getElementById('sptWrap');
     if (spt) spt.style.display = '';
-    document.querySelectorAll('.whatsapp-float, .facebook-float, .back-to-top').forEach(function(el) { el.style.display = ''; });
+    document.querySelectorAll('.whatsapp-float, .facebook-float, .back-to-top, .prechat-bubble').forEach(function(el) { el.style.display = ''; });
+    // Show pre-chat bubble after cookie consent if not already shown
+    var pcb = document.getElementById('prechatBubble');
+    if (pcb) {
+      pcb.style.display = '';
+    } else {
+      // Trigger pre-chat bubble to appear now (cookie was blocking it)
+      setTimeout(function() {
+        window.dispatchEvent(new CustomEvent('cookieConsentGiven'));
+      }, 500);
+    }
     setTimeout(function () {
       banner.remove();
       if (overlay) overlay.remove();
@@ -2820,19 +2832,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function showPrechat() {
+    var dismissed = localStorage.getItem(STORAGE_KEY);
+    if (dismissed && (Date.now() - parseInt(dismissed)) < 24 * 3600 * 1000) return;
+    if (document.getElementById('cookieBanner')) return;
+    if (!document.getElementById('prechatBubble')) buildBubble();
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        var b = document.getElementById('prechatBubble');
+        if (b) b.classList.add('pcb-visible');
+      });
+    });
+  }
+
   function init() {
     var dismissed = localStorage.getItem(STORAGE_KEY);
     if (dismissed && (Date.now() - parseInt(dismissed)) < 24 * 3600 * 1000) return;
 
     setTimeout(function () {
-      if (!document.getElementById('prechatBubble')) buildBubble();
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          var b = document.getElementById('prechatBubble');
-          if (b) b.classList.add('pcb-visible');
-        });
-      });
+      showPrechat();
     }, 10000);
+
+    // Also listen for cookie consent — show after consent given
+    window.addEventListener('cookieConsentGiven', function () {
+      setTimeout(showPrechat, 2000);
+    });
   }
 
   if (document.readyState === 'loading') {
