@@ -7256,20 +7256,27 @@ input:-webkit-autofill:focus {
 }
 
 /* ── 5. FLOATING PARTICLES — Hero ── */
-@keyframes particleFloat1 {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-  25% { transform: translate(30px, -60px) scale(1.2); opacity: 0.6; }
-  50% { transform: translate(-20px, -120px) scale(0.8); opacity: 0.4; }
-  75% { transform: translate(40px, -60px) scale(1.1); opacity: 0.5; }
+@keyframes dustDrift1 {
+  0%, 100% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.55; }
+  50% { transform: translate(45px, -130px) scale(1.2); opacity: 0.4; }
+  90% { opacity: 0; }
 }
-@keyframes particleFloat2 {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
-  33% { transform: translate(-40px, -80px) scale(1.3); opacity: 0.5; }
-  66% { transform: translate(20px, -40px) scale(0.9); opacity: 0.3; }
+@keyframes dustDrift2 {
+  0%, 100% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: 0.5; }
+  50% { transform: translate(-35px, -95px) scale(0.8); opacity: 0.5; }
+  85% { opacity: 0; }
 }
-@keyframes particleFloat3 {
-  0%, 100% { transform: translate(0, 0); opacity: 0.25; }
-  50% { transform: translate(50px, -100px); opacity: 0.55; }
+@keyframes dustDrift3 {
+  0%, 100% { transform: translate(0, 0); opacity: 0; }
+  12% { opacity: 0.35; }
+  50% { transform: translate(55px, -110px) scale(1.1); opacity: 0.3; }
+  88% { opacity: 0; }
+}
+@keyframes dustTwinkle {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(1.8); }
 }
 
 .hero-particles {
@@ -7282,48 +7289,21 @@ input:-webkit-autofill:focus {
 .hero-particle {
   position: absolute;
   border-radius: 50%;
-  background: var(--gold);
-  filter: blur(1px);
+  background: radial-gradient(circle, #f5d060 0%, rgba(212,168,67,0.35) 70%, transparent 100%);
+  will-change: transform, opacity;
 }
-.hero-particle:nth-child(1) {
-  width: 4px; height: 4px;
-  left: 15%; top: 30%;
-  animation: particleFloat1 8s ease-in-out infinite;
-}
-.hero-particle:nth-child(2) {
-  width: 3px; height: 3px;
-  left: 75%; top: 50%;
-  animation: particleFloat2 10s ease-in-out infinite;
-  animation-delay: 2s;
-}
-.hero-particle:nth-child(3) {
-  width: 5px; height: 5px;
-  left: 40%; top: 65%;
-  animation: particleFloat3 12s ease-in-out infinite;
-  animation-delay: 4s;
-  background: var(--purple-accent);
-}
-.hero-particle:nth-child(4) {
-  width: 3px; height: 3px;
-  left: 85%; top: 25%;
-  animation: particleFloat1 9s ease-in-out infinite;
-  animation-delay: 1s;
-  background: var(--purple-accent);
-  opacity: 0.4;
-}
-.hero-particle:nth-child(5) {
-  width: 4px; height: 4px;
-  left: 55%; top: 80%;
-  animation: particleFloat2 11s ease-in-out infinite;
-  animation-delay: 3s;
-}
-.hero-particle:nth-child(6) {
-  width: 2px; height: 2px;
-  left: 25%; top: 75%;
-  animation: particleFloat3 7s ease-in-out infinite;
-  animation-delay: 5s;
-  background: var(--blue);
-}
+.hero-particle:nth-child(1)  { width:3px; height:3px; left:12%; top:28%; animation: dustDrift1 9s ease-in-out infinite; }
+.hero-particle:nth-child(2)  { width:2px; height:2px; left:72%; top:45%; animation: dustDrift2 11s ease-in-out 1.5s infinite; }
+.hero-particle:nth-child(3)  { width:4px; height:4px; left:38%; top:62%; animation: dustDrift3 13s ease-in-out 3s infinite; }
+.hero-particle:nth-child(4)  { width:2px; height:2px; left:82%; top:22%; animation: dustDrift1 10s ease-in-out 2s infinite; }
+.hero-particle:nth-child(5)  { width:3px; height:3px; left:55%; top:78%; animation: dustDrift2 12s ease-in-out 4s infinite; }
+.hero-particle:nth-child(6)  { width:2px; height:2px; left:22%; top:72%; animation: dustDrift3 8s ease-in-out 1s infinite; }
+.hero-particle:nth-child(7)  { width:3px; height:3px; left:65%; top:32%; animation: dustTwinkle 5s ease-in-out 0.5s infinite; }
+.hero-particle:nth-child(8)  { width:2px; height:2px; left:88%; top:55%; animation: dustDrift1 14s ease-in-out 5s infinite; }
+.hero-particle:nth-child(9)  { width:4px; height:4px; left:8%;  top:48%; animation: dustTwinkle 6s ease-in-out 2.5s infinite; }
+.hero-particle:nth-child(10) { width:2px; height:2px; left:48%; top:18%; animation: dustDrift2 9s ease-in-out 3.5s infinite; }
+.hero-particle:nth-child(11) { width:3px; height:3px; left:30%; top:85%; animation: dustDrift3 10s ease-in-out 6s infinite; }
+.hero-particle:nth-child(12) { width:2px; height:2px; left:92%; top:68%; animation: dustTwinkle 7s ease-in-out 4.5s infinite; }
 
 /* ── 6. ENHANCED REVEAL ANIMATIONS ── */
 .reveal-left {
