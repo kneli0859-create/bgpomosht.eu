@@ -2265,24 +2265,40 @@ input:-webkit-autofill:focus {
 
 /* Fade-in from bottom on load */
 @keyframes cardFadeUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(22px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* Shimmer sweep */
+@keyframes shimmerSweep {
+  0%   { transform: translateX(-100%) rotate(25deg); }
+  100% { transform: translateX(200%) rotate(25deg); }
+}
+/* Subtle breathing for selected */
+@keyframes cardBreathe {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(212,168,67,0.7), 0 0 24px rgba(212,168,67,0.3), 0 8px 24px rgba(0,0,0,0.35); }
+  50%      { box-shadow: 0 0 0 2px rgba(212,168,67,0.9), 0 0 36px rgba(212,168,67,0.45), 0 8px 28px rgba(0,0,0,0.4); }
+}
+/* Icon ring pulse */
+@keyframes iconRingPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212,168,67,0.4); }
+  50%      { box-shadow: 0 0 0 8px rgba(212,168,67,0); }
 }
 
 .service-card {
-  background: var(--glass-bg);
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius-md);
   padding: 24px 14px;
   display: flex; flex-direction: column;
   align-items: center; gap: 12px;
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), background 0.3s ease;
   text-align: center;
   position: relative;
   overflow: hidden;
-  /* gradient border via pseudo */
   isolation: isolate;
-  animation: cardFadeUp 0.45s ease both;
+  animation: cardFadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
 }
 
 /* Staggered animation delays */
@@ -2313,40 +2329,99 @@ input:-webkit-autofill:focus {
   transition: opacity 0.25s ease;
 }
 
+/* Shimmer layer (hidden until hover) */
+.service-card::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 40%; height: 200%;
+  background: linear-gradient(90deg, transparent 0%, rgba(212,168,67,0.08) 40%, rgba(255,255,255,0.13) 50%, rgba(212,168,67,0.08) 60%, transparent 100%);
+  transform: translateX(-100%) rotate(25deg);
+  pointer-events: none;
+  z-index: 1;
+}
+.service-card:hover::after {
+  animation: shimmerSweep 0.7s ease forwards;
+}
+
+/* Edge light — top glow on hover */
 .service-card:hover {
-  background: rgba(212,168,67,0.07);
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 8px 32px rgba(212,168,67,0.18), 0 2px 8px rgba(0,0,0,0.3);
+  background: rgba(212,168,67,0.06);
+  transform: translateY(-6px) scale(1.04);
+  box-shadow:
+    0 -1px 0 0 rgba(212,168,67,0.5),
+    0 10px 40px rgba(212,168,67,0.18),
+    0 2px 10px rgba(0,0,0,0.35);
 }
 
 .service-card:hover::before {
   background: linear-gradient(135deg, rgba(212,168,67,0.7) 0%, rgba(212,168,67,0.25) 60%, rgba(255,255,255,0.1) 100%);
 }
 
+/* Active press feedback */
+.service-card:active {
+  transform: translateY(-2px) scale(0.98);
+  transition-duration: 0.1s;
+}
+
 .service-card.selected {
-  background: rgba(212,168,67,0.12);
+  background: rgba(212,168,67,0.1);
   transform: translateY(-3px) scale(1.02);
-  box-shadow:
-    0 0 0 2px rgba(212,168,67,0.7),
-    0 0 28px rgba(212,168,67,0.35),
-    0 8px 24px rgba(0,0,0,0.35);
+  animation: cardBreathe 2.5s ease-in-out infinite;
 }
 
 .service-card.selected::before {
   background: linear-gradient(135deg, #d4a843 0%, rgba(212,168,67,0.6) 50%, rgba(240,200,80,0.3) 100%);
 }
 
-/* Checkmark badge */
+/* Shimmer disabled on selected */
 .service-card.selected::after {
-  content: '✓';
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 40%; height: 200%;
+  background: none;
+  animation: none;
+}
+
+/* Checkmark badge with pop-in */
+@keyframes checkPop {
+  0%   { transform: scale(0) rotate(-45deg); opacity: 0; }
+  60%  { transform: scale(1.3) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.service-card.selected .sc-check {
+  display: flex;
+}
+.sc-check {
+  display: none;
+  position: absolute; top: 8px; right: 8px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
   font-family: var(--font-heading);
   font-weight: 900; font-size: 11px;
-  position: absolute; top: 8px; right: 8px;
-  width: 20px; height: 20px;
-  border-radius: 50%; background: #10b981;
-  color: #fff; line-height: 20px; text-align: center;
-  box-shadow: 0 0 8px rgba(34,197,94,0.5);
-  z-index: 1;
+  align-items: center; justify-content: center;
+  box-shadow: 0 0 10px rgba(16,185,129,0.5);
+  z-index: 2;
+  animation: checkPop 0.35s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* VIP card special glow */
+.service-card[data-value="VIP Абонамент"] {
+  background: linear-gradient(135deg, rgba(212,168,67,0.06), rgba(200,148,30,0.03));
+  border: 1px solid rgba(212,168,67,0.15);
+}
+.service-card[data-value="VIP Абонамент"]::before {
+  background: linear-gradient(135deg, rgba(212,168,67,0.45) 0%, rgba(240,200,80,0.15) 50%, rgba(212,168,67,0.3) 100%);
+}
+.service-card[data-value="VIP Абонамент"]:hover {
+  box-shadow:
+    0 -1px 0 0 rgba(212,168,67,0.7),
+    0 0 24px rgba(212,168,67,0.25),
+    0 10px 40px rgba(212,168,67,0.2),
+    0 2px 10px rgba(0,0,0,0.35);
 }
 
 .service-card-icon {
@@ -2373,6 +2448,7 @@ input:-webkit-autofill:focus {
   border-color: rgba(212,168,67,0.7);
   box-shadow: 0 0 20px rgba(212,168,67,0.45);
   transform: scale(1.05);
+  animation: iconRingPulse 2s ease-in-out infinite;
 }
 
 .service-card-title {
