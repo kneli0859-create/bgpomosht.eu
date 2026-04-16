@@ -2659,6 +2659,51 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* =============================================
+   TESTIMONIALS CAROUSEL DOTS (mobile)
+   ============================================= */
+(function () {
+  var grid = document.querySelector('.testimonials-grid');
+  var dotsWrap = document.getElementById('testimonialDots');
+  if (!grid || !dotsWrap) return;
+
+  var cards = grid.children;
+  var count = cards.length;
+  if (count < 2) return;
+
+  // Create dots
+  for (var i = 0; i < count; i++) {
+    var dot = document.createElement('button');
+    dot.className = 'testimonials-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Отзив ' + (i + 1));
+    dot.dataset.index = i;
+    dot.addEventListener('click', function () {
+      var idx = parseInt(this.dataset.index);
+      cards[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    });
+    dotsWrap.appendChild(dot);
+  }
+
+  // Update active dot on scroll
+  var dots = dotsWrap.querySelectorAll('.testimonials-dot');
+  var ticking = false;
+  grid.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var scrollLeft = grid.scrollLeft;
+      var cardWidth = cards[0].offsetWidth + 16; // gap
+      var active = Math.round(scrollLeft / cardWidth);
+      if (active < 0) active = 0;
+      if (active >= count) active = count - 1;
+      for (var j = 0; j < dots.length; j++) {
+        dots[j].classList.toggle('active', j === active);
+      }
+      ticking = false;
+    });
+  });
+})();
+
+/* =============================================
    SOCIAL PROOF TICKER
    ============================================= */
 
