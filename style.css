@@ -8815,6 +8815,13 @@ input:-webkit-autofill:focus {
     0 4px 18px rgba(0,0,0,0.3) !important;
 }
 
+/* Hero photo parallax — GPU-accelerated, subtle zoom on scroll */
+.hero-bg-photo {
+  will-change: transform;
+  transform-origin: center top;
+  transition: none;
+}
+
 /* Title — add subtle gold shimmer on flag-text */
 .hero-title {
   text-shadow: 0 2px 24px rgba(4,5,14,0.6), 0 1px 4px rgba(0,0,0,0.7);

@@ -26,14 +26,21 @@ window.addEventListener('scroll', () => {
     const scrollEl = document.querySelector('.hero-scroll');
     if (scrollEl) scrollEl.style.opacity = Math.max(0, 1 - y / 200);
 
-    // Parallax orbs (desktop only)
-    if (window.innerWidth > 768) {
+    // Parallax orbs + hero photo (desktop only, respects reduced-motion)
+    if (window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const o1 = document.querySelector('.orb-1');
       const o2 = document.querySelector('.orb-2');
       const o3 = document.querySelector('.orb-3');
       if (o1) o1.style.transform = `translateY(${y * 0.15}px)`;
       if (o2) o2.style.transform = `translateY(${y * 0.08}px)`;
       if (o3) o3.style.transform = `translateY(${y * 0.12}px)`;
+
+      const heroPhoto = document.querySelector('.hero-bg-photo');
+      if (heroPhoto) {
+        const depth = y * 0.22;
+        const scale = 1.05 + y * 0.00008;
+        heroPhoto.style.transform = `translateY(${depth}px) scale(${Math.min(scale, 1.12)})`;
+      }
     }
 
     _scrollTick = false;
