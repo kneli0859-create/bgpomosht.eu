@@ -8985,3 +8985,144 @@ input:-webkit-autofill:focus {
   font-weight: 700 !important;
 }
 
+/* ============================================================
+   LUXURY TIMELINE — "Как работим" animated connectors
+   ============================================================ */
+
+/* Connector — dashed line with flowing gold light */
+.hiw-connector {
+  position: relative !important;
+}
+.hiw-connector-arrow {
+  display: none !important;
+}
+.hiw-connector::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  right: 6px;
+  height: 1.5px;
+  background: repeating-linear-gradient(90deg,
+    rgba(240,200,64,0.2) 0px,
+    rgba(240,200,64,0.2) 8px,
+    transparent 8px,
+    transparent 14px);
+  transform: translateY(-50%);
+}
+.hiw-connector::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f5d060 30%, rgba(240,200,64,0) 70%);
+  box-shadow: 0 0 14px rgba(240,200,64,0.7), 0 0 28px rgba(240,200,64,0.3);
+  animation: connectorDotTravel 3s ease-in-out infinite;
+}
+@keyframes connectorDotTravel {
+  0%   { left: 6px;  opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: calc(100% - 14px); opacity: 0; }
+}
+.hiw-connector:nth-of-type(4)::after {
+  animation-delay: 1.5s;
+}
+
+/* Step number — gold glow on card hover */
+.hiw-step:hover .hiw-step-num {
+  -webkit-text-stroke-color: rgba(240,200,64,0.4);
+  filter: drop-shadow(0 0 18px rgba(240,200,64,0.3));
+  transition: all 0.4s ease;
+}
+
+/* Step card — deeper hover */
+.hiw-step-card:hover {
+  transform: translateY(-8px) !important;
+  box-shadow:
+    0 22px 56px rgba(0,0,0,0.45),
+    0 0 0 1px rgba(233,188,74,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.1) !important;
+}
+
+/* Featured card (02) — breathing gold */
+.hiw-featured {
+  animation: hiwFeaturedBreath 5s ease-in-out infinite;
+}
+@keyframes hiwFeaturedBreath {
+  0%, 100% {
+    box-shadow: 0 0 32px rgba(212,168,67,0.06), 0 12px 40px rgba(0,0,0,0.35);
+    border-color: rgba(212,168,67,0.32);
+  }
+  50% {
+    box-shadow: 0 0 52px rgba(212,168,67,0.14), 0 12px 40px rgba(0,0,0,0.35),
+      0 0 0 1px rgba(212,168,67,0.1);
+    border-color: rgba(212,168,67,0.48);
+  }
+}
+
+/* Stats bar — gold top accent + richer glass */
+.hiw-stats {
+  background: rgba(255,255,255,0.03) !important;
+  border: 1px solid rgba(233,188,74,0.12) !important;
+  box-shadow:
+    0 4px 30px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(233,188,74,0.08) !important;
+  position: relative;
+  overflow: hidden;
+}
+.hiw-stats::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1.5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(240,200,64,0.55) 50%,
+    transparent 100%);
+}
+
+/* Stat number glow */
+.hiw-stat-num {
+  text-shadow: 0 0 18px rgba(240,200,64,0.3);
+}
+
+/* hiw-icon — gold ring on hover */
+.hiw-step-card:hover .hiw-icon {
+  box-shadow: 0 0 24px rgba(233,188,74,0.3), 0 0 0 2px rgba(233,188,74,0.15) !important;
+}
+
+/* Mobile connectors — vertical */
+@media (max-width: 768px) {
+  .hiw-connector::before {
+    top: 6px;
+    bottom: 6px;
+    left: 50%;
+    right: auto;
+    width: 1.5px;
+    height: auto;
+    transform: translateX(-50%);
+    background: repeating-linear-gradient(180deg,
+      rgba(240,200,64,0.2) 0px,
+      rgba(240,200,64,0.2) 8px,
+      transparent 8px,
+      transparent 14px);
+  }
+  .hiw-connector::after {
+    left: 50% !important;
+    transform: translateX(-50%);
+    animation: connectorDotTravelV 2.5s ease-in-out infinite;
+  }
+  @keyframes connectorDotTravelV {
+    0%   { top: 6px;  opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { top: calc(100% - 14px); opacity: 0; }
+  }
+}
+
