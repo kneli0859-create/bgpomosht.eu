@@ -136,13 +136,57 @@ module.exports = async function handler(req, res) {
       auth: { user: GMAIL_USER, pass: GMAIL_PASS }
     });
 
+    // Build WhatsApp quick-reply link for admin email
+    var customerPhone = fields['\u0422\u0435\u043B\u0435\u0444\u043E\u043D'] || fields['Телефон'] || '';
+    var customerName  = fields['\u0418\u043C\u0435'] || fields['Име'] || '';
+    var waLink = '';
+    if (customerPhone) {
+      var cleanPhone = customerPhone.replace(/[^0-9+]/g, '').replace(/^\+/, '');
+      var waText = encodeURIComponent('Здравейте ' + customerName + '! Получихме заявката Ви за ' + (fields.wizardService || 'услуга') + '. Как мога да Ви помогна?');
+      waLink = '\n\n\u{1F4F1} \u0411\u044A\u0440\u0437 \u043E\u0442\u0433\u043E\u0432\u043E\u0440 \u043F\u043E WhatsApp:\nhttps://wa.me/' + cleanPhone + '?text=' + waText;
+    }
+
     await transporter.sendMail({
       from:    '"BG \u041F\u043E\u043C\u043E\u0449 \u0424\u043E\u0440\u043C\u0430" <' + GMAIL_USER + '>',
       to:      TO_EMAIL,
       subject: '\u{1F4CB} \u041D\u043E\u0432\u0430 \u0437\u0430\u044F\u0432\u043A\u0430: ' + (fields.wizardService || '\u0421\u0430\u0439\u0442'),
-      text:    lines.join('\n'),
+      text:    lines.join('\n') + waLink,
       attachments: attachments
     });
+
+    // Auto-reply confirmation to customer (if email provided)
+    var customerEmail = fields['\u0418\u043C\u0435\u0439\u043B'] || fields['Имейл'] || '';
+    if (customerEmail && customerEmail.includes('@')) {
+      try {
+        await transporter.sendMail({
+          from:    '"BG \u041F\u043E\u043C\u043E\u0449" <' + GMAIL_USER + '>',
+          to:      customerEmail,
+          subject: '\u2705 \u041F\u043E\u043B\u0443\u0447\u0438\u0445\u043C\u0435 \u0432\u0430\u0448\u0430\u0442\u0430 \u0437\u0430\u044F\u0432\u043A\u0430 \u2014 BG \u041F\u043E\u043C\u043E\u0449',
+          html: [
+            '<div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#333">',
+            '<div style="background:linear-gradient(135deg,#0a0e27,#1a1f4a);padding:28px;border-radius:16px 16px 0 0;text-align:center">',
+            '<h1 style="color:#d4a843;margin:0;font-size:22px">BG \u041F\u043E\u043C\u043E\u0449</h1>',
+            '<p style="color:rgba(255,255,255,0.7);margin:8px 0 0;font-size:13px">\u041F\u043E\u043C\u043E\u0449 \u0437\u0430 \u0431\u044A\u043B\u0433\u0430\u0440\u0438 \u0432 \u0415\u0432\u0440\u043E\u043F\u0430</p>',
+            '</div>',
+            '<div style="background:#f9f9f9;padding:28px;border-radius:0 0 16px 16px;border:1px solid #eee;border-top:none">',
+            '<p style="font-size:16px;margin:0 0 16px">\u0417\u0434\u0440\u0430\u0432\u0435\u0439\u0442\u0435' + (customerName ? ' <strong>' + customerName + '</strong>' : '') + ',</p>',
+            '<p style="margin:0 0 12px">\u041F\u043E\u043B\u0443\u0447\u0438\u0445\u043C\u0435 \u0432\u0430\u0448\u0430\u0442\u0430 \u0437\u0430\u044F\u0432\u043A\u0430' + (fields.wizardService ? ' \u0437\u0430 <strong>' + fields.wizardService + '</strong>' : '') + '.</p>',
+            '<div style="background:#fff;border-left:4px solid #d4a843;padding:14px 18px;margin:16px 0;border-radius:0 8px 8px 0">',
+            '<strong style="color:#d4a843">\u{1F552} \u0429\u0435 \u0441\u0435 \u0441\u0432\u044A\u0440\u0436\u0435\u043C \u0441 \u0432\u0430\u0441 \u0434\u043E 30 \u043C\u0438\u043D\u0443\u0442\u0438</strong><br>',
+            '<span style="font-size:13px;color:#666">\u0420\u0430\u0431\u043E\u0442\u043D\u043E \u0432\u0440\u0435\u043C\u0435: 08:30 \u2014 21:00, 7 \u0434\u043D\u0438 \u0432 \u0441\u0435\u0434\u043C\u0438\u0446\u0430\u0442\u0430</span>',
+            '</div>',
+            '<p style="margin:16px 0 8px">\u0410\u043A\u043E \u0438\u043C\u0430\u0442\u0435 \u0441\u043F\u0435\u0448\u0435\u043D \u0432\u044A\u043F\u0440\u043E\u0441, \u043F\u0438\u0448\u0435\u0442\u0435 \u043D\u0438 \u0434\u0438\u0440\u0435\u043A\u0442\u043D\u043E:</p>',
+            '<a href="https://wa.me/4915129893854" style="display:inline-block;background:#25D366;color:#fff;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:bold">\u{1F4AC} WhatsApp</a>',
+            '<p style="margin:20px 0 0;font-size:12px;color:#999">\u0422\u043E\u0437\u0438 \u0438\u043C\u0435\u0439\u043B \u0435 \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u043D. \u041D\u0435 \u043E\u0442\u0433\u043E\u0432\u0430\u0440\u044F\u0439\u0442\u0435 \u043D\u0430 \u043D\u0435\u0433\u043E \u2014 \u043F\u0438\u0448\u0435\u0442\u0435 \u043D\u0438 \u043D\u0430 WhatsApp \u0438\u043B\u0438 simeonv38@gmail.com</p>',
+            '</div>',
+            '</div>'
+          ].join('\n')
+        });
+      } catch (replyErr) {
+        // Don't fail the main request if auto-reply fails
+        console.error('Auto-reply error:', replyErr.message);
+      }
+    }
 
     // Save to Supabase database
     if (SUPABASE_URL && SUPABASE_SERVICE_KEY) {
