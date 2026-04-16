@@ -2683,8 +2683,8 @@ document.addEventListener('DOMContentLoaded', () => {
     createTicker();
     setTimeout(function () {
       showNext();
-      setInterval(showNext, 7000);
-    }, 4000);
+      setInterval(showNext, 25000);
+    }, 12000);
   }
 
   if (document.readyState === 'loading') {
