@@ -10,6 +10,15 @@ const backToTop = document.getElementById('backToTop');
 
 /* ---- UNIFIED SCROLL HANDLER ---- */
 let _scrollTick = false;
+const _scrollEl = document.querySelector('.hero-scroll');
+const _orb1 = document.querySelector('.orb-1');
+const _orb2 = document.querySelector('.orb-2');
+const _orb3 = document.querySelector('.orb-3');
+const _heroPhoto = document.querySelector('.hero-bg-photo');
+const _prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const _heroSection = document.querySelector('.hero');
+const _heroH = _heroSection ? _heroSection.offsetHeight : 800;
+
 window.addEventListener('scroll', () => {
   if (_scrollTick) return;
   _scrollTick = true;
@@ -23,23 +32,16 @@ window.addEventListener('scroll', () => {
     if (backToTop) backToTop.classList.toggle('visible', y > 400);
 
     // Hero scroll indicator
-    const scrollEl = document.querySelector('.hero-scroll');
-    if (scrollEl) scrollEl.style.opacity = Math.max(0, 1 - y / 200);
+    if (_scrollEl) _scrollEl.style.opacity = Math.max(0, 1 - y / 200);
 
-    // Parallax orbs + hero photo (desktop only, respects reduced-motion)
-    if (window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const o1 = document.querySelector('.orb-1');
-      const o2 = document.querySelector('.orb-2');
-      const o3 = document.querySelector('.orb-3');
-      if (o1) o1.style.transform = `translateY(${y * 0.15}px)`;
-      if (o2) o2.style.transform = `translateY(${y * 0.08}px)`;
-      if (o3) o3.style.transform = `translateY(${y * 0.12}px)`;
+    // Parallax orbs + hero photo (desktop only, skip when past hero)
+    if (y < _heroH && window.innerWidth > 768 && !_prefersReduced) {
+      if (_orb1) _orb1.style.transform = `translateY(${y * 0.15}px)`;
+      if (_orb2) _orb2.style.transform = `translateY(${y * 0.08}px)`;
+      if (_orb3) _orb3.style.transform = `translateY(${y * 0.12}px)`;
 
-      const heroPhoto = document.querySelector('.hero-bg-photo');
-      if (heroPhoto) {
-        const depth = y * 0.22;
-        const scale = 1.05 + y * 0.00008;
-        heroPhoto.style.transform = `translateY(${depth}px) scale(${Math.min(scale, 1.12)})`;
+      if (_heroPhoto) {
+        _heroPhoto.style.transform = `translateY(${y * 0.12}px) scale(1.05)`;
       }
     }
 
