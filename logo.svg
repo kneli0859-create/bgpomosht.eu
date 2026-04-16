@@ -21,6 +21,61 @@
       <stop offset="100%" stop-color="#9a6e14"/>
     </linearGradient>
 
+    <!-- Premium text gradient — high contrast gold for BG monogram -->
+    <linearGradient id="gTextBG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#fffbe0"/>
+      <stop offset="15%"  stop-color="#f5d96e"/>
+      <stop offset="35%"  stop-color="#e8c04a"/>
+      <stop offset="50%"  stop-color="#ffe49a"/>
+      <stop offset="65%"  stop-color="#d4a843"/>
+      <stop offset="85%"  stop-color="#c89a2e"/>
+      <stop offset="100%" stop-color="#a07818"/>
+    </linearGradient>
+
+    <!-- Premium label gradient — bright for ПОМОЩ -->
+    <linearGradient id="gTextLabel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#c8941e"/>
+      <stop offset="25%"  stop-color="#eed06a"/>
+      <stop offset="50%"  stop-color="#fff8d8"/>
+      <stop offset="75%"  stop-color="#eed06a"/>
+      <stop offset="100%" stop-color="#c8941e"/>
+    </linearGradient>
+
+    <!-- Text outer glow — stronger -->
+    <filter id="fTextGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur1"/>
+      <feColorMatrix in="blur1" type="matrix"
+        values="0 0 0 0 1   0 0 0 0 0.82   0 0 0 0 0.25   0 0 0 0.8 0"
+        result="goldBlur1"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1" result="blur2"/>
+      <feColorMatrix in="blur2" type="matrix"
+        values="0 0 0 0 1   0 0 0 0 0.95   0 0 0 0 0.65   0 0 0 0.6 0"
+        result="goldBlur2"/>
+      <feMerge>
+        <feMergeNode in="goldBlur1"/>
+        <feMergeNode in="goldBlur2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Emboss/3D effect for BG text -->
+    <filter id="fEmboss" x="-10%" y="-10%" width="120%" height="130%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="b"/>
+      <feOffset in="b" dx="0" dy="1.5" result="bOff"/>
+      <feColorMatrix in="bOff" type="matrix"
+        values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 0.5 0"
+        result="shadow"/>
+      <feOffset in="SourceAlpha" dx="0" dy="-0.6" result="hOff"/>
+      <feColorMatrix in="hOff" type="matrix"
+        values="0 0 0 0 1   0 0 0 0 0.96   0 0 0 0 0.7   0 0 0 0.4 0"
+        result="highlight"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="highlight"/>
+      </feMerge>
+    </filter>
+
     <!-- Gold shimmer — light for thin lines -->
     <linearGradient id="gGoldL" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%"   stop-color="#d4a843" stop-opacity="0"/>
@@ -129,37 +184,56 @@
   <circle cx="50" cy="29" r="1.4" fill="#fff8d0" opacity="0.7"/>
 
   <!-- ═══════════════════════════════════════
-       BG MONOGRAM
+       BG MONOGRAM — premium embossed
        ═══════════════════════════════════════ -->
+  <!-- Dark shadow layer -->
+  <text x="50" y="75.8"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="38"
+        font-weight="bold"
+        letter-spacing="2"
+        fill="#1a1000"
+        fill-opacity="0.6"
+        text-anchor="middle">BG</text>
+  <!-- Main text with premium gradient + emboss -->
   <text x="50" y="75"
-        font-family="Impact, 'Arial Black', 'Arial Bold', sans-serif"
-        font-size="36"
-        font-weight="900"
-        letter-spacing="-1"
-        fill="url(#gGoldV)"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="38"
+        font-weight="bold"
+        letter-spacing="2"
+        fill="url(#gTextBG)"
         text-anchor="middle"
-        filter="url(#fGlow)"
+        filter="url(#fEmboss)"
         paint-order="stroke"
-        stroke="#c08c22"
-        stroke-width="0.5">BG</text>
+        stroke="url(#gGoldD)"
+        stroke-width="0.8">BG</text>
+  <!-- Bright highlight pass -->
+  <text x="50" y="74.4"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="38"
+        font-weight="bold"
+        letter-spacing="2"
+        fill="#fff8d0"
+        fill-opacity="0.12"
+        text-anchor="middle">BG</text>
 
   <!-- ═══════════════════════════════════════
-       DIVIDER — line ◆ line
+       DIVIDER — ornamental line ◆ line
        ═══════════════════════════════════════ -->
-  <line x1="19" y1="80" x2="39" y2="80" stroke="url(#gGoldV)" stroke-width="0.7" opacity="0.65"/>
-  <polygon points="50,77  53.2,80  50,83  46.8,80" fill="url(#gGoldV)" opacity="0.72"/>
-  <line x1="61" y1="80" x2="81" y2="80" stroke="url(#gGoldV)" stroke-width="0.7" opacity="0.65"/>
+  <line x1="18" y1="82" x2="40" y2="82" stroke="url(#gGoldL)" stroke-width="0.8" opacity="0.75"/>
+  <polygon points="50,78.5  54,82  50,85.5  46,82" fill="url(#gGoldV)" opacity="0.85" filter="url(#fGlow)"/>
+  <line x1="60" y1="82" x2="82" y2="82" stroke="url(#gGoldL)" stroke-width="0.8" opacity="0.75"/>
 
   <!-- ═══════════════════════════════════════
-       ПОМОЩ label
+       ПОМОЩ label — premium glowing
        ═══════════════════════════════════════ -->
-  <text x="50" y="95"
-        font-family="'Arial', 'Helvetica Neue', sans-serif"
-        font-size="8.2"
-        font-weight="700"
-        letter-spacing="3.4"
-        fill="url(#gGoldV)"
-        fill-opacity="0.84"
-        text-anchor="middle">ПОМОЩ</text>
+  <text x="50" y="96"
+        font-family="'Georgia', 'Times New Roman', serif"
+        font-size="10.5"
+        font-weight="bold"
+        letter-spacing="4.5"
+        fill="url(#gTextLabel)"
+        text-anchor="middle"
+        filter="url(#fTextGlow)">ПОМОЩ</text>
 
 </svg>
