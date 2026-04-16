@@ -9089,6 +9089,80 @@ input:-webkit-autofill:focus {
 }
 
 /* ============================================================
+   LUXURY WIZARD — premium progress, animated steps
+   ============================================================ */
+
+/* Active step circle — pulsing gold ring */
+.wizard-step-indicator.active .wsi-circle {
+  animation: wizActiveRing 2.5s ease-in-out infinite;
+}
+@keyframes wizActiveRing {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(212,168,67,0.35);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(212,168,67,0.55), 0 0 0 4px rgba(212,168,67,0.12);
+  }
+}
+
+/* Completed line — gold gradient with glow */
+.wsi-line.completed {
+  background: linear-gradient(90deg, #10b981 0%, rgba(240,200,64,0.6) 100%) !important;
+  box-shadow: 0 0 10px rgba(16,185,129,0.25);
+}
+
+/* Active line — animated fill from left */
+.wsi-line.active {
+  background: linear-gradient(90deg,
+    rgba(240,200,64,0.5) 0%,
+    rgba(240,200,64,0.15) 60%,
+    var(--glass-border) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.wsi-line.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(240,200,64,0.8) 50%,
+    transparent 100%);
+  animation: wizLinePulse 2s ease-in-out infinite;
+}
+@keyframes wizLinePulse {
+  0%, 100% { left: -30%; }
+  50% { left: 100%; }
+}
+
+/* Service card selection — smoother, richer glow */
+.service-card.selected {
+  box-shadow:
+    0 0 0 2px rgba(212,168,67,0.65),
+    0 0 32px rgba(212,168,67,0.3),
+    0 12px 32px rgba(0,0,0,0.35) !important;
+}
+
+/* Wizard panel transition — faster, smoother */
+.wizard-panel.active {
+  animation: wizPanelSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes wizPanelSlide {
+  from { opacity: 0; transform: translateY(16px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Step labels — uppercase luxury style */
+.wsi-label {
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.68rem !important;
+}
+
+/* ============================================================
    LUXURY TIMELINE — "Как работим" animated connectors
    ============================================================ */
 
