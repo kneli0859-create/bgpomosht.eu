@@ -9163,6 +9163,103 @@ input:-webkit-autofill:focus {
 }
 
 /* ============================================================
+   LUXURY FOOTER — premium accents, link hovers, decorative details
+   ============================================================ */
+
+/* Gold top line — enhanced with center diamond ornament */
+.footer::before {
+  height: 1.5px !important;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(233,188,74,0.12) 20%,
+    rgba(233,188,74,0.5) 50%,
+    rgba(233,188,74,0.12) 80%,
+    transparent 100%) !important;
+}
+.footer::after {
+  content: '◆';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: rgba(240,200,64,0.6);
+  text-shadow: 0 0 10px rgba(240,200,64,0.5);
+  z-index: 1;
+}
+
+/* Column headings — gold underline accent */
+.footer-col h4 {
+  position: relative;
+  padding-bottom: 10px !important;
+}
+.footer-col h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 24px;
+  height: 1.5px;
+  background: linear-gradient(90deg,
+    rgba(240,200,64,0.7) 0%,
+    transparent 100%);
+}
+
+/* Links — slide-in gold underline on hover */
+.footer-col ul a {
+  position: relative;
+}
+.footer-col ul a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: rgba(240,200,64,0.5);
+  transition: width 0.3s ease;
+}
+.footer-col ul a:hover::after {
+  width: 100%;
+}
+
+/* Social links — gold ring pulse on hover */
+.social-link:hover {
+  box-shadow: 0 0 0 3px rgba(212,168,67,0.15), 0 8px 24px rgba(0,0,0,0.4) !important;
+}
+
+/* Contact icons — warm glow */
+.footer-contacts li:hover i {
+  transform: scale(1.08);
+  box-shadow: 0 0 16px rgba(212,168,67,0.22) !important;
+}
+
+/* Footer bottom — luxury divider with center ornament */
+.footer-bottom {
+  position: relative;
+}
+.footer-bottom::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 25%;
+  right: 25%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(240,200,64,0.2) 50%,
+    transparent 100%);
+}
+
+/* Copyright — subtle gold tint */
+.footer-bottom p {
+  color: rgba(255,255,255,0.32) !important;
+}
+.footer-legal a:hover {
+  text-shadow: 0 0 10px rgba(240,200,64,0.2);
+}
+
+/* ============================================================
    LUXURY TIMELINE — "Как работим" animated connectors
    ============================================================ */
 
