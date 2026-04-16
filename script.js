@@ -2816,11 +2816,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 (function () {
   var _prices = {
-    'Документ / превод':       { base: 29,  label: 'от €29', period: '' },
+    'Документ или превод':      { base: 29,  label: 'от €29', period: '' },
     'Помощ с институция':      { base: 39,  label: 'от €39', period: '' },
     'Онлайн курс / Сертификат':{ base: 29,  label: 'от €29', period: '' },
     'Търся работа':            { base: 29,  label: 'от €29', period: '' },
-    'Нов в страната':          { base: 49,  label: 'от €49', period: '' },
+    'Тъкмо пристигнах':        { base: 49,  label: 'от €49', period: '' },
     'Търсене на жилище':       { base: 39,  label: 'от €39', period: '' },
     'Пълно обслужване А до Я': { base: 99,  label: 'от €99', period: '' },
     'VIP Абонамент':           { base: 149, label: '€149',   period: '/мес' },
@@ -2830,11 +2830,11 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   var serviceLinks = {
-    'Документ / превод':       'form.html?service=documents',
+    'Документ или превод':      'form.html?service=documents',
     'Помощ с институция':      'form.html?service=institution',
     'Онлайн курс / Сертификат':'form.html?service=courses',
     'Търся работа':            'form.html?service=job',
-    'Нов в страната':          'form.html?service=newcomer',
+    'Тъкмо пристигнах':        'form.html?service=newcomer',
     'Пълно обслужване А до Я': 'form.html?service=full',
     'VIP Абонамент':           'form.html?service=vip',
     'Данъчна декларация':      'form.html?service=taxes',
