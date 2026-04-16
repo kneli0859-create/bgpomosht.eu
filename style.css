@@ -8986,6 +8986,109 @@ input:-webkit-autofill:focus {
 }
 
 /* ============================================================
+   LUXURY PRICING CARDS — services.html pqv2 cards
+   ============================================================ */
+
+/* Richer base glass */
+.pqv2-card {
+  background: linear-gradient(160deg,
+    rgba(255,255,255,0.045) 0%,
+    rgba(255,255,255,0.02) 100%) !important;
+  box-shadow:
+    0 2px 14px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.06) !important;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Gold top edge sweep on hover */
+.pqv2-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(var(--card-rgb),0.7) 50%,
+    transparent 100%);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+}
+.pqv2-card:hover::after {
+  transform: scaleX(1);
+}
+
+/* Deeper hover shadow */
+.pqv2-card:hover {
+  box-shadow:
+    0 14px 42px rgba(var(--card-rgb),0.16),
+    0 0 0 1px rgba(var(--card-rgb),0.15),
+    inset 0 1px 0 rgba(255,255,255,0.1) !important;
+}
+
+/* Card name glow on hover */
+.pqv2-card:hover .pqv2-name {
+  color: #fff;
+  text-shadow: 0 0 14px rgba(var(--card-rgb),0.35);
+  transition: all 0.3s ease;
+}
+.pqv2-card:hover .pqv2-desc {
+  color: rgba(255,255,255,0.52);
+  transition: color 0.3s ease;
+}
+
+/* Icon — subtle ring on hover */
+.pqv2-card:hover .pqv2-icon {
+  box-shadow: 0 0 18px rgba(var(--card-rgb),0.25), 0 0 0 2px rgba(var(--card-rgb),0.12);
+  transition: box-shadow 0.3s ease;
+}
+
+/* VIP card — breathing gold glow */
+.pqv2-vip {
+  animation: vipCardBreath 4.5s ease-in-out infinite !important;
+}
+@keyframes vipCardBreath {
+  0%, 100% {
+    box-shadow: 0 4px 24px rgba(212,168,67,0.08), inset 0 1px 0 rgba(255,244,160,0.08);
+    border-color: rgba(212,168,67,0.28);
+  }
+  50% {
+    box-shadow: 0 4px 24px rgba(212,168,67,0.08), 0 0 38px rgba(212,168,67,0.12),
+      0 0 0 1px rgba(212,168,67,0.1), inset 0 1px 0 rgba(255,244,160,0.14);
+    border-color: rgba(212,168,67,0.45);
+  }
+}
+.pqv2-vip:hover {
+  animation-play-state: paused !important;
+}
+
+/* Staggered reveal for pricing grid */
+.pq-grid-v2 .pqv2-card:nth-child(1)  { transition-delay: 0s; }
+.pq-grid-v2 .pqv2-card:nth-child(2)  { transition-delay: 0.04s; }
+.pq-grid-v2 .pqv2-card:nth-child(3)  { transition-delay: 0.08s; }
+.pq-grid-v2 .pqv2-card:nth-child(4)  { transition-delay: 0.12s; }
+.pq-grid-v2 .pqv2-card:nth-child(5)  { transition-delay: 0.16s; }
+.pq-grid-v2 .pqv2-card:nth-child(6)  { transition-delay: 0.2s; }
+.pq-grid-v2 .pqv2-card:nth-child(7)  { transition-delay: 0.24s; }
+.pq-grid-v2 .pqv2-card:nth-child(8)  { transition-delay: 0.28s; }
+.pq-grid-v2 .pqv2-card:nth-child(9)  { transition-delay: 0.32s; }
+.pq-grid-v2 .pqv2-card:nth-child(10) { transition-delay: 0.36s; }
+.pq-grid-v2 .pqv2-card:nth-child(11) { transition-delay: 0.4s; }
+
+/* Service detail sections — premium glass upgrade */
+.service-detail-inner {
+  box-shadow:
+    0 4px 30px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.06) !important;
+}
+.service-detail-price-big {
+  text-shadow: 0 0 18px rgba(240,200,64,0.3);
+}
+
+/* ============================================================
    LUXURY TIMELINE — "Как работим" animated connectors
    ============================================================ */
 
