@@ -2584,6 +2584,10 @@ document.addEventListener('DOMContentLoaded', () => {
       banner.classList.add('cookie-visible');
       var ov = document.getElementById('cookieOverlay');
       if (ov) ov.classList.add('cookie-overlay-visible');
+      // Hide social proof + floating buttons behind overlay
+      var spt = document.getElementById('sptWrap');
+      if (spt) spt.style.display = 'none';
+      document.querySelectorAll('.whatsapp-float, .facebook-float, .back-to-top').forEach(function(el) { el.style.display = 'none'; });
     }));
 
     document.getElementById('cookieBtnAll').addEventListener('click', function () {
@@ -2625,6 +2629,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!banner) return;
     banner.classList.remove('cookie-visible');
     if (overlay) overlay.classList.remove('cookie-overlay-visible');
+    // Restore hidden elements
+    var spt = document.getElementById('sptWrap');
+    if (spt) spt.style.display = '';
+    document.querySelectorAll('.whatsapp-float, .facebook-float, .back-to-top').forEach(function(el) { el.style.display = ''; });
     setTimeout(function () {
       banner.remove();
       if (overlay) overlay.remove();
