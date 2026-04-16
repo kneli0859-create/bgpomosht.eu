@@ -8846,3 +8846,142 @@ input:-webkit-autofill:focus {
   filter: drop-shadow(0 0 14px rgba(245,208,96,0.25));
 }
 
+/* ============================================================
+   LUXURY SERVICE CARDS — premium glass, hover edge-glow, icon halo
+   ============================================================ */
+
+/* Richer glass base */
+.problem-card.glass-card {
+  background: linear-gradient(165deg,
+    rgba(255,255,255,0.072) 0%,
+    rgba(255,255,255,0.025) 50%,
+    rgba(155,109,255,0.02) 100%) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  box-shadow:
+    0 4px 30px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -1px 0 rgba(0,0,0,0.15) !important;
+  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Hover — gold edge-light sweep + lift */
+.problem-card.glass-card:hover {
+  transform: translateY(-8px) !important;
+  border-color: rgba(233,188,74,0.35) !important;
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(233,188,74,0.18),
+    0 0 48px rgba(233,188,74,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    inset 0 -1px 0 rgba(0,0,0,0.15) !important;
+}
+
+/* Animated gold edge-light that sweeps on hover */
+.problem-card.glass-card::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0; left: 0; right: 0;
+  height: 2px !important;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(233,188,74,0.6) 50%,
+    transparent 100%) !important;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+.problem-card.glass-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Icon halo ring on hover */
+.card-icon-wrap {
+  position: relative;
+}
+.card-icon-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 22px;
+  border: 1.5px solid transparent;
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+.glass-card:hover .card-icon-wrap::after {
+  border-color: rgba(233,188,74,0.25);
+  box-shadow: 0 0 18px rgba(233,188,74,0.12);
+}
+
+/* Card h3 — subtle gold tint on hover */
+.problem-card:hover h3 {
+  color: #f5d060;
+  text-shadow: 0 0 20px rgba(245,208,96,0.2);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+/* Card paragraph — slightly brighter on hover */
+.problem-card:hover p {
+  color: rgba(255,255,255,0.75);
+  transition: color 0.4s ease;
+}
+
+/* Extended stagger for 10 cards */
+.problems-grid .reveal:nth-child(5)  { transition-delay: 0.12s; }
+.problems-grid .reveal:nth-child(6)  { transition-delay: 0.16s; }
+.problems-grid .reveal:nth-child(7)  { transition-delay: 0.2s; }
+.problems-grid .reveal:nth-child(8)  { transition-delay: 0.24s; }
+.problems-grid .reveal:nth-child(9)  { transition-delay: 0.28s; }
+.problems-grid .reveal:nth-child(10) { transition-delay: 0.32s; }
+
+/* Premium card — breathing gold glow */
+.problem-card-premium.glass-card {
+  border: 1px solid rgba(233,188,74,0.3) !important;
+  background: linear-gradient(165deg,
+    rgba(233,188,74,0.09) 0%,
+    rgba(255,255,255,0.04) 40%,
+    rgba(155,109,255,0.04) 100%) !important;
+  animation: premiumBreath 4s ease-in-out infinite;
+}
+@keyframes premiumBreath {
+  0%, 100% {
+    box-shadow:
+      0 4px 30px rgba(0,0,0,0.3),
+      0 0 22px rgba(233,188,74,0.08),
+      inset 0 1px 0 rgba(255,244,160,0.12);
+  }
+  50% {
+    box-shadow:
+      0 4px 30px rgba(0,0,0,0.3),
+      0 0 42px rgba(233,188,74,0.18),
+      0 0 0 1px rgba(233,188,74,0.12),
+      inset 0 1px 0 rgba(255,244,160,0.18);
+  }
+}
+.problem-card-premium.glass-card:hover {
+  animation-play-state: paused;
+}
+
+/* Section title — gold underline accent */
+.problems .section-title::after,
+.how-it-works .section-title::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  margin: 18px auto 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(240,200,64,0.8) 50%,
+    transparent 100%);
+  box-shadow: 0 0 12px rgba(240,200,64,0.4);
+}
+
+/* Premium card badge refinement */
+.premium-card-badge {
+  text-transform: uppercase !important;
+  letter-spacing: 0.12em !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+
