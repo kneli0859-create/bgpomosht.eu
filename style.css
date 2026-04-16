@@ -9260,6 +9260,248 @@ input:-webkit-autofill:focus {
 }
 
 /* ============================================================
+   LUXURY TESTIMONIALS — premium screenshot cards
+   ============================================================ */
+
+/* Section title gold accent */
+.testimonials .section-title::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  margin: 18px auto 0;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(240,200,64,0.8) 50%, transparent 100%);
+  box-shadow: 0 0 12px rgba(240,200,64,0.4);
+}
+
+/* Screenshot cards — richer shadow, gold glow on hover */
+.wa-screenshot,
+.msgr-screenshot {
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.wa-screenshot:hover,
+.msgr-screenshot:hover {
+  box-shadow:
+    0 36px 90px rgba(0,0,0,0.7),
+    0 0 48px rgba(233,188,74,0.08),
+    0 0 0 1px rgba(255,255,255,0.12) !important;
+}
+
+/* Country label — gold dot accent */
+.screenshot-country {
+  position: relative;
+  padding-left: 16px !important;
+}
+.screenshot-country::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(240,200,64,0.7);
+  box-shadow: 0 0 8px rgba(240,200,64,0.5);
+}
+
+/* ============================================================
+   LUXURY CTA BANNER — premium glow accents
+   ============================================================ */
+
+.cta-banner {
+  position: relative;
+}
+
+/* Gold shimmer line top */
+.cta-banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(233,188,74,0.35) 50%,
+    transparent 100%);
+}
+
+/* CTA title gold accent */
+.cta-banner h2 {
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5), 0 0 40px rgba(233,188,74,0.1);
+}
+
+/* CTA buttons — extra depth */
+.cta-banner .btn-gold {
+  box-shadow:
+    0 4px 22px rgba(233,188,74,0.45),
+    0 12px 42px rgba(233,188,74,0.2),
+    inset 0 1px 0 rgba(255,244,160,0.5) !important;
+}
+.cta-banner .btn-whatsapp {
+  box-shadow:
+    0 4px 22px rgba(34,197,94,0.4),
+    0 12px 42px rgba(34,197,94,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.2) !important;
+}
+
+/* ============================================================
+   LUXURY REFERRAL — premium steps, reward glow
+   ============================================================ */
+
+/* Section title accent */
+.referral-section .section-title::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  margin: 18px auto 0;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(240,200,64,0.8) 50%, transparent 100%);
+  box-shadow: 0 0 12px rgba(240,200,64,0.4);
+}
+
+/* Referral step cards — glass upgrade */
+.ref-how-step {
+  position: relative;
+  transition: transform 0.35s ease !important;
+}
+.ref-how-step:hover {
+  transform: translateY(-4px);
+}
+.ref-how-step:hover .ref-step-icon {
+  box-shadow: 0 0 22px rgba(233,188,74,0.25), 0 0 0 2px rgba(233,188,74,0.12);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Step number glow */
+.ref-step-num {
+  text-shadow: 0 0 14px rgba(240,200,64,0.2);
+}
+
+/* Referral arrows — animated dot like timeline */
+.ref-how-arrow {
+  position: relative;
+}
+.ref-how-arrow i {
+  opacity: 0;
+}
+.ref-how-arrow::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(240,200,64,0.7);
+  box-shadow: 0 0 12px rgba(240,200,64,0.5);
+  animation: refDotPulse 2.5s ease-in-out infinite;
+  left: 50%;
+  margin-left: -3px;
+}
+@keyframes refDotPulse {
+  0%, 100% { opacity: 0.4; transform: translateY(-50%) scale(1); }
+  50% { opacity: 1; transform: translateY(-50%) scale(1.5); }
+}
+
+/* Reward cards — gold border glow */
+.ref-reward-you {
+  border: 1px solid rgba(233,188,74,0.25) !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2), 0 0 18px rgba(233,188,74,0.06) !important;
+  transition: all 0.35s ease;
+}
+.ref-reward-you:hover {
+  border-color: rgba(233,188,74,0.45) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 32px rgba(233,188,74,0.12) !important;
+  transform: translateY(-3px);
+}
+.ref-reward-friend {
+  transition: all 0.35s ease;
+}
+.ref-reward-friend:hover {
+  transform: translateY(-3px);
+}
+
+/* Reward value — gold glow */
+.ref-reward-value {
+  text-shadow: 0 0 14px rgba(240,200,64,0.25);
+}
+
+/* Generator card — premium glass */
+.ref-gen-inner.glass-card {
+  box-shadow:
+    0 4px 30px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.06) !important;
+}
+
+/* ============================================================
+   LUXURY ABOUT TEASER — photo frame, content polish
+   ============================================================ */
+
+/* Photo — gold corner frame accent */
+.about-teaser-photo {
+  position: relative;
+}
+.about-teaser-photo::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 40px;
+  height: 40px;
+  border-top: 2px solid rgba(240,200,64,0.4);
+  border-left: 2px solid rgba(240,200,64,0.4);
+  border-radius: 4px 0 0 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.about-teaser-photo::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  width: 40px;
+  height: 40px;
+  border-bottom: 2px solid rgba(240,200,64,0.4);
+  border-right: 2px solid rgba(240,200,64,0.4);
+  border-radius: 0 0 4px 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Badge — richer glass */
+.about-teaser-badge {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06) !important;
+}
+
+/* Stats — gold number glow */
+.at-num {
+  text-shadow: 0 0 14px rgba(240,200,64,0.25);
+}
+
+/* About section title accent */
+.about-teaser-section .section-tag {
+  margin-bottom: 16px;
+}
+
+/* ============================================================
+   LUXURY DIVIDERS — enhanced gold center ornaments
+   ============================================================ */
+.luxury-divider {
+  position: relative;
+  text-align: center;
+}
+.luxury-divider span::before {
+  content: '·';
+  font-size: 18px;
+  color: rgba(240,200,64,0.5);
+  text-shadow: 0 0 10px rgba(240,200,64,0.4);
+}
+
+/* ============================================================
    LUXURY TIMELINE — "Как работим" animated connectors
    ============================================================ */
 
