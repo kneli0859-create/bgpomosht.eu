@@ -2493,6 +2493,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* --- Създава HTML на банера --- */
   function createBanner() {
+    // Overlay — блокира взаимодействие с фона
+    var overlay = document.createElement('div');
+    overlay.className = 'cookie-overlay';
+    overlay.id = 'cookieOverlay';
+    document.body.appendChild(overlay);
+
     const el = document.createElement('div');
     el.className = 'cookie-banner';
     el.id = 'cookieBanner';
@@ -2505,11 +2511,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <i class="fa-solid fa-cookie-bite"></i>
           </div>
           <div class="cookie-text">
-            <h4>Използваме бисквитки <span class="cookie-emoji">🍪</span></h4>
-            <p>Сайтът използва бисквитки за по-добро изживяване и анализ на трафика. Можеш да изберeш кои да приемеш — само необходимите или всички.</p>
+            <h4>Този сайт използва бисквитки</h4>
+            <p>Използваме бисквитки за да подобрим вашето изживяване, да анализираме трафика и да ви показваме подходящо съдържание.</p>
           </div>
         </div>
-        <div class="cookie-details">
+        <div class="cookie-details cookie-details-hidden" id="cookieDetails">
           <div class="cookie-type">
             <div class="cookie-type-info">
               <strong><i class="fa-solid fa-shield-halved"></i> Необходими</strong>
@@ -2525,7 +2531,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <span>Анонимна статистика за посещенията</span>
             </div>
             <label class="cookie-toggle-wrap">
-              <input type="checkbox" id="cookieAnalytics" />
+              <input type="checkbox" id="cookieAnalytics" checked />
               <span class="cookie-toggle-slider"></span>
             </label>
           </div>
@@ -2535,17 +2541,21 @@ document.addEventListener('DOMContentLoaded', () => {
               <span>Facebook Pixel, ремаркетинг реклами</span>
             </div>
             <label class="cookie-toggle-wrap">
-              <input type="checkbox" id="cookieMarketing" />
+              <input type="checkbox" id="cookieMarketing" checked />
               <span class="cookie-toggle-slider"></span>
             </label>
           </div>
         </div>
         <div class="cookie-actions">
-          <button class="cookie-btn cookie-btn-essential" id="cookieBtnEssential">Само необходими</button>
-          <button class="cookie-btn cookie-btn-custom" id="cookieBtnCustom">Запази избора</button>
-          <button class="cookie-btn cookie-btn-accept" id="cookieBtnAll">Приемам всички</button>
+          <button class="cookie-btn cookie-btn-accept" id="cookieBtnAll"><i class="fa-solid fa-check"></i> Приемам всички</button>
+          <button class="cookie-btn cookie-btn-custom cookie-details-hidden" id="cookieBtnCustom">Запази избора</button>
         </div>
-        <p class="cookie-legal-note">Повече информация в нашата <a href="datenschutz.html">Политика за поверителност</a>.</p>
+        <div class="cookie-secondary">
+          <a href="#" class="cookie-link-settings" id="cookieBtnSettings"><i class="fa-solid fa-sliders"></i> Настройки</a>
+          <span class="cookie-sep">|</span>
+          <a href="#" class="cookie-link-essential" id="cookieBtnEssential">Само необходими</a>
+        </div>
+        <p class="cookie-legal-note"><a href="datenschutz.html">Политика за поверителност</a></p>
       </div>
     `;
     return el;
@@ -2570,14 +2580,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('cookie-visible')));
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      banner.classList.add('cookie-visible');
+      var ov = document.getElementById('cookieOverlay');
+      if (ov) ov.classList.add('cookie-overlay-visible');
+    }));
 
     document.getElementById('cookieBtnAll').addEventListener('click', function () {
       save({ analytics: true, marketing: true, level: 'all' });
       hideBanner();
     });
 
-    document.getElementById('cookieBtnEssential').addEventListener('click', function () {
+    document.getElementById('cookieBtnEssential').addEventListener('click', function (e) {
+      e.preventDefault();
       save({ analytics: false, marketing: false, level: 'essential' });
       hideBanner();
     });
@@ -2590,14 +2605,30 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       hideBanner();
     });
+
+    document.getElementById('cookieBtnSettings').addEventListener('click', function (e) {
+      e.preventDefault();
+      var details = document.getElementById('cookieDetails');
+      var customBtn = document.getElementById('cookieBtnCustom');
+      details.classList.toggle('cookie-details-hidden');
+      customBtn.classList.toggle('cookie-details-hidden');
+      this.innerHTML = details.classList.contains('cookie-details-hidden')
+        ? '<i class="fa-solid fa-sliders"></i> Настройки'
+        : '<i class="fa-solid fa-chevron-up"></i> Скрий';
+    });
   }
 
   /* --- Скрива банера --- */
   function hideBanner() {
     const banner = document.getElementById('cookieBanner');
+    const overlay = document.getElementById('cookieOverlay');
     if (!banner) return;
     banner.classList.remove('cookie-visible');
-    setTimeout(() => banner.remove(), 420);
+    if (overlay) overlay.classList.remove('cookie-overlay-visible');
+    setTimeout(function () {
+      banner.remove();
+      if (overlay) overlay.remove();
+    }, 420);
   }
 
   /* --- Запазва избора --- */
