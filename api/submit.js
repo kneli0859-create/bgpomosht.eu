@@ -44,9 +44,34 @@ function checkRateLimit(ip) {
 // Disable Vercel default body parser — we handle multipart ourselves
 module.exports.config = { api: { bodyParser: false } };
 
+// Allowed origins for CORS
+var ALLOWED_ORIGINS = ['https://bgpomosht.eu', 'https://www.bgpomosht.eu'];
+
 module.exports = async function handler(req, res) {
+  var origin = req.headers.origin || '';
+
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    if (ALLOWED_ORIGINS.indexOf(origin) !== -1) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    }
+    return res.status(204).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false, message: 'Method not allowed' });
+  }
+
+  // CORS origin check — block requests from unknown domains
+  if (origin && ALLOWED_ORIGINS.indexOf(origin) === -1) {
+    return res.status(403).json({ ok: false, message: 'Forbidden origin' });
+  }
+
+  // Set CORS headers for valid requests
+  if (ALLOWED_ORIGINS.indexOf(origin) !== -1) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
   }
 
   if (!GMAIL_PASS) {
