@@ -2852,17 +2852,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function togglePrechat() {
+    var b = document.getElementById('prechatBubble');
+    if (b && b.classList.contains('pcb-visible')) {
+      b.classList.remove('pcb-visible');
+      return;
+    }
+    if (!b) buildBubble();
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        var el = document.getElementById('prechatBubble');
+        if (el) el.classList.add('pcb-visible');
+      });
+    });
+  }
+
+  function wireWaFloat() {
+    document.querySelectorAll('.whatsapp-float').forEach(function (a) {
+      if (a.dataset.pcbWired) return;
+      a.dataset.pcbWired = '1';
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        togglePrechat();
+      });
+    });
+  }
+
   function init() {
+    wireWaFloat();
+    var isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
     var dismissed = localStorage.getItem(STORAGE_KEY);
     if (dismissed && (Date.now() - parseInt(dismissed)) < 24 * 3600 * 1000) return;
 
+    // Mobile: only open on WhatsApp button click (no auto-popup over hero)
+    if (isMobile) return;
+
+    // Desktop: auto-open after 20s
     setTimeout(function () {
       showPrechat();
-    }, 10000);
+    }, 20000);
 
-    // Also listen for cookie consent — show after consent given
     window.addEventListener('cookieConsentGiven', function () {
-      setTimeout(showPrechat, 2000);
+      if (isMobile) return;
+      setTimeout(showPrechat, 4000);
     });
   }
 
