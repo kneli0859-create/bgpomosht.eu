@@ -659,6 +659,192 @@
       margin-top: 4px;
     }
 
+    /* ===== TAB NAVIGATION ===== */
+    .dash-tabs {
+      display: flex; gap: 4px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 4px;
+      margin-bottom: 26px;
+      width: fit-content;
+    }
+    .dash-tab {
+      padding: 10px 22px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: .85rem; font-weight: 500;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all .25s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dash-tab:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .dash-tab.active {
+      background: linear-gradient(135deg, rgba(212,168,67,0.15), rgba(212,168,67,0.08));
+      color: var(--gold);
+      font-weight: 600;
+      border: 1px solid rgba(212,168,67,0.2);
+    }
+    .dash-tab i { font-size: .8rem; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ===== ACTION BAR ===== */
+    .action-bar {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .action-bar-btn {
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-secondary);
+      font-size: .84rem; font-weight: 500;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all .25s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .action-bar-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,168,67,0.05); }
+    .action-bar-btn.danger:hover { border-color: var(--red); color: var(--red); background: rgba(248,113,113,0.05); }
+
+    /* Overdue pulse */
+    .overdue-row { background: rgba(248,113,113,0.04) !important; }
+    .overdue-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: .68rem; font-weight: 600;
+      background: rgba(248,113,113,0.12);
+      color: var(--red);
+      border: 1px solid rgba(248,113,113,0.2);
+      animation: pulseBadge 2s ease-in-out infinite;
+    }
+    @keyframes pulseBadge {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .6; }
+    }
+
+    /* Revenue card */
+    .revenue-value {
+      font-family: var(--font-head);
+      font-size: 1.8rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--green), #86efac);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ===== NOTES MODAL ===== */
+    .notes-textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: .9rem;
+      font-family: var(--font-body);
+      outline: none;
+      resize: vertical;
+      transition: border-color .3s;
+    }
+    .notes-textarea:focus { border-color: var(--gold); }
+    .notes-save-btn {
+      margin-top: 12px;
+      padding: 10px 24px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border: none; border-radius: var(--radius-sm);
+      color: var(--bg-deep);
+      font-weight: 600; font-size: .9rem;
+      font-family: var(--font-head);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .notes-save-btn:hover { box-shadow: 0 4px 16px rgba(212,168,67,0.25); }
+    .has-notes { color: var(--gold) !important; }
+
+    /* ===== AUTOMATION PAGE ===== */
+    .auto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
+    }
+    .auto-card {
+      padding: 28px;
+    }
+    .auto-card-title {
+      font-family: var(--font-head);
+      font-size: 1.1rem; font-weight: 600;
+      margin-bottom: 6px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .auto-card-title i { color: var(--gold); }
+    .auto-card-desc {
+      font-size: .85rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    /* WhatsApp templates */
+    .wa-template {
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+      transition: all .2s;
+      cursor: pointer;
+      position: relative;
+    }
+    .wa-template:hover { border-color: rgba(37,211,102,0.3); background: rgba(37,211,102,0.03); }
+    .wa-template-name {
+      font-weight: 600;
+      font-size: .88rem;
+      margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .wa-template-name i { color: #25D366; font-size: .8rem; }
+    .wa-template-text {
+      font-size: .82rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+    .wa-template-actions {
+      display: flex; gap: 8px;
+      margin-top: 10px;
+    }
+    .wa-copy-btn, .wa-send-btn {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-size: .78rem; font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: var(--font-body);
+    }
+    .wa-copy-btn { color: var(--text-secondary); }
+    .wa-copy-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .wa-send-btn { color: #25D366; border-color: rgba(37,211,102,0.3); }
+    .wa-send-btn:hover { background: rgba(37,211,102,0.08); }
+    .copied-toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      background: rgba(74,222,128,0.15); color: var(--green);
+      border: 1px solid rgba(74,222,128,0.3);
+      padding: 10px 24px; border-radius: var(--radius-sm);
+      font-size: .88rem; font-weight: 500;
+      z-index: 300;
+      animation: toastIn .3s ease, toastOut .3s ease 1.5s forwards;
+    }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } }
+    @keyframes toastOut { to { opacity: 0; transform: translateX(-50%) translateY(-10px); } }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1024px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -734,6 +920,26 @@
   </header>
 
   <div class="dash-content">
+    <!-- Tabs -->
+    <div class="dash-tabs">
+      <button class="dash-tab active" data-tab="dashboard"><i class="fa-solid fa-chart-line"></i> Дашборд</button>
+      <button class="dash-tab" data-tab="automation"><i class="fa-solid fa-wand-magic-sparkles"></i> Автоматизация</button>
+    </div>
+
+    <!-- ===== TAB 1: DASHBOARD ===== -->
+    <div class="tab-content active" id="tab-dashboard">
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <button class="action-bar-btn" id="exportCsvBtn"><i class="fa-solid fa-file-csv"></i> Експорт CSV</button>
+      <button class="action-bar-btn" id="markAllContactedBtn"><i class="fa-solid fa-check-double"></i> Маркирай контактирани</button>
+      <button class="action-bar-btn" onclick="document.querySelector('[data-tab=automation]').click()"><i class="fa-brands fa-whatsapp"></i> WhatsApp шаблони</button>
+      <span class="action-bar-btn" style="cursor:default;border-color:transparent;background:transparent">
+        <i class="fa-solid fa-triangle-exclamation" style="color:var(--red)"></i>
+        <span id="overdueCount" style="color:var(--red);font-weight:600">0</span> чакат > 30 мин
+      </span>
+    </div>
+
     <!-- Stats -->
     <div class="stats-grid">
       <div class="stat-card glass">
@@ -767,6 +973,26 @@
         </div>
         <div class="stat-card-value" id="statDone">—</div>
         <div class="stat-card-sub">успешно приключени</div>
+      </div>
+    </div>
+
+    <!-- Revenue + Overdue row -->
+    <div class="stats-grid" style="grid-template-columns:1fr 1fr;margin-bottom:24px">
+      <div class="stat-card glass">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Очаквани приходи</span>
+          <div class="stat-card-icon green"><i class="fa-solid fa-euro-sign"></i></div>
+        </div>
+        <div class="revenue-value" id="statRevenue">—</div>
+        <div class="stat-card-sub">от завършени заявки</div>
+      </div>
+      <div class="stat-card glass">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Средно време за отговор</span>
+          <div class="stat-card-icon gold"><i class="fa-solid fa-stopwatch"></i></div>
+        </div>
+        <div class="stat-card-value" id="statAvgTime">—</div>
+        <div class="stat-card-sub">от заявка до контакт</div>
       </div>
     </div>
 
@@ -837,6 +1063,165 @@
         </div>
       </div>
     </div>
+
+    </div><!-- /tab-dashboard -->
+
+    <!-- ===== TAB 2: AUTOMATION ===== -->
+    <div class="tab-content" id="tab-automation">
+      <div class="auto-grid">
+
+        <!-- WhatsApp Templates -->
+        <div class="auto-card glass">
+          <div class="auto-card-title"><i class="fa-brands fa-whatsapp"></i> WhatsApp шаблони</div>
+          <div class="auto-card-desc">Готови съобщения за бърз контакт с клиенти. Натисни "Копирай" и постави в WhatsApp.</div>
+
+          <div class="wa-template" data-tpl="first-contact">
+            <div class="wa-template-name"><i class="fa-solid fa-hand-wave"></i> Първи контакт</div>
+            <div class="wa-template-text">Здравейте, {name}! 👋
+
+Благодарим ви, че се свързахте с BG Помощ. Получихме вашата заявка за "{service}".
+
+Ще прегледам детайлите и ще ви изпратя конкретна оферта до 30 минути.
+
+Имате ли допълнителни въпроси междувременно?</div>
+            <div class="wa-template-actions">
+              <button class="wa-copy-btn" onclick="copyTemplate(this)"><i class="fa-solid fa-copy"></i> Копирай</button>
+            </div>
+          </div>
+
+          <div class="wa-template" data-tpl="price-offer">
+            <div class="wa-template-name"><i class="fa-solid fa-tag"></i> Ценова оферта</div>
+            <div class="wa-template-text">Здравейте, {name}!
+
+Ето вашата оферта за "{service}":
+
+📋 Пакет: {package}
+💰 Цена: {price}
+⏰ Срок: 1-3 работни дни
+
+Ако сте съгласни, потвърдете тук и започваме веднага!
+
+При въпроси — пишете свободно. 😊</div>
+            <div class="wa-template-actions">
+              <button class="wa-copy-btn" onclick="copyTemplate(this)"><i class="fa-solid fa-copy"></i> Копирай</button>
+            </div>
+          </div>
+
+          <div class="wa-template" data-tpl="follow-up">
+            <div class="wa-template-name"><i class="fa-solid fa-clock-rotate-left"></i> Follow-up (24 часа)</div>
+            <div class="wa-template-text">Здравейте, {name}!
+
+Пиша ви отново от BG Помощ. Изпратихме ви оферта за "{service}" вчера.
+
+Имате ли въпроси? Ще се радвам да помогна!
+
+Ако вече не се нуждаете — няма проблем, просто ми кажете. 😊</div>
+            <div class="wa-template-actions">
+              <button class="wa-copy-btn" onclick="copyTemplate(this)"><i class="fa-solid fa-copy"></i> Копирай</button>
+            </div>
+          </div>
+
+          <div class="wa-template" data-tpl="done">
+            <div class="wa-template-name"><i class="fa-solid fa-circle-check"></i> Заявка готова</div>
+            <div class="wa-template-text">Здравейте, {name}! ✅
+
+Вашата заявка за "{service}" е изпълнена!
+
+📎 Изпращам ви документа/резултата в следващото съобщение.
+
+Ако имате нужда от нещо друго — винаги сме на линия!
+
+⭐ Ако сме ви били полезни, ще се радваме да ни препоръчате на приятели. Благодарим!</div>
+            <div class="wa-template-actions">
+              <button class="wa-copy-btn" onclick="copyTemplate(this)"><i class="fa-solid fa-copy"></i> Копирай</button>
+            </div>
+          </div>
+
+          <div class="wa-template" data-tpl="reminder">
+            <div class="wa-template-name"><i class="fa-solid fa-bell"></i> Напомняне за документ</div>
+            <div class="wa-template-text">Здравейте, {name}!
+
+Напомняме ви, че все още чакаме от вас:
+📄 {document}
+
+Моля, изпратете го когато ви е удобно, за да продължим с "{service}".
+
+Благодарим! 🙏</div>
+            <div class="wa-template-actions">
+              <button class="wa-copy-btn" onclick="copyTemplate(this)"><i class="fa-solid fa-copy"></i> Копирай</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="auto-card glass">
+          <div class="auto-card-title"><i class="fa-solid fa-bolt"></i> Бързи действия</div>
+          <div class="auto-card-desc">Функции за по-бързо управление на заявки.</div>
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <button class="action-bar-btn" id="autoMarkOverdue" style="width:100%;justify-content:center">
+              <i class="fa-solid fa-clock" style="color:var(--orange)"></i> Маркирай чакащи > 1 ден като "В процес"
+            </button>
+            <button class="action-bar-btn" id="autoArchiveDone" style="width:100%;justify-content:center">
+              <i class="fa-solid fa-box-archive" style="color:var(--purple)"></i> Архивирай завършени > 30 дни
+            </button>
+            <button class="action-bar-btn" id="exportFullBtn" style="width:100%;justify-content:center">
+              <i class="fa-solid fa-file-excel" style="color:var(--green)"></i> Пълен експорт (всички полета)
+            </button>
+          </div>
+
+          <div style="margin-top:28px">
+            <div class="auto-card-title"><i class="fa-solid fa-chart-simple"></i> Статистика</div>
+            <div class="auto-card-desc">Конверсия и ефективност.</div>
+            <div id="autoStats" style="font-size:.88rem;color:var(--text-secondary);line-height:1.8"></div>
+          </div>
+        </div>
+
+        <!-- Email templates -->
+        <div class="auto-card glass">
+          <div class="auto-card-title"><i class="fa-solid fa-envelope"></i> Email шаблони</div>
+          <div class="auto-card-desc">Готови имейл текстове за копиране.</div>
+
+          <div class="wa-template" data-tpl="email-welcome">
+            <div class="wa-template-name"><i class="fa-solid fa-paper-plane"></i> Потвърждение за заявка</div>
+            <div class="wa-template-text">Уважаеми {name},
+
+Благодарим Ви за доверието! Получихме Вашата заявка за "{service}".
+
+Очаквайте обратна връзка от нас до 30 минути по телефон или WhatsApp.
+
+С уважение,
+Екип BG Помощ
+bgpomosht.eu</div>
+            <div class="wa-template-actions">
+              <button class="wa-copy-btn" onclick="copyTemplate(this)"><i class="fa-solid fa-copy"></i> Копирай</button>
+            </div>
+          </div>
+
+          <div class="wa-template" data-tpl="email-invoice">
+            <div class="wa-template-name"><i class="fa-solid fa-receipt"></i> Фактура / потвърждение за плащане</div>
+            <div class="wa-template-text">Уважаеми {name},
+
+Потвърждаваме получаване на Вашето плащане:
+
+Услуга: {service}
+Пакет: {package}
+Сума: {price}
+Дата: {date}
+
+Благодарим Ви! Ще получите резултата в уговорения срок.
+
+С уважение,
+BG Помощ</div>
+            <div class="wa-template-actions">
+              <button class="wa-copy-btn" onclick="copyTemplate(this)"><i class="fa-solid fa-copy"></i> Копирай</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /tab-automation -->
+
   </div>
 </div>
 
@@ -849,6 +1234,17 @@
   </div>
 </div>
 
+<!-- Notes Modal -->
+<div class="modal-overlay" id="notesModal">
+  <div class="modal-card" style="max-width:480px">
+    <button class="modal-close" id="notesModalClose"><i class="fa-solid fa-xmark"></i></button>
+    <h2 class="modal-title"><i class="fa-solid fa-sticky-note" style="color:var(--gold)"></i> Бележки</h2>
+    <p style="color:var(--text-secondary);font-size:.85rem;margin-bottom:14px" id="notesClientName"></p>
+    <textarea class="notes-textarea" id="notesText" placeholder="Добави бележки за тази заявка..."></textarea>
+    <button class="notes-save-btn" id="notesSaveBtn"><i class="fa-solid fa-floppy-disk"></i> Запази</button>
+  </div>
+</div>
+
 <script>
 (function() {
   'use strict';
@@ -857,7 +1253,6 @@
   var TOKEN_KEY = 'bgp_admin_token';
   var allData = [];
 
-  // Service colors for chart
   var SVC_COLORS = [
     '#d4a843', '#60a5fa', '#4ade80', '#fb923c', '#c084fc',
     '#f87171', '#38bdf8', '#fbbf24', '#a78bfa', '#34d399', '#f472b6'
@@ -870,23 +1265,38 @@
     'cancelled': 'Отказана'
   };
 
+  // Price estimates per service
+  var PRICE_MAP = {
+    'Търся работа': 29, 'Помощ с институция': 39, 'Тъкмо пристигнах': 49,
+    'Документ или превод': 29, 'Онлайн курс / Сертификат': 29,
+    'Пълно обслужване А до Я': 99, 'VIP Абонамент': 149,
+    'Данъчна декларация': 49, 'КЕП онлайн подпис': 19,
+    'е-Услуги от България': 39, 'Търсене на жилище': 39
+  };
+
+  // ===== TAB NAVIGATION =====
+  document.querySelectorAll('.dash-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.dash-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      if (tab.dataset.tab === 'automation') updateAutoStats();
+    });
+  });
+
   // ===== LOGIN =====
   var loginForm = document.getElementById('loginForm');
   var loginError = document.getElementById('loginError');
 
-  // Check existing token
   var savedToken = sessionStorage.getItem(TOKEN_KEY);
-  if (savedToken) {
-    showDashboard();
-    loadData();
-  }
+  if (savedToken) { showDashboard(); loadData(); }
 
   loginForm.addEventListener('submit', function(e) {
     e.preventDefault();
     var email = document.getElementById('loginEmail').value.trim();
     var pass = document.getElementById('loginPass').value;
     var btn = document.getElementById('loginBtn');
-
     btn.disabled = true;
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Влизане...';
     loginError.textContent = '';
@@ -900,71 +1310,44 @@
     .then(function(data) {
       if (data.ok && data.token) {
         sessionStorage.setItem(TOKEN_KEY, data.token);
-        showDashboard();
-        loadData();
+        showDashboard(); loadData();
       } else {
         loginError.textContent = data.message || 'Грешка при вход';
       }
     })
-    .catch(function() {
-      loginError.textContent = 'Няма връзка със сървъра';
-    })
-    .finally(function() {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Вход';
-    });
+    .catch(function() { loginError.textContent = 'Няма връзка със сървъра'; })
+    .finally(function() { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Вход'; });
   });
 
   function showDashboard() {
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('dashboard').classList.add('active');
-    updateTime();
-    setInterval(updateTime, 60000);
+    updateTime(); setInterval(updateTime, 60000);
   }
 
-  // Logout
-  document.getElementById('logoutBtn').addEventListener('click', function() {
-    sessionStorage.removeItem(TOKEN_KEY);
-    location.reload();
-  });
+  document.getElementById('logoutBtn').addEventListener('click', function() { sessionStorage.removeItem(TOKEN_KEY); location.reload(); });
+  document.getElementById('refreshBtn').addEventListener('click', function() { loadData(); });
 
-  // Refresh
-  document.getElementById('refreshBtn').addEventListener('click', function() {
-    loadData();
-  });
-
-  // Time display
   function updateTime() {
     var now = new Date();
-    var opts = { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' };
-    document.getElementById('dashTime').textContent = now.toLocaleDateString('bg-BG', opts);
+    document.getElementById('dashTime').textContent = now.toLocaleDateString('bg-BG', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
 
   // ===== LOAD DATA =====
   function loadData() {
     var token = sessionStorage.getItem(TOKEN_KEY);
     if (!token) return;
-
     document.getElementById('tableBody').innerHTML = '<tr><td colspan="7"><div class="spinner"></div></td></tr>';
 
-    fetch(API_BASE + '/admin-data', {
-      headers: { 'Authorization': 'Bearer ' + token }
-    })
+    fetch(API_BASE + '/admin-data', { headers: { 'Authorization': 'Bearer ' + token } })
     .then(function(r) {
-      if (r.status === 401) {
-        sessionStorage.removeItem(TOKEN_KEY);
-        location.reload();
-        throw new Error('Unauthorized');
-      }
+      if (r.status === 401) { sessionStorage.removeItem(TOKEN_KEY); location.reload(); throw new Error('Unauthorized'); }
       return r.json();
     })
     .then(function(result) {
       if (result.ok) {
         allData = result.data || [];
-        updateStats();
-        updateChart();
-        populateServiceFilter();
-        renderTable();
+        updateStats(); updateChart(); populateServiceFilter(); renderTable();
       }
     })
     .catch(function(err) {
@@ -979,16 +1362,23 @@
     var now = new Date();
     var todayStr = now.toISOString().slice(0, 10);
     var weekAgo = new Date(now - 7 * 86400000);
-
     var total = allData.length;
-    var today = 0, week = 0, pending = 0, done = 0;
+    var today = 0, week = 0, pending = 0, done = 0, revenue = 0, overdue = 0;
 
     allData.forEach(function(s) {
       var d = (s.created_at || '').slice(0, 10);
       if (d === todayStr) today++;
       if (new Date(s.created_at) >= weekAgo) week++;
       if (s.status === 'new' || s.status === 'in_progress') pending++;
-      if (s.status === 'done') done++;
+      if (s.status === 'done') {
+        done++;
+        revenue += PRICE_MAP[s.service] || 39;
+      }
+      // Overdue: new status + older than 30 min
+      if (s.status === 'new' && s.created_at) {
+        var age = now - new Date(s.created_at);
+        if (age > 30 * 60 * 1000) overdue++;
+      }
     });
 
     document.getElementById('statTotal').textContent = total;
@@ -997,85 +1387,78 @@
     document.getElementById('statPending').textContent = pending;
     document.getElementById('statDone').textContent = done;
     document.getElementById('statWeek').textContent = week;
+    document.getElementById('statRevenue').textContent = '€' + revenue;
+    document.getElementById('overdueCount').textContent = overdue;
+
+    // Avg response time
+    var contactedTimes = [];
+    allData.forEach(function(s) {
+      if (s.extra_data && s.extra_data.contacted_at && s.created_at) {
+        var diff = new Date(s.extra_data.contacted_at) - new Date(s.created_at);
+        if (diff > 0 && diff < 86400000) contactedTimes.push(diff);
+      }
+    });
+    if (contactedTimes.length > 0) {
+      var avg = contactedTimes.reduce(function(a, b) { return a + b; }, 0) / contactedTimes.length;
+      var mins = Math.round(avg / 60000);
+      document.getElementById('statAvgTime').textContent = mins < 60 ? mins + ' мин' : Math.round(mins / 60) + ' ч';
+    } else {
+      document.getElementById('statAvgTime').textContent = '—';
+    }
   }
 
-  // ===== DONUT CHART (pure Canvas) =====
+  // ===== DONUT CHART =====
   function updateChart() {
     var counts = {};
-    allData.forEach(function(s) {
-      var svc = s.service || 'Друго';
-      counts[svc] = (counts[svc] || 0) + 1;
-    });
-
-    // Sort by count descending
+    allData.forEach(function(s) { var svc = s.service || 'Друго'; counts[svc] = (counts[svc] || 0) + 1; });
     var entries = Object.entries(counts).sort(function(a, b) { return b[1] - a[1]; });
     var total = allData.length;
     document.getElementById('donutTotal').textContent = total;
 
-    // Draw donut
     var canvas = document.getElementById('donutChart');
     var ctx = canvas.getContext('2d');
-    var size = 200;
-    var cx = size / 2, cy = size / 2;
-    var outerR = 90, innerR = 62;
-
+    var size = 210, cx = size / 2, cy = size / 2, outerR = 95, innerR = 66;
     canvas.width = size * 2; canvas.height = size * 2;
     canvas.style.width = size + 'px'; canvas.style.height = size + 'px';
-    ctx.scale(2, 2);
-    ctx.clearRect(0, 0, size, size);
+    ctx.scale(2, 2); ctx.clearRect(0, 0, size, size);
 
     if (total === 0) {
-      ctx.beginPath();
-      ctx.arc(cx, cy, outerR, 0, Math.PI * 2);
-      ctx.arc(cx, cy, innerR, 0, Math.PI * 2, true);
-      ctx.fillStyle = 'rgba(255,255,255,0.05)';
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, outerR, 0, Math.PI * 2); ctx.arc(cx, cy, innerR, 0, Math.PI * 2, true);
+      ctx.fillStyle = 'rgba(255,255,255,0.05)'; ctx.fill();
     } else {
       var startAngle = -Math.PI / 2;
       entries.forEach(function(entry, i) {
         var slice = (entry[1] / total) * Math.PI * 2;
         var endAngle = startAngle + slice;
-        ctx.beginPath();
-        ctx.arc(cx, cy, outerR, startAngle, endAngle);
-        ctx.arc(cx, cy, innerR, endAngle, startAngle, true);
-        ctx.closePath();
-        ctx.fillStyle = SVC_COLORS[i % SVC_COLORS.length];
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, outerR, startAngle, endAngle);
+        ctx.arc(cx, cy, innerR, endAngle, startAngle, true); ctx.closePath();
+        ctx.fillStyle = SVC_COLORS[i % SVC_COLORS.length]; ctx.fill();
         startAngle = endAngle;
       });
     }
 
-    // Service list
-    var listEl = document.getElementById('serviceList');
-    listEl.innerHTML = entries.map(function(entry, i) {
-      return '<li><span class="service-dot" style="background:' + SVC_COLORS[i % SVC_COLORS.length] + '"></span>' +
-             '<span class="service-list-name">' + entry[0] + '</span>' +
-             '<span class="service-list-count">' + entry[1] + '</span></li>';
+    document.getElementById('serviceList').innerHTML = entries.map(function(entry, i) {
+      return '<li><span class="service-dot" style="background:' + SVC_COLORS[i % SVC_COLORS.length] + '"></span><span class="service-list-name">' + entry[0] + '</span><span class="service-list-count">' + entry[1] + '</span></li>';
     }).join('');
-
-    // Top service
     document.getElementById('topService').textContent = entries.length ? entries[0][0] : '—';
   }
 
-  // ===== SERVICE FILTER =====
   function populateServiceFilter() {
     var sel = document.getElementById('filterService');
     var current = sel.value;
     var services = {};
     allData.forEach(function(s) { if (s.service) services[s.service] = 1; });
     var html = '<option value="">Всички услуги</option>';
-    Object.keys(services).sort().forEach(function(s) {
-      html += '<option value="' + s + '">' + s + '</option>';
-    });
-    sel.innerHTML = html;
-    sel.value = current;
+    Object.keys(services).sort().forEach(function(s) { html += '<option value="' + s + '">' + s + '</option>'; });
+    sel.innerHTML = html; sel.value = current;
   }
 
-  // ===== RENDER TABLE =====
+  // ===== RENDER TABLE (with overdue + notes) =====
   function renderTable() {
     var statusFilter = document.getElementById('filterStatus').value;
     var serviceFilter = document.getElementById('filterService').value;
     var search = document.getElementById('filterSearch').value.toLowerCase().trim();
+    var now = new Date();
 
     var filtered = allData.filter(function(s) {
       if (statusFilter && s.status !== statusFilter) return false;
@@ -1088,8 +1471,7 @@
     });
 
     if (filtered.length === 0) {
-      document.getElementById('tableBody').innerHTML =
-        '<tr><td colspan="7"><div class="empty-state"><i class="fa-solid fa-inbox"></i>Няма намерени заявки</div></td></tr>';
+      document.getElementById('tableBody').innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fa-solid fa-inbox"></i>Няма намерени заявки</div></td></tr>';
       return;
     }
 
@@ -1100,9 +1482,12 @@
       var status = s.status || 'new';
       var phone = s.phone || '—';
       var waLink = phone !== '—' ? 'https://wa.me/' + phone.replace(/[^0-9]/g, '') : '#';
+      var isOverdue = status === 'new' && date && (now - date > 30 * 60 * 1000);
+      var hasNotes = s.notes || (s.extra_data && s.extra_data.admin_notes);
+      var overdueHtml = isOverdue ? ' <span class="overdue-badge"><i class="fa-solid fa-clock" style="font-size:.6rem"></i> >' + Math.round((now - date) / 60000) + 'м</span>' : '';
 
-      return '<tr data-id="' + s.id + '">' +
-        '<td><div style="font-weight:500;color:var(--text)">' + dateStr + '</div><div style="font-size:.75rem;color:var(--text-muted)">' + timeStr + '</div></td>' +
+      return '<tr data-id="' + s.id + '"' + (isOverdue ? ' class="overdue-row"' : '') + '>' +
+        '<td><div style="font-weight:500;color:var(--text)">' + dateStr + '</div><div style="font-size:.75rem;color:var(--text-muted)">' + timeStr + '</div>' + overdueHtml + '</td>' +
         '<td class="td-name">' + (s.name || '—') + '</td>' +
         '<td class="td-service" title="' + (s.service || '') + '">' + (s.service || '—') + '</td>' +
         '<td>' + (s.package || '—') + '</td>' +
@@ -1110,49 +1495,34 @@
         '<td><span class="status-badge status-' + status + '" onclick="window._statusClick(event,' + s.id + ',\'' + status + '\')">' + (STATUS_LABELS[status] || status) + '</span></td>' +
         '<td><div class="action-btns">' +
           '<button class="action-btn whatsapp" title="WhatsApp" onclick="window.open(\'' + waLink + '\',\'_blank\')"><i class="fa-brands fa-whatsapp"></i></button>' +
+          '<button class="action-btn' + (hasNotes ? ' has-notes' : '') + '" title="Бележки" onclick="window._openNotes(' + s.id + ')"><i class="fa-solid fa-sticky-note"></i></button>' +
           '<button class="action-btn" title="Детайли" onclick="window._showDetail(' + s.id + ')"><i class="fa-solid fa-eye"></i></button>' +
         '</div></td>' +
       '</tr>';
     }).join('');
   }
 
-  // Filters
   document.getElementById('filterStatus').addEventListener('change', renderTable);
   document.getElementById('filterService').addEventListener('change', renderTable);
   document.getElementById('filterSearch').addEventListener('input', renderTable);
 
   // ===== STATUS CHANGE =====
   var currentDropdown = null;
-
   window._statusClick = function(e, id, currentStatus) {
     e.stopPropagation();
     if (currentDropdown) { currentDropdown.remove(); currentDropdown = null; }
-
     var dd = document.createElement('div');
-    dd.className = 'status-dropdown';
-    dd.style.position = 'fixed';
-    dd.style.left = e.clientX + 'px';
-    dd.style.top = e.clientY + 'px';
-
-    var statuses = ['new', 'in_progress', 'done', 'cancelled'];
-    statuses.forEach(function(st) {
+    dd.className = 'status-dropdown'; dd.style.position = 'fixed';
+    dd.style.left = e.clientX + 'px'; dd.style.top = e.clientY + 'px';
+    ['new', 'in_progress', 'done', 'cancelled'].forEach(function(st) {
       var btn = document.createElement('button');
-      btn.textContent = (st === currentStatus ? '• ' : '') + STATUS_LABELS[st];
-      btn.onclick = function() {
-        updateStatus(id, st);
-        dd.remove();
-        currentDropdown = null;
-      };
+      btn.textContent = (st === currentStatus ? '● ' : '') + STATUS_LABELS[st];
+      btn.onclick = function() { updateStatus(id, st); dd.remove(); currentDropdown = null; };
       dd.appendChild(btn);
     });
-
-    document.body.appendChild(dd);
-    currentDropdown = dd;
+    document.body.appendChild(dd); currentDropdown = dd;
   };
-
-  document.addEventListener('click', function() {
-    if (currentDropdown) { currentDropdown.remove(); currentDropdown = null; }
-  });
+  document.addEventListener('click', function() { if (currentDropdown) { currentDropdown.remove(); currentDropdown = null; } });
 
   function updateStatus(id, status) {
     var token = sessionStorage.getItem(TOKEN_KEY);
@@ -1160,14 +1530,10 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
       body: JSON.stringify({ id: id, status: status })
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(result) {
+    }).then(function(r) { return r.json(); }).then(function(result) {
       if (result.ok) {
-        // Update local data
         allData.forEach(function(s) { if (s.id === id) s.status = status; });
-        updateStats();
-        renderTable();
+        updateStats(); renderTable();
       }
     });
   }
@@ -1176,42 +1542,175 @@
   window._showDetail = function(id) {
     var s = allData.find(function(x) { return x.id === id; });
     if (!s) return;
-
     document.getElementById('modalTitle').textContent = (s.name || 'Заявка') + ' — ' + (s.service || 'Без услуга');
-
     var rows = [
       ['Дата', s.created_at ? new Date(s.created_at).toLocaleString('bg-BG') : '—'],
-      ['Име', s.name || '—'],
-      ['Телефон', s.phone || '—'],
-      ['Имейл', s.email || '—'],
-      ['Услуга', s.service || '—'],
-      ['Пакет', s.package || '—'],
-      ['Контакт метод', s.contact_method || '—'],
-      ['Съобщение', s.message || '—'],
+      ['Име', s.name || '—'], ['Телефон', s.phone || '—'], ['Имейл', s.email || '—'],
+      ['Услуга', s.service || '—'], ['Пакет', s.package || '—'],
+      ['Контакт метод', s.contact_method || '—'], ['Съобщение', s.message || '—'],
       ['Файлове', s.files_count ? s.files_count + ' файл(а): ' + (s.file_names || []).join(', ') : 'Няма'],
-      ['Статус', STATUS_LABELS[s.status] || s.status || '—']
+      ['Статус', STATUS_LABELS[s.status] || s.status || '—'],
+      ['Бележки', s.notes || (s.extra_data && s.extra_data.admin_notes) || '—']
     ];
-
-    // Extra data
     if (s.extra_data && typeof s.extra_data === 'object') {
       Object.entries(s.extra_data).forEach(function(pair) {
-        rows.push([pair[0], pair[1] || '—']);
+        if (pair[0] !== 'admin_notes' && pair[0] !== 'contacted_at') rows.push([pair[0], pair[1] || '—']);
       });
     }
-
     document.getElementById('modalBody').innerHTML = rows.map(function(r) {
       return '<div class="detail-row"><div class="detail-label">' + r[0] + '</div><div class="detail-value">' + r[1] + '</div></div>';
     }).join('');
-
     document.getElementById('detailModal').classList.add('active');
   };
+  document.getElementById('modalClose').addEventListener('click', function() { document.getElementById('detailModal').classList.remove('active'); });
+  document.getElementById('detailModal').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
 
-  document.getElementById('modalClose').addEventListener('click', function() {
-    document.getElementById('detailModal').classList.remove('active');
+  // ===== NOTES MODAL =====
+  var notesCurrentId = null;
+  window._openNotes = function(id) {
+    var s = allData.find(function(x) { return x.id === id; });
+    if (!s) return;
+    notesCurrentId = id;
+    document.getElementById('notesClientName').textContent = (s.name || 'Клиент') + ' — ' + (s.service || '');
+    document.getElementById('notesText').value = s.notes || (s.extra_data && s.extra_data.admin_notes) || '';
+    document.getElementById('notesModal').classList.add('active');
+  };
+  document.getElementById('notesModalClose').addEventListener('click', function() { document.getElementById('notesModal').classList.remove('active'); });
+  document.getElementById('notesModal').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
+
+  document.getElementById('notesSaveBtn').addEventListener('click', function() {
+    if (!notesCurrentId) return;
+    var notes = document.getElementById('notesText').value;
+    var token = sessionStorage.getItem(TOKEN_KEY);
+    var btn = this;
+    btn.disabled = true; btn.textContent = 'Запазване...';
+
+    fetch(API_BASE + '/admin-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ action: 'notes', id: notesCurrentId, notes: notes })
+    }).then(function(r) { return r.json(); }).then(function(result) {
+      if (result.ok) {
+        allData.forEach(function(s) {
+          if (s.id === notesCurrentId) {
+            if (!s.extra_data) s.extra_data = {};
+            s.extra_data.admin_notes = notes;
+            s.notes = notes;
+          }
+        });
+        renderTable();
+        document.getElementById('notesModal').classList.remove('active');
+        showToast('Бележката е запазена!');
+      }
+    }).finally(function() { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Запази'; });
   });
-  document.getElementById('detailModal').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('active');
+
+  // ===== CSV EXPORT =====
+  document.getElementById('exportCsvBtn').addEventListener('click', function() { exportCsv(false); });
+  var fullExportBtn = document.getElementById('exportFullBtn');
+  if (fullExportBtn) fullExportBtn.addEventListener('click', function() { exportCsv(true); });
+
+  function exportCsv(full) {
+    if (allData.length === 0) return;
+    var headers = ['Дата', 'Име', 'Телефон', 'Имейл', 'Услуга', 'Пакет', 'Статус', 'Контакт метод', 'Съобщение'];
+    if (full) headers.push('Файлове', 'Бележки', 'Extra Data');
+
+    var rows = allData.map(function(s) {
+      var row = [
+        s.created_at ? new Date(s.created_at).toLocaleString('bg-BG') : '',
+        s.name || '', s.phone || '', s.email || '',
+        s.service || '', s.package || '',
+        STATUS_LABELS[s.status] || s.status || '',
+        s.contact_method || '', s.message || ''
+      ];
+      if (full) {
+        row.push((s.file_names || []).join('; '));
+        row.push(s.notes || (s.extra_data && s.extra_data.admin_notes) || '');
+        row.push(JSON.stringify(s.extra_data || {}));
+      }
+      return row;
+    });
+
+    var csv = '\uFEFF' + headers.join(',') + '\n' + rows.map(function(r) {
+      return r.map(function(cell) { return '"' + String(cell).replace(/"/g, '""') + '"'; }).join(',');
+    }).join('\n');
+
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'bgpomosht-zajavki-' + new Date().toISOString().slice(0, 10) + '.csv';
+    a.click(); URL.revokeObjectURL(url);
+    showToast('CSV файлът е изтеглен!');
+  }
+
+  // ===== MARK ALL CONTACTED =====
+  document.getElementById('markAllContactedBtn').addEventListener('click', function() {
+    var newOnes = allData.filter(function(s) { return s.status === 'new'; });
+    if (newOnes.length === 0) { showToast('Няма нови заявки за маркиране'); return; }
+    if (!confirm('Маркирай ' + newOnes.length + ' нови заявки като "В процес"?')) return;
+    var token = sessionStorage.getItem(TOKEN_KEY);
+    Promise.all(newOnes.map(function(s) {
+      return fetch(API_BASE + '/admin-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ action: 'contacted', id: s.id })
+      });
+    })).then(function() { loadData(); showToast(newOnes.length + ' заявки маркирани!'); });
   });
+
+  // ===== AUTO ACTIONS =====
+  var autoMarkBtn = document.getElementById('autoMarkOverdue');
+  if (autoMarkBtn) autoMarkBtn.addEventListener('click', function() {
+    var now = new Date();
+    var old = allData.filter(function(s) { return s.status === 'new' && s.created_at && (now - new Date(s.created_at) > 86400000); });
+    if (old.length === 0) { showToast('Няма стари заявки'); return; }
+    if (!confirm('Маркирай ' + old.length + ' заявки (> 1 ден) като "В процес"?')) return;
+    var token = sessionStorage.getItem(TOKEN_KEY);
+    Promise.all(old.map(function(s) {
+      return fetch(API_BASE + '/admin-data', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ id: s.id, status: 'in_progress' })
+      });
+    })).then(function() { loadData(); showToast(old.length + ' заявки обновени!'); });
+  });
+
+  // ===== AUTOMATION STATS =====
+  function updateAutoStats() {
+    var el = document.getElementById('autoStats');
+    if (!el || allData.length === 0) return;
+    var total = allData.length;
+    var done = allData.filter(function(s) { return s.status === 'done'; }).length;
+    var cancelled = allData.filter(function(s) { return s.status === 'cancelled'; }).length;
+    var convRate = total > 0 ? Math.round((done / total) * 100) : 0;
+    var avgPrice = done > 0 ? Math.round(allData.filter(function(s) { return s.status === 'done'; }).reduce(function(sum, s) { return sum + (PRICE_MAP[s.service] || 39); }, 0) / done) : 0;
+
+    var weekAgo = new Date(Date.now() - 7 * 86400000);
+    var thisWeek = allData.filter(function(s) { return new Date(s.created_at) >= weekAgo; }).length;
+    var lastWeek = allData.filter(function(s) { var d = new Date(s.created_at); return d >= new Date(Date.now() - 14 * 86400000) && d < weekAgo; }).length;
+    var growth = lastWeek > 0 ? Math.round(((thisWeek - lastWeek) / lastWeek) * 100) : 0;
+
+    el.innerHTML =
+      '<div><i class="fa-solid fa-bullseye" style="color:var(--gold);margin-right:8px"></i> Конверсия: <strong>' + convRate + '%</strong> (' + done + '/' + total + ')</div>' +
+      '<div><i class="fa-solid fa-ban" style="color:var(--red);margin-right:8px"></i> Отказани: <strong>' + cancelled + '</strong></div>' +
+      '<div><i class="fa-solid fa-euro-sign" style="color:var(--green);margin-right:8px"></i> Ср. стойност: <strong>€' + avgPrice + '</strong></div>' +
+      '<div><i class="fa-solid fa-arrow-trend-up" style="color:var(--blue);margin-right:8px"></i> Тази vs миналата седмица: <strong>' + (growth >= 0 ? '+' : '') + growth + '%</strong> (' + thisWeek + ' vs ' + lastWeek + ')</div>';
+  }
+
+  // ===== COPY TEMPLATE =====
+  window.copyTemplate = function(btn) {
+    var tpl = btn.closest('.wa-template');
+    var text = tpl.querySelector('.wa-template-text').textContent;
+    navigator.clipboard.writeText(text).then(function() { showToast('Копирано в clipboard!'); });
+  };
+
+  // ===== TOAST =====
+  function showToast(msg) {
+    var t = document.createElement('div');
+    t.className = 'copied-toast';
+    t.innerHTML = '<i class="fa-solid fa-check"></i> ' + msg;
+    document.body.appendChild(t);
+    setTimeout(function() { t.remove(); }, 2000);
+  }
 
 })();
 </script>

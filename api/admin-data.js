@@ -17,10 +17,8 @@ function verifyToken(token) {
     const expiry = parseInt(parts[1]);
     const hmac = parts[2];
 
-    // Check expiry
     if (Date.now() > expiry) return false;
 
-    // Verify HMAC
     const payload = email + ':' + expiry;
     const expected = crypto.createHmac('sha256', TOKEN_SECRET).update(payload).digest('hex');
     const hmacMatch = crypto.timingSafeEqual(Buffer.from(hmac), Buffer.from(expected));
@@ -34,7 +32,7 @@ function verifyToken(token) {
 module.exports = async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', 'https://bgpomosht.eu');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -67,24 +65,78 @@ module.exports = async function handler(req, res) {
 
     // POST = update status
     if (req.method === 'POST') {
-      const { id, status } = req.body || {};
-      if (!id || !status) {
-        return res.status(400).json({ ok: false, message: 'id and status required' });
+      const { action } = req.body || {};
+
+      // Update status
+      if (!action || action === 'status') {
+        const { id, status } = req.body || {};
+        if (!id || !status) {
+          return res.status(400).json({ ok: false, message: 'id and status required' });
+        }
+        const allowed = ['new', 'in_progress', 'done', 'cancelled'];
+        if (!allowed.includes(status)) {
+          return res.status(400).json({ ok: false, message: 'Invalid status' });
+        }
+        const { error } = await supabase
+          .from('submissions')
+          .update({ status: status })
+          .eq('id', id);
+        if (error) throw error;
+        return res.status(200).json({ ok: true });
       }
 
-      const allowed = ['new', 'in_progress', 'done', 'cancelled'];
-      if (!allowed.includes(status)) {
-        return res.status(400).json({ ok: false, message: 'Invalid status' });
+      // Add/update notes
+      if (action === 'notes') {
+        const { id, notes } = req.body || {};
+        if (!id) return res.status(400).json({ ok: false, message: 'id required' });
+
+        // Try to update notes column — if it doesn't exist, store in extra_data
+        try {
+          const { error } = await supabase
+            .from('submissions')
+            .update({ notes: (notes || '').slice(0, 2000) })
+            .eq('id', id);
+          if (error) throw error;
+        } catch (e) {
+          // Fallback: store in extra_data.admin_notes
+          const { data: row } = await supabase
+            .from('submissions')
+            .select('extra_data')
+            .eq('id', id)
+            .single();
+          const extra = row?.extra_data || {};
+          extra.admin_notes = (notes || '').slice(0, 2000);
+          const { error: err2 } = await supabase
+            .from('submissions')
+            .update({ extra_data: extra })
+            .eq('id', id);
+          if (err2) throw err2;
+        }
+        return res.status(200).json({ ok: true });
       }
 
-      const { error } = await supabase
-        .from('submissions')
-        .update({ status: status })
-        .eq('id', id);
+      // Mark as contacted
+      if (action === 'contacted') {
+        const { id } = req.body || {};
+        if (!id) return res.status(400).json({ ok: false, message: 'id required' });
 
-      if (error) throw error;
+        // Store contacted timestamp in extra_data
+        const { data: row } = await supabase
+          .from('submissions')
+          .select('extra_data')
+          .eq('id', id)
+          .single();
+        const extra = row?.extra_data || {};
+        extra.contacted_at = new Date().toISOString();
+        const { error } = await supabase
+          .from('submissions')
+          .update({ extra_data: extra, status: 'in_progress' })
+          .eq('id', id);
+        if (error) throw error;
+        return res.status(200).json({ ok: true });
+      }
 
-      return res.status(200).json({ ok: true });
+      return res.status(400).json({ ok: false, message: 'Unknown action' });
     }
 
     return res.status(405).json({ ok: false, message: 'Method not allowed' });
