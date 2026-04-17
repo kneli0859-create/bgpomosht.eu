@@ -4,7 +4,9 @@ const { createClient } = require('@supabase/supabase-js');
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
 const TOKEN_SECRET = process.env.TOKEN_SECRET || 'bgp_admin_secret_2026';
-const GROQ_API_KEY = process.env.GROQ_API_KEY || process.env.GROQ_TOKEN || '';
+const GROQ_API_KEY = (process.env.GROQ_KEY_B64
+  ? Buffer.from(process.env.GROQ_KEY_B64, 'base64').toString('utf8').trim()
+  : (process.env.GROQ_API_KEY || process.env.GROQ_TOKEN || ''));
 const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
 
 function verifyToken(token) {
@@ -104,7 +106,7 @@ module.exports = async function handler(req, res) {
   const token = authHeader.replace('Bearer ', '');
   if (!verifyToken(token)) return res.status(401).json({ ok: false, message: 'Unauthorized' });
 
-  if (!GROQ_API_KEY) return res.status(500).json({ ok: false, message: 'AI not configured', debug: { hasKey: !!GROQ_API_KEY, keyLen: (GROQ_API_KEY||'').length, allEnvKeys: Object.keys(process.env).sort() } });
+  if (!GROQ_API_KEY) return res.status(500).json({ ok: false, message: 'AI not configured' });
   if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) return res.status(500).json({ ok: false, message: 'Database not configured' });
 
   try {
