@@ -3,6 +3,7 @@
 const Busboy     = require('busboy');
 const nodemailer = require('nodemailer');
 const { createClient } = require('@supabase/supabase-js');
+const { autoDraft } = require('./lib/ai-autodraft');
 
 // Vercel environment variables
 const GMAIL_USER = process.env.GMAIL_USER || 'simeonv38@gmail.com';
@@ -233,7 +234,7 @@ module.exports = async function handler(req, res) {
           }
         });
 
-        await supabase.from('submissions').insert({
+        var insertRes = await supabase.from('submissions').insert({
           service:        fields.wizardService || null,
           package:        fPkg || null,
           name:           fName || 'Unknown',
@@ -245,7 +246,15 @@ module.exports = async function handler(req, res) {
           files_count:    files.length,
           file_names:     files.map(function (f) { return f.filename; }),
           status:         'new'
-        });
+        }).select('id').single();
+
+        var newId = insertRes && insertRes.data && insertRes.data.id;
+        if (newId) {
+          // Fire-and-forget AI auto-draft — don't await, don't block response
+          autoDraft(supabase, newId).catch(function (e) {
+            console.error('autoDraft failed:', e && e.message);
+          });
+        }
       } catch (dbErr) {
         // Log but don't fail — email was already sent
         console.error('Supabase save error:', dbErr.message);
