@@ -206,9 +206,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ ok: false, message: 'Method not allowed' });
 
-  const authHeader = req.headers.authorization || '';
-  const token = authHeader.replace('Bearer ', '');
-  if (!verifyToken(token)) return res.status(401).json({ ok: false, message: 'Unauthorized' });
+  // Auth removed — AI is open access
 
   if (!GROQ_API_KEY) return res.status(500).json({ ok: false, message: 'AI not configured' });
   if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) return res.status(500).json({ ok: false, message: 'Database not configured' });

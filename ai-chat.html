@@ -454,10 +454,7 @@
     } catch (e) { return null; }
   }
 
-  if (!getToken()) {
-    document.getElementById('loginGate').hidden = false;
-    return;
-  }
+  // Login gate removed — AI Chat is open access
 
   var messagesEl = document.getElementById('messagesInner');
   var emptyState = document.getElementById('emptyState');
