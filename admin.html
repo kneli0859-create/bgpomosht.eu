@@ -736,6 +736,112 @@
     .ai-secondary:hover {
       color: var(--gold); border-color: var(--gold);
     }
+    .ai-btn-primary {
+      background: linear-gradient(135deg, rgba(212,168,67,0.2), rgba(168,120,220,0.18)) !important;
+      border-color: rgba(212,168,67,0.45) !important;
+      color: var(--gold) !important;
+    }
+    .ai-btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, rgba(212,168,67,0.35), rgba(168,120,220,0.28)) !important;
+    }
+
+    /* AI analysis card */
+    .ai-analysis {
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(0,0,0,0.28);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      position: relative;
+    }
+    .ai-analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 16px;
+    }
+    .ai-an-row { display: flex; flex-direction: column; gap: 2px; }
+    .ai-an-label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .ai-an-value {
+      font-size: .9rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .ai-priority {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: .78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .ai-priority.high { background: rgba(239,68,68,0.18); color: #ff6b6b; border: 1px solid rgba(239,68,68,0.4); }
+    .ai-priority.medium { background: rgba(212,168,67,0.15); color: var(--gold); border: 1px solid rgba(212,168,67,0.35); }
+    .ai-priority.low { background: rgba(100,180,120,0.14); color: #7ecea3; border: 1px solid rgba(100,180,120,0.3); }
+    .ai-chips {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 4px;
+    }
+    .ai-chip {
+      padding: 3px 10px;
+      font-size: .72rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      color: var(--text-muted);
+    }
+    .ai-chip.red {
+      background: rgba(239,68,68,0.12);
+      border-color: rgba(239,68,68,0.3);
+      color: #ff9a9a;
+    }
+    .ai-confidence {
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .ai-confidence-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), #f0d080);
+      transition: width .4s ease;
+    }
+    .ai-an-full {
+      grid-column: 1 / -1;
+    }
+
+    /* AI client history */
+    .ai-history {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: rgba(168,120,220,0.06);
+      border: 1px solid rgba(168,120,220,0.18);
+      border-radius: 10px;
+    }
+    .ai-history-head {
+      font-size: .78rem;
+      color: #c7a9e8;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .ai-history-item {
+      padding: 6px 0;
+      font-size: .82rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .ai-history-item:first-of-type { border-top: 0; }
+    .ai-history-item strong { color: var(--text); font-weight: 500; }
+    @media (max-width: 600px) {
+      .ai-analysis-grid { grid-template-columns: 1fr; }
+    }
 
     /* Week panel extras */
     .week-stat { text-align: center; }
@@ -820,6 +926,28 @@
     @keyframes pulseBadge {
       0%, 100% { opacity: 1; }
       50% { opacity: .6; }
+    }
+    .prio-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.05);
+    }
+    .prio-dot.high { background: #ff5555; box-shadow: 0 0 8px rgba(255,85,85,0.6); animation: pulseBadge 1.6s ease-in-out infinite; }
+    .prio-dot.medium { background: var(--gold); }
+    .prio-dot.low { background: #7ecea3; }
+    .dup-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      margin-left: 8px;
+      padding: 1px 7px;
+      font-size: .68rem; font-weight: 600;
+      background: rgba(168,120,220,0.14);
+      color: #c7a9e8;
+      border: 1px solid rgba(168,120,220,0.3);
+      border-radius: 10px;
+      vertical-align: middle;
     }
 
     /* Revenue card */
@@ -1333,7 +1461,10 @@ BG Помощ</div>
         <button class="ai-btn" data-ai-action="draft_whatsapp"><i class="fa-brands fa-whatsapp"></i> Генерирай WhatsApp</button>
         <button class="ai-btn" data-ai-action="summarize"><i class="fa-solid fa-list-ul"></i> Обобщи</button>
         <button class="ai-btn" data-ai-action="suggest_package"><i class="fa-solid fa-euro-sign"></i> Препоръчай пакет</button>
+        <button class="ai-btn ai-btn-primary" data-ai-action="analyze"><i class="fa-solid fa-brain"></i> Анализирай</button>
       </div>
+      <div id="aiAnalysis" class="ai-analysis" hidden></div>
+      <div id="aiHistory" class="ai-history" hidden></div>
       <div class="ai-output-wrap" id="aiOutputWrap" hidden>
         <textarea class="ai-output" id="aiOutput" readonly></textarea>
         <div class="ai-output-actions">
@@ -1566,11 +1697,30 @@ BG Помощ</div>
   }
 
   // ===== RENDER TABLE (with overdue + notes) =====
+  function buildDupMap() {
+    var map = {};
+    allData.forEach(function(s) {
+      var keys = [];
+      if (s.phone) keys.push('p:' + String(s.phone).replace(/[^\d+]/g, ''));
+      if (s.email) keys.push('e:' + String(s.email).toLowerCase().trim());
+      keys.forEach(function(k) { map[k] = (map[k] || 0) + 1; });
+    });
+    return map;
+  }
+
+  function dupCountFor(s, map) {
+    var count = 0;
+    if (s.phone) { var k = 'p:' + String(s.phone).replace(/[^\d+]/g, ''); if (map[k]) count = Math.max(count, map[k]); }
+    if (s.email) { var k2 = 'e:' + String(s.email).toLowerCase().trim(); if (map[k2]) count = Math.max(count, map[k2]); }
+    return count;
+  }
+
   function renderTable() {
     var statusFilter = document.getElementById('filterStatus').value;
     var serviceFilter = document.getElementById('filterService').value;
     var search = document.getElementById('filterSearch').value.toLowerCase().trim();
     var now = new Date();
+    var dupMap = buildDupMap();
 
     var filtered = allData.filter(function(s) {
       if (statusFilter && s.status !== statusFilter) return false;
@@ -1598,9 +1748,19 @@ BG Помощ</div>
       var hasNotes = s.notes || (s.extra_data && s.extra_data.admin_notes);
       var overdueHtml = isOverdue ? ' <span class="overdue-badge"><i class="fa-solid fa-clock" style="font-size:.6rem"></i> >' + Math.round((now - date) / 60000) + 'м</span>' : '';
 
+      var ai = s.extra_data && s.extra_data.ai_analysis;
+      var prio = ai && ai.priority ? String(ai.priority).toLowerCase() : null;
+      var prioDot = '';
+      if (prio === 'high') prioDot = '<span class="prio-dot high" title="AI: висок приоритет"></span>';
+      else if (prio === 'medium') prioDot = '<span class="prio-dot medium" title="AI: среден приоритет"></span>';
+      else if (prio === 'low') prioDot = '<span class="prio-dot low" title="AI: нисък приоритет"></span>';
+
+      var dupCount = dupCountFor(s, dupMap);
+      var dupBadge = dupCount > 1 ? ' <span class="dup-badge" title="Клиентът е писал ' + dupCount + ' пъти">🔁 ' + dupCount + '</span>' : '';
+
       return '<tr data-id="' + s.id + '"' + (isOverdue ? ' class="overdue-row"' : '') + '>' +
         '<td><div style="font-weight:500;color:var(--text)">' + dateStr + '</div><div style="font-size:.75rem;color:var(--text-muted)">' + timeStr + '</div>' + overdueHtml + '</td>' +
-        '<td class="td-name">' + (s.name || '—') + '</td>' +
+        '<td class="td-name">' + prioDot + (s.name || '—') + dupBadge + '</td>' +
         '<td class="td-service" title="' + (s.service || '') + '">' + (s.service || '—') + '</td>' +
         '<td>' + (s.package || '—') + '</td>' +
         '<td>' + phone + '</td>' +
@@ -1663,6 +1823,14 @@ BG Помощ</div>
       document.getElementById('aiOutput').value = '';
       document.getElementById('aiWhatsAppBtn').hidden = true;
     }
+    var aiAn = document.getElementById('aiAnalysis');
+    var aiH = document.getElementById('aiHistory');
+    if (aiAn) { aiAn.hidden = true; aiAn.innerHTML = ''; }
+    if (aiH) { aiH.hidden = true; aiH.innerHTML = ''; }
+    // Prefill analysis if cached
+    if (s.extra_data && s.extra_data.ai_analysis && typeof s.extra_data.ai_analysis === 'object') {
+      renderAnalysis(s.extra_data.ai_analysis);
+    }
     document.getElementById('modalTitle').textContent = (s.name || 'Заявка') + ' — ' + (s.service || 'Без услуга');
     var rows = [
       ['Дата', s.created_at ? new Date(s.created_at).toLocaleString('bg-BG') : '—'],
@@ -1689,6 +1857,65 @@ BG Помощ</div>
   // ===== AI ASSISTANT =====
   var aiCurrentAction = null;
 
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  function renderAnalysis(data) {
+    var box = document.getElementById('aiAnalysis');
+    if (!data || data.error) {
+      box.innerHTML = '<div style="color:#ff9a9a">AI върна невалиден JSON.</div>';
+      box.hidden = false;
+      return;
+    }
+    var prio = String(data.priority || 'medium').toLowerCase();
+    var prioLabel = ({ high: '🔴 ВИСОК', medium: '🟡 СРЕДЕН', low: '🟢 НИСЪК' })[prio] || prio;
+    var conf = Math.round((Number(data.confidence) || 0) * 100);
+    var tags = Array.isArray(data.tags) ? data.tags : [];
+    var flags = Array.isArray(data.red_flags) ? data.red_flags : [];
+    var lang = data.language_detected || '—';
+
+    var html = '<div class="ai-analysis-grid">';
+    html += '<div class="ai-an-row"><span class="ai-an-label">Приоритет</span><span class="ai-priority ' + prio + '">' + prioLabel + '</span></div>';
+    html += '<div class="ai-an-row"><span class="ai-an-label">Препоръчан пакет</span><span class="ai-an-value">' + escapeHtml(data.suggested_package || '—') + ' · €' + escapeHtml(data.suggested_price || '—') + '</span></div>';
+    html += '<div class="ai-an-row"><span class="ai-an-label">Услуга</span><span class="ai-an-value">' + escapeHtml(data.suggested_service || '—') + '</span></div>';
+    html += '<div class="ai-an-row"><span class="ai-an-label">Език на клиента</span><span class="ai-an-value">' + escapeHtml(lang) + '</span></div>';
+    if (data.priority_reason) {
+      html += '<div class="ai-an-row ai-an-full"><span class="ai-an-label">Защо този приоритет</span><span class="ai-an-value">' + escapeHtml(data.priority_reason) + '</span></div>';
+    }
+    if (tags.length) {
+      html += '<div class="ai-an-row ai-an-full"><span class="ai-an-label">Тагове</span><div class="ai-chips">';
+      tags.forEach(function(t) { html += '<span class="ai-chip">' + escapeHtml(t) + '</span>'; });
+      html += '</div></div>';
+    }
+    if (flags.length) {
+      html += '<div class="ai-an-row ai-an-full"><span class="ai-an-label">⚠ Внимавай</span><div class="ai-chips">';
+      flags.forEach(function(f) { html += '<span class="ai-chip red">' + escapeHtml(f) + '</span>'; });
+      html += '</div></div>';
+    }
+    if (data.next_action) {
+      html += '<div class="ai-an-row ai-an-full"><span class="ai-an-label">Следваща стъпка</span><span class="ai-an-value">' + escapeHtml(data.next_action) + '</span></div>';
+    }
+    html += '<div class="ai-an-row ai-an-full"><span class="ai-an-label">Увереност на AI · ' + conf + '%</span><div class="ai-confidence"><div class="ai-confidence-bar" style="width:' + conf + '%"></div></div></div>';
+    html += '</div>';
+    box.innerHTML = html;
+    box.hidden = false;
+  }
+
+  function renderHistory(history) {
+    var box = document.getElementById('aiHistory');
+    if (!history || !history.length) { box.hidden = true; return; }
+    var html = '<div class="ai-history-head"><i class="fa-solid fa-clock-rotate-left"></i> Клиентът е писал ' + history.length + ' път(и) преди</div>';
+    history.forEach(function(h) {
+      var date = h.created_at ? new Date(h.created_at).toLocaleDateString('bg-BG') : '—';
+      html += '<div class="ai-history-item">[' + date + '] <strong>' + escapeHtml(h.service || '—') + '</strong> / ' + escapeHtml(h.package || '—') + ' · статус: ' + escapeHtml(STATUS_LABELS[h.status] || h.status || '—') + '</div>';
+    });
+    box.innerHTML = html;
+    box.hidden = false;
+  }
+
   function runAI(action) {
     var id = _currentDetailId;
     if (!id) return;
@@ -1696,36 +1923,66 @@ BG Помощ</div>
     var wrap = document.getElementById('aiOutputWrap');
     var out = document.getElementById('aiOutput');
     var waBtn = document.getElementById('aiWhatsAppBtn');
+    var analysisBox = document.getElementById('aiAnalysis');
     var buttons = document.querySelectorAll('.ai-btn, .ai-secondary');
     buttons.forEach(function(b) { b.disabled = true; });
-    wrap.hidden = false;
-    out.value = 'Мисля…';
     aiCurrentAction = action;
+
+    var isAnalyze = action === 'analyze';
+    if (isAnalyze) {
+      analysisBox.innerHTML = '<div style="color:var(--text-muted);font-size:.85rem"><i class="fa-solid fa-spinner fa-spin"></i> Анализирам…</div>';
+      analysisBox.hidden = false;
+      wrap.hidden = true;
+    } else {
+      wrap.hidden = false;
+      out.value = 'Мисля…';
+    }
 
     fetch(API_BASE + '/admin-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-      body: JSON.stringify({ id: id, action: action })
+      body: JSON.stringify({ id: id, action: action, persist: true })
     }).then(function(r) { return r.json(); }).then(function(result) {
       if (result.ok) {
-        out.value = result.text || '';
-        var sub = allData.find(function(x) { return x.id === id; });
-        var isWhatsApp = action === 'draft_whatsapp' && sub && sub.phone;
-        waBtn.hidden = !isWhatsApp;
-        if (isWhatsApp) {
-          var phone = String(sub.phone).replace(/[^\d+]/g, '');
-          if (phone.startsWith('+')) phone = phone.slice(1);
-          waBtn.onclick = function() {
-            window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(out.value), '_blank');
-          };
+        renderHistory(result.history || []);
+        if (isAnalyze) {
+          renderAnalysis(result.data);
+        } else {
+          out.value = result.text || '';
+          var sub = allData.find(function(x) { return x.id === id; });
+          var isWhatsApp = action === 'draft_whatsapp' && sub && sub.phone;
+          waBtn.hidden = !isWhatsApp;
+          if (isWhatsApp) {
+            var phone = String(sub.phone).replace(/[^\d+]/g, '');
+            if (phone.startsWith('+')) phone = phone.slice(1);
+            waBtn.onclick = function() {
+              window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(out.value), '_blank');
+            };
+          }
+        }
+        // Update cached submission with AI data
+        var sub2 = allData.find(function(x) { return x.id === id; });
+        if (sub2) {
+          if (!sub2.extra_data) sub2.extra_data = {};
+          if (action === 'draft_whatsapp') sub2.extra_data.ai_draft = result.text;
+          if (action === 'summarize') sub2.extra_data.ai_summary = result.text;
+          if (action === 'analyze') sub2.extra_data.ai_analysis = result.data;
         }
       } else {
-        out.value = 'Грешка: ' + (result.message || 'неизвестна');
-        waBtn.hidden = true;
+        if (isAnalyze) {
+          analysisBox.innerHTML = '<div style="color:#ff9a9a">Грешка: ' + escapeHtml(result.message || 'неизвестна') + '</div>';
+        } else {
+          out.value = 'Грешка: ' + (result.message || 'неизвестна');
+          waBtn.hidden = true;
+        }
       }
     }).catch(function(err) {
-      out.value = 'Мрежова грешка: ' + err.message;
-      waBtn.hidden = true;
+      if (isAnalyze) {
+        analysisBox.innerHTML = '<div style="color:#ff9a9a">Мрежова грешка: ' + escapeHtml(err.message) + '</div>';
+      } else {
+        out.value = 'Мрежова грешка: ' + err.message;
+        waBtn.hidden = true;
+      }
     }).finally(function() {
       buttons.forEach(function(b) { b.disabled = false; });
     });
