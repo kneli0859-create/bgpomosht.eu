@@ -4,7 +4,7 @@ const { createClient } = require('@supabase/supabase-js');
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
 const TOKEN_SECRET = process.env.TOKEN_SECRET || 'bgp_admin_secret_2026';
-const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
+const GROQ_API_KEY = process.env.GROQ_API_KEY || process.env.GROQ_TOKEN || '';
 const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
 
 function verifyToken(token) {
