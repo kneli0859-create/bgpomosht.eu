@@ -56,28 +56,56 @@ if (backToTop) {
   });
 }
 
-/* ---- HAMBURGER MENU ---- */
+/* ---- HAMBURGER MENU (professional mobile nav) ---- */
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
 
 if (hamburger && navLinks) {
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navLinks.classList.toggle('open');
+  function closeMenu() {
+    hamburger.classList.remove('active');
+    navLinks.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    navLinks.querySelectorAll('.nav-drop-item.expanded').forEach(el => el.classList.remove('expanded'));
+  }
+  function openMenu() {
+    hamburger.classList.add('active');
+    navLinks.classList.add('open');
+    document.body.classList.add('menu-open');
+  }
+
+  hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (navLinks.classList.contains('open')) closeMenu(); else openMenu();
   });
 
+  // Close menu on real link clicks — but let dropdown label toggle its contact panel
   navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      navLinks.classList.remove('open');
+    link.addEventListener('click', () => closeMenu());
+  });
+
+  // Contact dropdown: tap the label to expand/collapse on mobile
+  navLinks.querySelectorAll('.nav-drop-label').forEach(lbl => {
+    lbl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const item = lbl.closest('.nav-drop-item');
+      if (item) item.classList.toggle('expanded');
     });
   });
 
+  // Tap outside closes menu
   document.addEventListener('click', (e) => {
-    if (navbar && !navbar.contains(e.target)) {
-      hamburger.classList.remove('active');
-      navLinks.classList.remove('open');
-    }
+    if (!navLinks.classList.contains('open')) return;
+    if (navbar && !navbar.contains(e.target)) closeMenu();
+  });
+
+  // ESC key closes menu
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) closeMenu();
+  });
+
+  // Close on resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && navLinks.classList.contains('open')) closeMenu();
   });
 }
 
