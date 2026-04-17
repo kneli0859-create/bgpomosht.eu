@@ -48,8 +48,33 @@
     height: 100vh;
   }
   @media (max-width: 900px) {
-    .app { grid-template-columns: 1fr; grid-template-areas: 'hdr' 'main'; }
-    .sidebar { display: none; }
+    .app { grid-template-columns: 1fr; grid-template-areas: 'hdr' 'quick' 'main'; grid-template-rows: auto auto 1fr; }
+    .sidebar {
+      grid-area: quick;
+      border-right: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 12px 10px;
+      max-height: 180px;
+      overflow-y: auto;
+      background: rgba(10, 14, 39, 0.85);
+    }
+    .side-hint { display: none; }
+    .side-section-title { font-size: .65rem; margin: 8px 0 6px; padding-bottom: 4px; }
+    .side-section-title:first-child { margin-top: 0; }
+    .quick-btn { font-size: .78rem; padding: 9px 11px; margin-bottom: 4px; }
+    .sidebar details { margin-bottom: 6px; }
+    .sidebar summary {
+      list-style: none; cursor: pointer;
+      font-size: .72rem; font-weight: 700; color: var(--gold);
+      text-transform: uppercase; letter-spacing: 1px;
+      padding: 8px 10px; border-radius: 8px;
+      background: rgba(212,168,67,.08); border: 1px solid rgba(212,168,67,.2);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sidebar summary::-webkit-details-marker { display: none; }
+    .sidebar summary::after { content: '▾'; margin-left: auto; transition: transform .2s; }
+    .sidebar details[open] summary::after { transform: rotate(180deg); }
+    .sidebar details[open] summary { margin-bottom: 6px; }
   }
 
   /* Header */
@@ -93,24 +118,31 @@
     overflow-y: auto;
   }
   .side-section-title {
-    font-size: .72rem; text-transform: uppercase; letter-spacing: 1px;
-    color: var(--text-muted); margin: 14px 0 10px; font-weight: 600;
+    font-size: .7rem; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--gold); margin: 18px 0 8px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+    padding-bottom: 6px; border-bottom: 1px solid rgba(212,168,67,.2);
   }
+  .side-section-title:first-child { margin-top: 0; }
+  .side-section-title i { font-size: .9rem; }
   .quick-btn {
     display: flex; align-items: center; gap: 10px;
     width: 100%; text-align: left;
     background: var(--glass); border: 1px solid var(--border);
-    color: var(--text-primary); padding: 11px 13px;
-    border-radius: 10px; cursor: pointer; font-size: .85rem;
-    margin-bottom: 8px; transition: all .2s;
-    font-family: inherit;
+    color: var(--text-primary); padding: 10px 12px;
+    border-radius: 9px; cursor: pointer; font-size: .82rem;
+    margin-bottom: 5px; transition: all .2s;
+    font-family: inherit; line-height: 1.3;
   }
   .quick-btn:hover {
     background: linear-gradient(135deg, rgba(212,168,67,0.15), rgba(168,120,220,0.1));
     border-color: rgba(212,168,67,0.35);
     transform: translateX(2px);
   }
-  .quick-btn i { width: 18px; text-align: center; color: var(--gold); }
+  .quick-btn:active { transform: translateX(2px) scale(.98); }
+  .quick-btn i { width: 18px; text-align: center; color: var(--gold); flex-shrink: 0; }
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-thumb { background: rgba(212,168,67,.3); border-radius: 3px; }
   .side-hint {
     font-size: .75rem; color: var(--text-muted); line-height: 1.5;
     padding: 12px; background: var(--glass); border-radius: 10px;
@@ -316,17 +348,42 @@
   </header>
 
   <aside class="sidebar">
-    <div class="side-section-title">Бързи действия</div>
-    <button class="quick-btn" data-prompt="Покажи ми всички нови заявки"><i class="fa-solid fa-inbox"></i> Нови заявки</button>
+    <div class="side-section-title"><i class="fa-solid fa-bolt"></i> Заявки</div>
+    <button class="quick-btn" data-prompt="Покажи ми всички нови заявки от днес"><i class="fa-solid fa-inbox"></i> Заявки от днес</button>
+    <button class="quick-btn" data-prompt="Покажи последните 10 заявки"><i class="fa-solid fa-list"></i> Последните 10</button>
+    <button class="quick-btn" data-prompt="Покажи всички нови заявки (статус: нова)"><i class="fa-solid fa-circle-plus"></i> Нови (unread)</button>
+    <button class="quick-btn" data-prompt="Покажи заявките в процес"><i class="fa-solid fa-spinner"></i> В процес</button>
+    <button class="quick-btn" data-prompt="Покажи завършените заявки"><i class="fa-solid fa-check-double"></i> Завършени</button>
     <button class="quick-btn" data-prompt="Кои заявки висят повече от 30 минути без контакт?"><i class="fa-solid fa-clock"></i> Чакащи &gt; 30 мин</button>
-    <button class="quick-btn" data-prompt="Намери дубликати — клиенти с повече от една заявка"><i class="fa-solid fa-copy"></i> Дубликати</button>
-    <button class="quick-btn" data-prompt="Дай ми dashboard stats — колко заявки, коя е топ услугата, приходи"><i class="fa-solid fa-chart-line"></i> Stats</button>
-    <button class="quick-btn" data-prompt="Вземи най-новата заявка и ми напиши готов WhatsApp draft за нея"><i class="fa-brands fa-whatsapp"></i> Draft за най-нова</button>
-    <button class="quick-btn" data-prompt="Анализирай всички нови заявки и ми кажи кои са с приоритет"><i class="fa-solid fa-brain"></i> Приоритети</button>
+    <button class="quick-btn" data-prompt="Кои заявки висят повече от 2 часа без контакт?"><i class="fa-solid fa-triangle-exclamation"></i> Чакащи &gt; 2 ч</button>
 
-    <div class="side-section-title">Какво мога</div>
+    <div class="side-section-title"><i class="fa-brands fa-whatsapp"></i> WhatsApp Draft-ове</div>
+    <button class="quick-btn" data-prompt="Вземи най-новата заявка и ми напиши готов WhatsApp draft за нея"><i class="fa-brands fa-whatsapp"></i> Draft за най-нова</button>
+    <button class="quick-btn" data-prompt="Напиши WhatsApp draft-ове за всички нови заявки от днес"><i class="fa-solid fa-comment-dots"></i> Draft-ове за днес</button>
+    <button class="quick-btn" data-prompt="Напиши follow-up WhatsApp съобщение за клиентите, които висят > 30 мин"><i class="fa-solid fa-reply"></i> Follow-up за чакащи</button>
+    <button class="quick-btn" data-prompt="Напиши кратко напомняне за клиентите в процес"><i class="fa-solid fa-bell"></i> Напомняне в процес</button>
+
+    <div class="side-section-title"><i class="fa-solid fa-brain"></i> Анализ</div>
+    <button class="quick-btn" data-prompt="Анализирай всички нови заявки и ми кажи кои са с приоритет"><i class="fa-solid fa-fire"></i> Приоритети</button>
+    <button class="quick-btn" data-prompt="За всяка нова заявка препоръчай най-подходящия пакет (Базов / Стандарт / Пълен)"><i class="fa-solid fa-box"></i> Препоръчай пакет</button>
+    <button class="quick-btn" data-prompt="Анализирай най-новата заявка — приоритет, пакет, risk flags"><i class="fa-solid fa-magnifying-glass-chart"></i> Дълбок анализ</button>
+    <button class="quick-btn" data-prompt="Намери дубликати — клиенти с повече от една заявка"><i class="fa-solid fa-copy"></i> Дубликати</button>
+
+    <div class="side-section-title"><i class="fa-solid fa-chart-line"></i> Статистика</div>
+    <button class="quick-btn" data-prompt="Дай ми dashboard stats — колко заявки, коя е топ услугата, приходи"><i class="fa-solid fa-chart-simple"></i> Общ dashboard</button>
+    <button class="quick-btn" data-prompt="Статистика само за днес — заявки, услуги, source"><i class="fa-solid fa-calendar-day"></i> Днес</button>
+    <button class="quick-btn" data-prompt="Статистика за последните 7 дни — trend, топ услуги, conversion"><i class="fa-solid fa-calendar-week"></i> Последните 7 дни</button>
+    <button class="quick-btn" data-prompt="Статистика за този месец — общо заявки, приходи, conversion rate"><i class="fa-solid fa-calendar"></i> Този месец</button>
+    <button class="quick-btn" data-prompt="Кои са топ 5 услугите по заявки и приходи"><i class="fa-solid fa-trophy"></i> Топ 5 услуги</button>
+
+    <div class="side-section-title"><i class="fa-solid fa-pen-to-square"></i> Действия</div>
+    <button class="quick-btn" data-prompt="Маркирай най-новата заявка като контактирана"><i class="fa-solid fa-check"></i> Маркирай най-нова</button>
+    <button class="quick-btn" data-prompt="Смени статус на заявка на 'в процес' — кажи ми ID-то първо"><i class="fa-solid fa-arrow-right"></i> Смени статус</button>
+    <button class="quick-btn" data-prompt="Добави бележка към заявка — питай ме кое ID и какво да запишем"><i class="fa-solid fa-note-sticky"></i> Добави бележка</button>
+
+    <div class="side-section-title"><i class="fa-solid fa-circle-info"></i> Помощ</div>
     <div class="side-hint">
-      Питай ме с нормални думи. Аз ще правя заявки в базата, ще пиша WhatsApp draft-ове, ще маркирам статуси, ще анализирам и ще добавям бележки — вместо теб.
+      Натисни бутон за готова команда, или питай свободно с нормални думи. Пример: „напиши draft за клиент #5" или „колко заявки имам днес".
     </div>
   </aside>
 
