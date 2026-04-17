@@ -644,6 +644,99 @@
       word-break: break-word;
     }
 
+    /* AI panel */
+    .ai-panel {
+      margin-top: 22px;
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(212,168,67,0.08), rgba(168,120,220,0.06));
+      border: 1px solid rgba(212,168,67,0.25);
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 0% 0%, rgba(212,168,67,0.15), transparent 60%);
+      pointer-events: none;
+    }
+    .ai-panel-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .ai-panel-title {
+      font-family: var(--font-head);
+      font-size: 1rem; font-weight: 600;
+      color: var(--gold);
+    }
+    .ai-panel-title i { margin-right: 6px; }
+    .ai-panel-sub {
+      font-size: .72rem;
+      color: var(--text-muted);
+      letter-spacing: .03em;
+    }
+    .ai-actions {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      position: relative;
+    }
+    .ai-btn {
+      flex: 1; min-width: 140px;
+      padding: 11px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: .85rem; font-weight: 500;
+      cursor: pointer;
+      transition: all .2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .ai-btn:hover:not(:disabled) {
+      background: rgba(212,168,67,0.12);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .ai-btn:disabled { opacity: .5; cursor: wait; }
+    .ai-btn i { font-size: .95rem; }
+    .ai-output-wrap {
+      margin-top: 14px;
+      position: relative;
+    }
+    .ai-output {
+      width: 100%;
+      min-height: 140px;
+      max-height: 320px;
+      padding: 12px 14px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: .9rem;
+      line-height: 1.55;
+      resize: vertical;
+    }
+    .ai-output:focus { outline: none; border-color: var(--gold); }
+    .ai-output-actions {
+      display: flex; gap: 8px;
+      margin-top: 10px;
+    }
+    .ai-secondary {
+      padding: 8px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .ai-secondary:hover {
+      color: var(--gold); border-color: var(--gold);
+    }
+
     /* Week panel extras */
     .week-stat { text-align: center; }
     .week-stat-num {
@@ -1231,6 +1324,25 @@ BG Помощ</div>
     <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
     <h2 class="modal-title" id="modalTitle">Детайли на заявката</h2>
     <div id="modalBody"></div>
+    <div class="ai-panel">
+      <div class="ai-panel-head">
+        <span class="ai-panel-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI асистент</span>
+        <span class="ai-panel-sub">Groq · Llama 3.3 · БГ</span>
+      </div>
+      <div class="ai-actions">
+        <button class="ai-btn" data-ai-action="draft_whatsapp"><i class="fa-brands fa-whatsapp"></i> Генерирай WhatsApp</button>
+        <button class="ai-btn" data-ai-action="summarize"><i class="fa-solid fa-list-ul"></i> Обобщи</button>
+        <button class="ai-btn" data-ai-action="suggest_package"><i class="fa-solid fa-euro-sign"></i> Препоръчай пакет</button>
+      </div>
+      <div class="ai-output-wrap" id="aiOutputWrap" hidden>
+        <textarea class="ai-output" id="aiOutput" readonly></textarea>
+        <div class="ai-output-actions">
+          <button class="ai-secondary" id="aiCopyBtn"><i class="fa-solid fa-copy"></i> Копирай</button>
+          <button class="ai-secondary" id="aiWhatsAppBtn" hidden><i class="fa-brands fa-whatsapp"></i> Отвори в WhatsApp</button>
+          <button class="ai-secondary" id="aiRegenBtn"><i class="fa-solid fa-rotate"></i> Генерирай пак</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1539,9 +1651,18 @@ BG Помощ</div>
   }
 
   // ===== DETAIL MODAL =====
+  var _currentDetailId = null;
   window._showDetail = function(id) {
     var s = allData.find(function(x) { return x.id === id; });
     if (!s) return;
+    _currentDetailId = id;
+    // Reset AI panel
+    var aiWrap = document.getElementById('aiOutputWrap');
+    if (aiWrap) {
+      aiWrap.hidden = true;
+      document.getElementById('aiOutput').value = '';
+      document.getElementById('aiWhatsAppBtn').hidden = true;
+    }
     document.getElementById('modalTitle').textContent = (s.name || 'Заявка') + ' — ' + (s.service || 'Без услуга');
     var rows = [
       ['Дата', s.created_at ? new Date(s.created_at).toLocaleString('bg-BG') : '—'],
@@ -1564,6 +1685,64 @@ BG Помощ</div>
   };
   document.getElementById('modalClose').addEventListener('click', function() { document.getElementById('detailModal').classList.remove('active'); });
   document.getElementById('detailModal').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
+
+  // ===== AI ASSISTANT =====
+  var aiCurrentAction = null;
+
+  function runAI(action) {
+    var id = _currentDetailId;
+    if (!id) return;
+    var token = sessionStorage.getItem(TOKEN_KEY);
+    var wrap = document.getElementById('aiOutputWrap');
+    var out = document.getElementById('aiOutput');
+    var waBtn = document.getElementById('aiWhatsAppBtn');
+    var buttons = document.querySelectorAll('.ai-btn, .ai-secondary');
+    buttons.forEach(function(b) { b.disabled = true; });
+    wrap.hidden = false;
+    out.value = 'Мисля…';
+    aiCurrentAction = action;
+
+    fetch(API_BASE + '/admin-ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ id: id, action: action })
+    }).then(function(r) { return r.json(); }).then(function(result) {
+      if (result.ok) {
+        out.value = result.text || '';
+        var sub = allData.find(function(x) { return x.id === id; });
+        var isWhatsApp = action === 'draft_whatsapp' && sub && sub.phone;
+        waBtn.hidden = !isWhatsApp;
+        if (isWhatsApp) {
+          var phone = String(sub.phone).replace(/[^\d+]/g, '');
+          if (phone.startsWith('+')) phone = phone.slice(1);
+          waBtn.onclick = function() {
+            window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(out.value), '_blank');
+          };
+        }
+      } else {
+        out.value = 'Грешка: ' + (result.message || 'неизвестна');
+        waBtn.hidden = true;
+      }
+    }).catch(function(err) {
+      out.value = 'Мрежова грешка: ' + err.message;
+      waBtn.hidden = true;
+    }).finally(function() {
+      buttons.forEach(function(b) { b.disabled = false; });
+    });
+  }
+
+  document.querySelectorAll('[data-ai-action]').forEach(function(btn) {
+    btn.addEventListener('click', function() { runAI(btn.getAttribute('data-ai-action')); });
+  });
+
+  document.getElementById('aiCopyBtn').addEventListener('click', function() {
+    var text = document.getElementById('aiOutput').value;
+    navigator.clipboard.writeText(text).then(function() { showToast('Копирано в clipboard!'); });
+  });
+
+  document.getElementById('aiRegenBtn').addEventListener('click', function() {
+    if (aiCurrentAction) runAI(aiCurrentAction);
+  });
 
   // ===== NOTES MODAL =====
   var notesCurrentId = null;
