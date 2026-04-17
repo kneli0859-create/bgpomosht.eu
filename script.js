@@ -212,9 +212,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Само CV</div>
             <div class="job-pkg-price">€29</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Професионално CV</li>
-              <li><i class="fa-solid fa-check"></i> На езика по ваш избор</li>
-              <li><i class="fa-solid fa-check"></i> Готово до 24 часа</li>
+              <li><i class="fa-solid fa-check"></i> Професионално CV на езика по ваш избор</li>
+              <li><i class="fa-solid fa-check"></i> Форматирано по европейски стандарт</li>
+              <li><i class="fa-solid fa-check"></i> Готово до 24 часа — започвате веднага</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="cv-letter">
@@ -223,9 +223,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">CV + Мотивационно писмо</div>
             <div class="job-pkg-price">€49</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Всичко от "Само CV"</li>
-              <li><i class="fa-solid fa-check"></i> Мотивационно писмо</li>
-              <li><i class="fa-solid fa-check"></i> Адаптирано за позицията</li>
+              <li><i class="fa-solid fa-check"></i> Професионално CV + убедително писмо</li>
+              <li><i class="fa-solid fa-check"></i> Адаптирано точно за желаната позиция</li>
+              <li><i class="fa-solid fa-check"></i> 3x по-голям шанс за покана на интервю</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="full">
@@ -234,9 +234,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">CV + Писмо + Кандидатстване</div>
             <div class="job-pkg-price">€79</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> CV + Мотивационно писмо</li>
-              <li><i class="fa-solid fa-check"></i> Кандидатстваме вместо вас</li>
-              <li><i class="fa-solid fa-check"></i> До 5 обяви включени</li>
+              <li><i class="fa-solid fa-check"></i> CV + писмо + ние кандидатстваме вместо вас</li>
+              <li><i class="fa-solid fa-check"></i> До 5 обяви — изпращаме от ваше име</li>
+              <li><i class="fa-solid fa-check"></i> Вие само чакате обаждане за интервю</li>
             </ul>
           </button>
         </div>
@@ -580,9 +580,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Превод + обяснение на писмо</div>
             <div class="job-pkg-price">€39</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Превеждаме писмото</li>
-              <li><i class="fa-solid fa-check"></i> Обясняваме какво се иска</li>
-              <li><i class="fa-solid fa-check"></i> Съвет какво да направите</li>
+              <li><i class="fa-solid fa-check"></i> Превеждаме писмото на разбираем български</li>
+              <li><i class="fa-solid fa-check"></i> Обясняваме какво точно се иска от вас</li>
+              <li><i class="fa-solid fa-check"></i> Ясен план какво да направите стъпка по стъпка</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="inst-reply">
@@ -591,9 +591,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Писане на отговор / молба</div>
             <div class="job-pkg-price">€59</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Всичко от "Превод"</li>
-              <li><i class="fa-solid fa-check"></i> Написване на официален отговор</li>
-              <li><i class="fa-solid fa-check"></i> Widerspruch / жалба</li>
+              <li><i class="fa-solid fa-check"></i> Превод + написване на официален отговор</li>
+              <li><i class="fa-solid fa-check"></i> Widerspruch / жалба — правно издържани</li>
+              <li><i class="fa-solid fa-check"></i> Защитаваме вашите права на правилния език</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="inst-full">
@@ -602,9 +602,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Пълна комуникация с институция</div>
             <div class="job-pkg-price">от €89</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Водим кореспонденцията</li>
-              <li><i class="fa-solid fa-check"></i> Обаждания от ваше лице</li>
-              <li><i class="fa-solid fa-check"></i> До приключване на случая</li>
+              <li><i class="fa-solid fa-check"></i> Водим цялата кореспонденция вместо вас</li>
+              <li><i class="fa-solid fa-check"></i> Обаждаме се от ваше име — вие не звъните</li>
+              <li><i class="fa-solid fa-check"></i> До пълно приключване — без краен срок</li>
             </ul>
           </button>
         </div>
@@ -657,9 +657,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Базова ориентация</div>
             <div class="job-pkg-price">€49</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Чек-лист какво да направите</li>
-              <li><i class="fa-solid fa-check"></i> Насоки за всяка стъпка</li>
-              <li><i class="fa-solid fa-check"></i> 30 мин. консултация</li>
+              <li><i class="fa-solid fa-check"></i> Персонален чек-лист за вашата ситуация</li>
+              <li><i class="fa-solid fa-check"></i> Ясни насоки какво, къде и кога да направите</li>
+              <li><i class="fa-solid fa-check"></i> 30 мин. консултация — отговор на всеки въпрос</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card active" data-pkg="new-standard">
@@ -668,9 +668,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Стандартен пакет</div>
             <div class="job-pkg-price">€79</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Anmeldung, каса, банка, данъци</li>
-              <li><i class="fa-solid fa-check"></i> Ние попълваме всички формуляри</li>
-              <li><i class="fa-solid fa-check"></i> 7-дневна поддръжка</li>
+              <li><i class="fa-solid fa-check"></i> Anmeldung, каса, банка, данъци — всичко подредено</li>
+              <li><i class="fa-solid fa-check"></i> Ние попълваме формулярите — вие само подписвате</li>
+              <li><i class="fa-solid fa-check"></i> 7 дни поддръжка — питайте ни каквото и да е</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="new-premium">
@@ -679,9 +679,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Премиум пакет</div>
             <div class="job-pkg-price">€119</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Всичко от стандартния</li>
-              <li><i class="fa-solid fa-check"></i> Търсене на жилище + договор</li>
-              <li><i class="fa-solid fa-check"></i> 30-дневна поддръжка</li>
+              <li><i class="fa-solid fa-check"></i> Всичко от стандартния + търсене на жилище</li>
+              <li><i class="fa-solid fa-check"></i> Проверка на наемен договор — без измами</li>
+              <li><i class="fa-solid fa-check"></i> 30 дни спокойствие — ние сме до вас</li>
             </ul>
           </button>
         </div>
@@ -736,8 +736,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Превод до 1 стр.</div>
             <div class="job-pkg-price">€29</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Превод на 1 страница</li>
-              <li><i class="fa-solid fa-check"></i> Готово до 24 часа</li>
+              <li><i class="fa-solid fa-check"></i> Точен превод на 1 страница документ</li>
+              <li><i class="fa-solid fa-check"></i> Готово до 24 часа — бърза доставка</li>
+              <li><i class="fa-solid fa-check"></i> Разбираем и правилен на 100%</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="form" data-doc-price="39">
@@ -745,8 +746,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Официален формуляр</div>
             <div class="job-pkg-price">€39</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Попълване на формуляр</li>
-              <li><i class="fa-solid fa-check"></i> Проверка и обяснение</li>
+              <li><i class="fa-solid fa-check"></i> Попълваме формуляра правилно вместо вас</li>
+              <li><i class="fa-solid fa-check"></i> Обясняваме всяко поле — без грешки</li>
+              <li><i class="fa-solid fa-check"></i> Готово за подаване веднага</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="translate5" data-doc-price="49">
@@ -755,8 +757,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Превод до 5 стр.</div>
             <div class="job-pkg-price">€49</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> До 5 страници превод</li>
-              <li><i class="fa-solid fa-check"></i> Готово до 24 часа</li>
+              <li><i class="fa-solid fa-check"></i> До 5 страници — идеално за договори</li>
+              <li><i class="fa-solid fa-check"></i> Готово до 24 часа — спестявате дни чакане</li>
+              <li><i class="fa-solid fa-check"></i> Прецизен превод без пропуски</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="power" data-doc-price="35">
@@ -764,8 +767,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Пълномощно / Декларация</div>
             <div class="job-pkg-price">€35</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Изготвяне на документа</li>
-              <li><i class="fa-solid fa-check"></i> Правно коректно</li>
+              <li><i class="fa-solid fa-check"></i> Изготвяме документа от нулата</li>
+              <li><i class="fa-solid fa-check"></i> Правно коректно — приема се навсякъде</li>
+              <li><i class="fa-solid fa-check"></i> Без нужда от адвокат</li>
             </ul>
           </button>
         </div>
@@ -859,9 +863,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Консултация + Подбор</div>
             <div class="job-pkg-price">€29</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Подбор на курс за вас</li>
-              <li><i class="fa-solid fa-check"></i> Помощ със записването</li>
-              <li><i class="fa-solid fa-check"></i> Съвети за финансиране</li>
+              <li><i class="fa-solid fa-check"></i> Намираме най-подходящия курс за вас</li>
+              <li><i class="fa-solid fa-check"></i> Помагаме със записването на български</li>
+              <li><i class="fa-solid fa-check"></i> Съвети за безплатно финансиране</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card active" data-pkg="guided">
@@ -870,9 +874,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Помощ стъпка по стъпка</div>
             <div class="job-pkg-price">€49</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Всичко от "Консултация"</li>
-              <li><i class="fa-solid fa-check"></i> Водене през материала</li>
-              <li><i class="fa-solid fa-check"></i> Подготовка за изпита</li>
+              <li><i class="fa-solid fa-check"></i> Подбор + записване + водене през курса</li>
+              <li><i class="fa-solid fa-check"></i> Превод на материалите на български</li>
+              <li><i class="fa-solid fa-check"></i> Пълна подготовка за изпита — без стрес</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="exam">
@@ -881,9 +885,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Ние правим теста вместо вас</div>
             <div class="job-pkg-price">€99</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Ние полагаме изпита</li>
-              <li><i class="fa-solid fa-check"></i> Сертификат гарантиран</li>
-              <li><i class="fa-solid fa-check"></i> 100% дискретност</li>
+              <li><i class="fa-solid fa-check"></i> Полагаме изпита от ваше име</li>
+              <li><i class="fa-solid fa-check"></i> Сертификатът е гарантиран — или връщаме парите</li>
+              <li><i class="fa-solid fa-check"></i> 100% дискретно и конфиденциално</li>
             </ul>
           </button>
         </div>
@@ -938,9 +942,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Старт пакет</div>
             <div class="job-pkg-price">€99</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> До 3 задачи включени</li>
-              <li><i class="fa-solid fa-check"></i> Личен консултант</li>
-              <li><i class="fa-solid fa-check"></i> Срок до 7 дни</li>
+              <li><i class="fa-solid fa-check"></i> До 3 задачи — личен консултант за всяка</li>
+              <li><i class="fa-solid fa-check"></i> Всичко готово до 7 дни максимум</li>
+              <li><i class="fa-solid fa-check"></i> Вие казвате какво трябва — ние го правим</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="full-standard">
@@ -949,9 +953,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Стандартен</div>
             <div class="job-pkg-price">€129</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> До 6 задачи включени</li>
-              <li><i class="fa-solid fa-check"></i> Приоритетна обработка</li>
-              <li><i class="fa-solid fa-check"></i> 14-дневна поддръжка</li>
+              <li><i class="fa-solid fa-check"></i> До 6 задачи — приоритетна обработка</li>
+              <li><i class="fa-solid fa-check"></i> Документи, институции, CV — без ограничение</li>
+              <li><i class="fa-solid fa-check"></i> 14 дни поддръжка — винаги на линия</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="full-vip">
@@ -960,9 +964,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Пълен пакет</div>
             <div class="job-pkg-price">€139</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Неограничени задачи</li>
-              <li><i class="fa-solid fa-check"></i> Спешна обработка</li>
-              <li><i class="fa-solid fa-check"></i> 30-дневна поддръжка</li>
+              <li><i class="fa-solid fa-check"></i> Неограничени задачи — правим абсолютно всичко</li>
+              <li><i class="fa-solid fa-check"></i> Спешна обработка — вашите неща са първи</li>
+              <li><i class="fa-solid fa-check"></i> 30 дни пълно спокойствие с личен консултант</li>
             </ul>
           </button>
         </div>
@@ -991,10 +995,10 @@ function buildStep2HTML(service) {
         <div class="vip-summary-card">
           <div class="vip-summary-card-title"><i class="fa-solid fa-crown"></i> VIP Абонамент — €149/мес</div>
           <ul>
-            <li><i class="fa-solid fa-check"></i> Неограничени документи</li>
-            <li><i class="fa-solid fa-check"></i> Приоритетна обработка</li>
-            <li><i class="fa-solid fa-check"></i> Лична WhatsApp линия</li>
-            <li><i class="fa-solid fa-check"></i> Спешни случаи 24/7</li>
+            <li><i class="fa-solid fa-check"></i> Неограничени документи, преводи и заявки</li>
+            <li><i class="fa-solid fa-check"></i> Приоритетна обработка — винаги сте първи</li>
+            <li><i class="fa-solid fa-check"></i> Лична WhatsApp линия с ваш консултант</li>
+            <li><i class="fa-solid fa-check"></i> Спешни случаи 24/7 — дори в почивни дни</li>
           </ul>
         </div>
         ${countryDropdown('s2Country', 'В коя държава сте?')}
@@ -1037,9 +1041,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Предходна година</div>
             <div class="job-pkg-price">€49</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Nachreichung</li>
-              <li><i class="fa-solid fa-check"></i> 1 предходна година</li>
-              <li><i class="fa-solid fa-check"></i> Базова оптимизация</li>
+              <li><i class="fa-solid fa-check"></i> Подаваме за минала година — не е късно</li>
+              <li><i class="fa-solid fa-check"></i> Оптимизация за максимален възврат</li>
+              <li><i class="fa-solid fa-check"></i> Средно €800-1200 се връщат на клиентите ни</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card active" data-pkg="tax-simple">
@@ -1048,9 +1052,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Проста декларация</div>
             <div class="job-pkg-price">€59</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> 1 работодател</li>
-              <li><i class="fa-solid fa-check"></i> Оптимизация за възврат</li>
-              <li><i class="fa-solid fa-check"></i> Комуникация с Finanzamt</li>
+              <li><i class="fa-solid fa-check"></i> 1 работодател — попълваме и подаваме за вас</li>
+              <li><i class="fa-solid fa-check"></i> Всяко приспадане включено — нищо не се пропуска</li>
+              <li><i class="fa-solid fa-check"></i> Комуникация с Finanzamt — ние отговаряме</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="tax-complex">
@@ -1059,9 +1063,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Сложна декларация</div>
             <div class="job-pkg-price">€89</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> 2+ работодатели / наем</li>
-              <li><i class="fa-solid fa-check"></i> Разходи и приспадания</li>
-              <li><i class="fa-solid fa-check"></i> Пълна оптимизация</li>
+              <li><i class="fa-solid fa-check"></i> 2+ работодатели, наем, семейни разходи</li>
+              <li><i class="fa-solid fa-check"></i> Пълна оптимизация — всеки цент се брои</li>
+              <li><i class="fa-solid fa-check"></i> Борим се за максималния ви възврат</li>
             </ul>
           </button>
         </div>
@@ -1139,8 +1143,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Подновяване</div>
             <div class="job-pkg-price">€19</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Подновяване на сертификат</li>
-              <li><i class="fa-solid fa-check"></i> Бърза процедура</li>
+              <li><i class="fa-solid fa-check"></i> Подновяваме изтичащ сертификат за минути</li>
+              <li><i class="fa-solid fa-check"></i> Бързо и лесно — без ходене никъде</li>
+              <li><i class="fa-solid fa-check"></i> Работи веднага след подновяване</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card active" data-pkg="kep-new">
@@ -1149,9 +1154,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Нов КЕП (Evrotrust)</div>
             <div class="job-pkg-price">€29</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Пълна регистрация</li>
-              <li><i class="fa-solid fa-check"></i> Видео верификация</li>
-              <li><i class="fa-solid fa-check"></i> Тест подпис</li>
+              <li><i class="fa-solid fa-check"></i> Пълна регистрация от разстояние</li>
+              <li><i class="fa-solid fa-check"></i> Водим ви през видео верификацията</li>
+              <li><i class="fa-solid fa-check"></i> Тестов подпис — сигурни, че работи</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="kep-plus">
@@ -1160,9 +1165,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">КЕП + помощ с 1 е-услуга</div>
             <div class="job-pkg-price">€49</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Всичко от "Нов КЕП"</li>
-              <li><i class="fa-solid fa-check"></i> 1 е-услуга вместо вас</li>
-              <li><i class="fa-solid fa-check"></i> НАП, НЗОК, e-gov.bg</li>
+              <li><i class="fa-solid fa-check"></i> Нов КЕП + веднага ползваме за 1 услуга</li>
+              <li><i class="fa-solid fa-check"></i> НАП, НЗОК, e-gov.bg — каквото ви трябва</li>
+              <li><i class="fa-solid fa-check"></i> Спестявате време и нерви с бюрокрацията</li>
             </ul>
           </button>
         </div>
@@ -1210,8 +1215,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Единична услуга</div>
             <div class="job-pkg-price">€39</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> 1 услуга от НАП / НЗОК / ГРАО</li>
-              <li><i class="fa-solid fa-check"></i> Изпращане по имейл</li>
+              <li><i class="fa-solid fa-check"></i> 1 услуга от НАП, НЗОК или ГРАО</li>
+              <li><i class="fa-solid fa-check"></i> Получавате документа по имейл</li>
+              <li><i class="fa-solid fa-check"></i> Без ходене до България — ние вършим всичко</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="eserv-pack">
@@ -1220,9 +1226,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Пакет 3 услуги</div>
             <div class="job-pkg-price">€89</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> До 3 услуги наведнъж</li>
-              <li><i class="fa-solid fa-check"></i> Приоритетна обработка</li>
-              <li><i class="fa-solid fa-check"></i> Спестяваш €28</li>
+              <li><i class="fa-solid fa-check"></i> До 3 услуги наведнъж — решавате всичко</li>
+              <li><i class="fa-solid fa-check"></i> Приоритетна обработка — по-бързо от обичайно</li>
+              <li><i class="fa-solid fa-check"></i> Спестявате €28 спрямо поединично</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="eserv-courier">
@@ -1231,8 +1237,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">С куриерска доставка</div>
             <div class="job-pkg-price">+€25</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Добавка към всеки пакет</li>
-              <li><i class="fa-solid fa-check"></i> Оригинал по куриер до ЕС</li>
+              <li><i class="fa-solid fa-check"></i> Добавка към всеки пакет по-горе</li>
+              <li><i class="fa-solid fa-check"></i> Оригинален документ по куриер до адреса ви</li>
+              <li><i class="fa-solid fa-check"></i> Доставка в рамките на 5-7 работни дни</li>
             </ul>
           </button>
         </div>
@@ -1265,9 +1272,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Консултация + Насоки</div>
             <div class="job-pkg-price">€39</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Кои сайтове да ползвате</li>
-              <li><i class="fa-solid fa-check"></i> Как да напишете запитване</li>
-              <li><i class="fa-solid fa-check"></i> Съвети за SCHUFA и документи</li>
+              <li><i class="fa-solid fa-check"></i> Кои сайтове работят — без загуба на време</li>
+              <li><i class="fa-solid fa-check"></i> Готово запитване на немски — копирате и пращате</li>
+              <li><i class="fa-solid fa-check"></i> Съвети за SCHUFA и нужните документи</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="search">
@@ -1276,9 +1283,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Търсим вместо вас</div>
             <div class="job-pkg-price">€69</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Активно търсене в реално време</li>
-              <li><i class="fa-solid fa-check"></i> Писане на запитвания на немски</li>
-              <li><i class="fa-solid fa-check"></i> До 10 обяви седмично</li>
+              <li><i class="fa-solid fa-check"></i> Активно търсене всеки ден в реално време</li>
+              <li><i class="fa-solid fa-check"></i> Пишем на хазяите на перфектен немски</li>
+              <li><i class="fa-solid fa-check"></i> До 10 обяви седмично — вие само избирате</li>
             </ul>
           </button>
           <button type="button" class="job-pkg-card" data-pkg="full-housing">
@@ -1287,9 +1294,9 @@ function buildStep2HTML(service) {
             <div class="job-pkg-name">Търсене + Договор + Нанасяне</div>
             <div class="job-pkg-price">€119</div>
             <ul class="job-pkg-features">
-              <li><i class="fa-solid fa-check"></i> Всичко от "Търсим вместо вас"</li>
-              <li><i class="fa-solid fa-check"></i> Проверка на договора за наем</li>
-              <li><i class="fa-solid fa-check"></i> Помощ с Anmeldung след нанасяне</li>
+              <li><i class="fa-solid fa-check"></i> Търсим + договаряме + проверяваме договора</li>
+              <li><i class="fa-solid fa-check"></i> Защита от измами — преглед на всяка клауза</li>
+              <li><i class="fa-solid fa-check"></i> Помощ с Anmeldung след нанасяне — всичко наред</li>
             </ul>
           </button>
         </div>
