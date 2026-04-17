@@ -5,3 +5,77 @@
 .job-pkg-features li i{font-size:11px !important;color:#4ade80 !important;margin-top:2px}
 .job-pkg-name{font-size:.95rem !important;line-height:1.3 !important}
 @media(min-width:768px){.job-pkg-features li{font-size:.85rem !important}.job-pkg-name{font-size:1rem !important}}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE HERO — auto-adapt per device
+   ═══════════════════════════════════════════ */
+
+/* MOBILE (<=640px): photo pushed down below text, strong dark mask at top */
+@media (max-width:640px){
+  .hero{min-height:auto !important;padding:80px 0 40px !important}
+  .hero-bg-photo{
+    object-position:center 70% !important;
+    opacity:.35 !important;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 25%,#000 55%,#000 85%,transparent 100%) !important;
+            mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 25%,#000 55%,#000 85%,transparent 100%) !important;
+  }
+  .hero-bg-overlay{
+    background:linear-gradient(to bottom,rgba(4,5,14,.96)0,rgba(10,14,39,.88) 35%,rgba(10,14,39,.6) 65%,rgba(4,5,14,.92) 100%) !important;
+  }
+  .hero-content{padding-top:20px !important;padding-bottom:20px !important;text-align:center}
+  .hero-badge{margin:0 auto 18px;font-size:.68rem !important;letter-spacing:.5px !important;padding:8px 14px !important;max-width:92%}
+  .hero-badge span{white-space:normal}
+  .hero-title{font-size:2.1rem !important;line-height:1.15 !important;margin-bottom:18px !important}
+  .hero-title .wave-line{display:block}
+  .hero-subtitle{font-size:.9rem !important;margin-bottom:22px !important}
+  .hsvc-row{flex-wrap:wrap;justify-content:center;gap:8px 10px !important}
+  .hsvc{font-size:.78rem !important}
+  .hsvc-dot{display:none}
+  .hsvc-tagline{font-size:.88rem !important;margin-top:12px !important}
+  .hero-buttons{flex-direction:column !important;gap:12px !important;align-items:stretch !important;width:100%}
+  .hero-buttons .btn{width:100%;justify-content:center;min-height:48px}
+  .hero-corner{display:none !important}
+  .hero-particles{display:none}
+  .hero-scroll{display:none}
+}
+
+/* SMALL TABLET (641px-900px): two-column becomes centered with smaller photo */
+@media (min-width:641px) and (max-width:900px){
+  .hero{min-height:80vh !important}
+  .hero-bg-photo{object-position:right 30% top !important;opacity:.55 !important}
+  .hero-bg-overlay{background:linear-gradient(to right,rgba(10,14,39,.94)0,rgba(10,14,39,.72) 50%,rgba(10,14,39,.35) 100%) !important}
+  .hero-badge{font-size:.72rem !important;padding:9px 16px !important}
+  .hero-title{font-size:3rem !important;line-height:1.1 !important}
+  .hero-subtitle{font-size:1rem !important}
+  .hero-buttons .btn{min-height:50px}
+}
+
+/* LANDSCAPE PHONE (max-width:900px) and (orientation:landscape) — compact */
+@media (max-width:900px) and (orientation:landscape){
+  .hero{min-height:auto !important;padding:60px 0 30px !important}
+  .hero-title{font-size:2rem !important}
+  .hero-bg-photo{opacity:.3 !important}
+}
+
+/* TOUCH DEVICES — tap targets 48px+ */
+@media (hover:none) and (pointer:coarse){
+  .btn,.nav-link,.hero-buttons a,.cta-btn{min-height:48px}
+  .whatsapp-float{width:60px;height:60px}
+  .prechat-bubble{max-width:92vw !important;max-height:80vh;overflow-y:auto}
+}
+
+/* HIGH DPI displays — sharper photos */
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+  .hero-bg-photo{image-rendering:-webkit-optimize-contrast}
+}
+
+/* SAFE AREA — iPhone notch/home bar */
+@supports(padding:max(0px)){
+  .hero{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+  .whatsapp-float{bottom:max(20px,env(safe-area-inset-bottom))}
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion:reduce){
+  .hero-particle,.orb,.hero-bg-photo{animation:none !important;transition:none !important}
+}
