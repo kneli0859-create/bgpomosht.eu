@@ -14,7 +14,9 @@
     }
   ],
   "functions": {
-    "api/submit.js": { "maxDuration": 30 }
+    "api/submit.js": { "maxDuration": 30 },
+    "api/admin-login.js": { "maxDuration": 10 },
+    "api/admin-data.js": { "maxDuration": 15 }
   },
   "routes": [
     {

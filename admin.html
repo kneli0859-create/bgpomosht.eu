@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Админ панел — BG Помощ</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep: #0a0e27;
+      --bg-card: rgba(255, 255, 255, 0.06);
+      --bg-card-hover: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.1);
+      --border-glow: rgba(212, 168, 67, 0.3);
+      --gold: #d4a843;
+      --gold-dark: #c8941e;
+      --green: #4ade80;
+      --blue: #60a5fa;
+      --orange: #fb923c;
+      --red: #f87171;
+      --purple: #c084fc;
+      --text: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.55);
+      --text-muted: rgba(255, 255, 255, 0.35);
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== LOGIN SCREEN ===== */
+    .login-screen {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg-deep);
+      z-index: 9999;
+      transition: opacity .4s, visibility .4s;
+    }
+    .login-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .login-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 20%, rgba(212,168,67,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 80%, rgba(100,60,180,0.06) 0%, transparent 50%);
+    }
+
+    .login-card {
+      position: relative;
+      background: var(--bg-card);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 20px;
+      text-align: center;
+    }
+
+    .login-logo {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 24px; font-weight: 700; color: var(--bg-deep);
+      font-family: var(--font-head);
+    }
+
+    .login-title {
+      font-family: var(--font-head);
+      font-size: 1.5rem; font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .login-subtitle {
+      color: var(--text-secondary);
+      font-size: .9rem;
+      margin-bottom: 28px;
+    }
+
+    .login-field {
+      position: relative;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .login-field label {
+      display: block;
+      font-size: .8rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .login-field input {
+      width: 100%;
+      padding: 12px 14px 12px 42px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: .95rem;
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color .3s;
+    }
+
+    .login-field input:focus {
+      border-color: var(--gold);
+    }
+
+    .login-field i {
+      position: absolute;
+      left: 14px; bottom: 13px;
+      color: var(--text-muted);
+      font-size: .9rem;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border: none; border-radius: var(--radius-sm);
+      color: var(--bg-deep);
+      font-size: 1rem; font-weight: 600;
+      font-family: var(--font-head);
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform .2s, box-shadow .3s;
+    }
+    .login-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(212,168,67,0.25); }
+    .login-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    .login-error {
+      color: var(--red);
+      font-size: .85rem;
+      margin-top: 12px;
+      min-height: 20px;
+    }
+
+    /* ===== DASHBOARD ===== */
+    .dashboard { display: none; min-height: 100vh; }
+    .dashboard.active { display: block; }
+
+    .dash-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse at 20% 10%, rgba(212,168,67,0.06) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 90%, rgba(100,60,180,0.05) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 50%, rgba(212,168,67,0.02) 0%, transparent 70%);
+    }
+
+    /* Header */
+    .dash-header {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 28px;
+      background: rgba(10, 14, 39, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dash-header-left {
+      display: flex; align-items: center; gap: 14px;
+    }
+
+    .dash-logo {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700; color: var(--bg-deep);
+      font-family: var(--font-head);
+    }
+
+    .dash-brand {
+      font-family: var(--font-head);
+      font-size: 1.15rem; font-weight: 600;
+    }
+    .dash-brand span { color: var(--gold); }
+
+    .dash-header-right {
+      display: flex; align-items: center; gap: 16px;
+    }
+
+    .dash-refresh-btn, .dash-logout-btn {
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: .85rem; font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: var(--font-body);
+    }
+    .dash-refresh-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .dash-logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+    .dash-time {
+      color: var(--text-muted);
+      font-size: .8rem;
+    }
+
+    /* Content */
+    .dash-content {
+      position: relative; z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: border-color .3s, transform .2s;
+    }
+    .stat-card:hover { border-color: var(--border-glow); transform: translateY(-2px); }
+
+    .stat-card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .stat-card-label {
+      font-size: .82rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .stat-card-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem;
+    }
+    .stat-card-icon.gold { background: rgba(212,168,67,0.15); color: var(--gold); }
+    .stat-card-icon.green { background: rgba(74,222,128,0.15); color: var(--green); }
+    .stat-card-icon.blue { background: rgba(96,165,250,0.15); color: var(--blue); }
+    .stat-card-icon.orange { background: rgba(251,146,60,0.15); color: var(--orange); }
+
+    .stat-card-value {
+      font-family: var(--font-head);
+      font-size: 2rem; font-weight: 700;
+      margin-bottom: 4px;
+      line-height: 1;
+    }
+
+    .stat-card-sub {
+      font-size: .78rem;
+      color: var(--text-muted);
+    }
+
+    /* Main Grid: Chart + Table */
+    .dash-main {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 20px;
+    }
+
+    /* Left sidebar - donut chart + top services */
+    .dash-sidebar .glass-panel {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+
+    .panel-title {
+      font-family: var(--font-head);
+      font-size: 1rem; font-weight: 600;
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .panel-title i { color: var(--gold); font-size: .9rem; }
+
+    /* Donut Chart */
+    .donut-wrap {
+      position: relative;
+      width: 200px; height: 200px;
+      margin: 0 auto 20px;
+    }
+
+    .donut-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .donut-center-num {
+      font-family: var(--font-head);
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--gold);
+    }
+
+    .donut-center-label {
+      font-size: .75rem;
+      color: var(--text-secondary);
+    }
+
+    /* Service breakdown list */
+    .service-list { list-style: none; }
+    .service-list li {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: .85rem;
+    }
+    .service-list li:last-child { border-bottom: none; }
+    .service-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .service-list-name {
+      flex: 1;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .service-list-count {
+      font-weight: 600;
+      font-family: var(--font-head);
+      margin-left: 8px;
+    }
+
+    /* Table Panel */
+    .table-panel {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    /* Filters */
+    .filters {
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+
+    .filter-select, .filter-input {
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: .82rem;
+      font-family: var(--font-body);
+      outline: none;
+      min-width: 140px;
+    }
+    .filter-select:focus, .filter-input:focus { border-color: var(--gold); }
+    .filter-select option { background: #1a1e3a; color: var(--text); }
+
+    /* Table */
+    .submissions-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .submissions-table thead th {
+      text-align: left;
+      padding: 10px 12px;
+      font-size: .75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .submissions-table tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      transition: background .2s;
+    }
+    .submissions-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+    .submissions-table td {
+      padding: 12px;
+      font-size: .85rem;
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+
+    .td-name {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .td-service {
+      max-width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Status badges */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: .75rem; font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .status-badge:hover { opacity: .8; }
+    .status-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .status-new { background: rgba(96,165,250,0.15); color: var(--blue); }
+    .status-new::before { background: var(--blue); }
+    .status-in_progress { background: rgba(251,146,60,0.15); color: var(--orange); }
+    .status-in_progress::before { background: var(--orange); }
+    .status-done { background: rgba(74,222,128,0.15); color: var(--green); }
+    .status-done::before { background: var(--green); }
+    .status-cancelled { background: rgba(248,113,113,0.15); color: var(--red); }
+    .status-cancelled::before { background: var(--red); }
+
+    /* Action buttons */
+    .action-btns {
+      display: flex; gap: 6px;
+    }
+
+    .action-btn {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: .8rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .action-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .action-btn.whatsapp:hover { border-color: #25D366; color: #25D366; }
+
+    /* Status dropdown */
+    .status-dropdown {
+      position: absolute;
+      background: #1a1e3a;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px;
+      z-index: 50;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .status-dropdown button {
+      display: block; width: 100%;
+      padding: 8px 14px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: .82rem;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 6px;
+      font-family: var(--font-body);
+      transition: background .2s;
+    }
+    .status-dropdown button:hover { background: rgba(255,255,255,0.07); color: var(--text); }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .empty-state i { font-size: 2.5rem; margin-bottom: 12px; display: block; color: var(--text-muted); }
+
+    /* Loading spinner */
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 60px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Detail modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none; align-items: center; justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal-card {
+      background: #12163a;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 80vh;
+      overflow-y: auto;
+      margin: 20px;
+    }
+
+    .modal-close {
+      float: right;
+      background: transparent; border: none;
+      color: var(--text-muted); font-size: 1.2rem;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .modal-close:hover { color: var(--text); }
+
+    .modal-title {
+      font-family: var(--font-head);
+      font-size: 1.3rem; font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .detail-row {
+      display: flex; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: .9rem;
+    }
+    .detail-label {
+      min-width: 120px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .detail-value {
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-main { grid-template-columns: 1fr; }
+      .dash-sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    }
+
+    @media (max-width: 640px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .stat-card { padding: 16px; }
+      .stat-card-value { font-size: 1.5rem; }
+      .dash-content { padding: 16px; }
+      .dash-header { padding: 12px 16px; }
+      .dash-sidebar { grid-template-columns: 1fr; }
+      .dash-time { display: none; }
+      .submissions-table { font-size: .8rem; }
+      .submissions-table td, .submissions-table th { padding: 8px 6px; }
+      .table-panel { padding: 16px; }
+      .modal-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-bg"></div>
+  <div class="login-card">
+    <div class="login-logo">BG</div>
+    <h1 class="login-title">Админ панел</h1>
+    <p class="login-subtitle">BG Помощ — вход за администратор</p>
+    <form id="loginForm">
+      <div class="login-field">
+        <label for="loginEmail">Имейл</label>
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email" required />
+      </div>
+      <div class="login-field">
+        <label for="loginPass">Парола</label>
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <button type="submit" class="login-btn" id="loginBtn">
+        <i class="fa-solid fa-right-to-bracket"></i> Вход
+      </button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div class="dashboard" id="dashboard">
+  <div class="dash-bg"></div>
+
+  <!-- Header -->
+  <header class="dash-header">
+    <div class="dash-header-left">
+      <div class="dash-logo">BG</div>
+      <div class="dash-brand">BG <span>Помощ</span> — Админ</div>
+    </div>
+    <div class="dash-header-right">
+      <span class="dash-time" id="dashTime"></span>
+      <button class="dash-refresh-btn" id="refreshBtn"><i class="fa-solid fa-arrows-rotate"></i> Обнови</button>
+      <button class="dash-logout-btn" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Изход</button>
+    </div>
+  </header>
+
+  <div class="dash-content">
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Общо заявки</span>
+          <div class="stat-card-icon gold"><i class="fa-solid fa-inbox"></i></div>
+        </div>
+        <div class="stat-card-value" id="statTotal">—</div>
+        <div class="stat-card-sub">от всички времена</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Нови днес</span>
+          <div class="stat-card-icon blue"><i class="fa-solid fa-bolt"></i></div>
+        </div>
+        <div class="stat-card-value" id="statToday">—</div>
+        <div class="stat-card-sub" id="statTodayDate">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Чакащи</span>
+          <div class="stat-card-icon orange"><i class="fa-solid fa-clock"></i></div>
+        </div>
+        <div class="stat-card-value" id="statPending">—</div>
+        <div class="stat-card-sub">нови + в процес</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Завършени</span>
+          <div class="stat-card-icon green"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+        <div class="stat-card-value" id="statDone">—</div>
+        <div class="stat-card-sub">успешно приключени</div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="dash-main">
+      <!-- Sidebar: Chart + Services -->
+      <div class="dash-sidebar">
+        <div class="glass-panel">
+          <div class="panel-title"><i class="fa-solid fa-chart-pie"></i> По услуга</div>
+          <div class="donut-wrap">
+            <canvas id="donutChart" width="200" height="200"></canvas>
+            <div class="donut-center">
+              <div class="donut-center-num" id="donutTotal">0</div>
+              <div class="donut-center-label">заявки</div>
+            </div>
+          </div>
+          <ul class="service-list" id="serviceList"></ul>
+        </div>
+
+        <div class="glass-panel">
+          <div class="panel-title"><i class="fa-solid fa-calendar-week"></i> Тази седмица</div>
+          <div class="stat-card-value" id="statWeek" style="text-align:center;margin-bottom:8px">—</div>
+          <div style="text-align:center;color:var(--text-secondary);font-size:.85rem" id="statWeekSub">заявки последните 7 дни</div>
+          <div style="margin-top:18px">
+            <div class="panel-title" style="margin-bottom:12px"><i class="fa-solid fa-fire"></i> Топ услуга</div>
+            <div style="font-size:1rem;font-weight:600;color:var(--gold)" id="topService">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-panel">
+        <div class="table-header">
+          <div class="panel-title" style="margin-bottom:0"><i class="fa-solid fa-list"></i> Заявки</div>
+          <div class="filters">
+            <select class="filter-select" id="filterStatus">
+              <option value="">Всички статуси</option>
+              <option value="new">Нови</option>
+              <option value="in_progress">В процес</option>
+              <option value="done">Завършени</option>
+              <option value="cancelled">Отказани</option>
+            </select>
+            <select class="filter-select" id="filterService">
+              <option value="">Всички услуги</option>
+            </select>
+            <input type="text" class="filter-input" id="filterSearch" placeholder="Търси по име или телефон..." />
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="submissions-table">
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Име</th>
+                <th>Услуга</th>
+                <th>Пакет</th>
+                <th>Телефон</th>
+                <th>Статус</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <tr><td colspan="7"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+    <h2 class="modal-title" id="modalTitle">Детайли на заявката</h2>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var API_BASE = '/api';
+  var TOKEN_KEY = 'bgp_admin_token';
+  var allData = [];
+
+  // Service colors for chart
+  var SVC_COLORS = [
+    '#d4a843', '#60a5fa', '#4ade80', '#fb923c', '#c084fc',
+    '#f87171', '#38bdf8', '#fbbf24', '#a78bfa', '#34d399', '#f472b6'
+  ];
+
+  var STATUS_LABELS = {
+    'new': 'Нова',
+    'in_progress': 'В процес',
+    'done': 'Завършена',
+    'cancelled': 'Отказана'
+  };
+
+  // ===== LOGIN =====
+  var loginForm = document.getElementById('loginForm');
+  var loginError = document.getElementById('loginError');
+
+  // Check existing token
+  var savedToken = sessionStorage.getItem(TOKEN_KEY);
+  if (savedToken) {
+    showDashboard();
+    loadData();
+  }
+
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = document.getElementById('loginEmail').value.trim();
+    var pass = document.getElementById('loginPass').value;
+    var btn = document.getElementById('loginBtn');
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Влизане...';
+    loginError.textContent = '';
+
+    fetch(API_BASE + '/admin-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: pass })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.ok && data.token) {
+        sessionStorage.setItem(TOKEN_KEY, data.token);
+        showDashboard();
+        loadData();
+      } else {
+        loginError.textContent = data.message || 'Грешка при вход';
+      }
+    })
+    .catch(function() {
+      loginError.textContent = 'Няма връзка със сървъра';
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Вход';
+    });
+  });
+
+  function showDashboard() {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('dashboard').classList.add('active');
+    updateTime();
+    setInterval(updateTime, 60000);
+  }
+
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    sessionStorage.removeItem(TOKEN_KEY);
+    location.reload();
+  });
+
+  // Refresh
+  document.getElementById('refreshBtn').addEventListener('click', function() {
+    loadData();
+  });
+
+  // Time display
+  function updateTime() {
+    var now = new Date();
+    var opts = { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+    document.getElementById('dashTime').textContent = now.toLocaleDateString('bg-BG', opts);
+  }
+
+  // ===== LOAD DATA =====
+  function loadData() {
+    var token = sessionStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    document.getElementById('tableBody').innerHTML = '<tr><td colspan="7"><div class="spinner"></div></td></tr>';
+
+    fetch(API_BASE + '/admin-data', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(function(r) {
+      if (r.status === 401) {
+        sessionStorage.removeItem(TOKEN_KEY);
+        location.reload();
+        throw new Error('Unauthorized');
+      }
+      return r.json();
+    })
+    .then(function(result) {
+      if (result.ok) {
+        allData = result.data || [];
+        updateStats();
+        updateChart();
+        populateServiceFilter();
+        renderTable();
+      }
+    })
+    .catch(function(err) {
+      if (err.message !== 'Unauthorized') {
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>Грешка при зареждане</div></td></tr>';
+      }
+    });
+  }
+
+  // ===== STATS =====
+  function updateStats() {
+    var now = new Date();
+    var todayStr = now.toISOString().slice(0, 10);
+    var weekAgo = new Date(now - 7 * 86400000);
+
+    var total = allData.length;
+    var today = 0, week = 0, pending = 0, done = 0;
+
+    allData.forEach(function(s) {
+      var d = (s.created_at || '').slice(0, 10);
+      if (d === todayStr) today++;
+      if (new Date(s.created_at) >= weekAgo) week++;
+      if (s.status === 'new' || s.status === 'in_progress') pending++;
+      if (s.status === 'done') done++;
+    });
+
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statToday').textContent = today;
+    document.getElementById('statTodayDate').textContent = now.toLocaleDateString('bg-BG', { day: 'numeric', month: 'long' });
+    document.getElementById('statPending').textContent = pending;
+    document.getElementById('statDone').textContent = done;
+    document.getElementById('statWeek').textContent = week;
+  }
+
+  // ===== DONUT CHART (pure Canvas) =====
+  function updateChart() {
+    var counts = {};
+    allData.forEach(function(s) {
+      var svc = s.service || 'Друго';
+      counts[svc] = (counts[svc] || 0) + 1;
+    });
+
+    // Sort by count descending
+    var entries = Object.entries(counts).sort(function(a, b) { return b[1] - a[1]; });
+    var total = allData.length;
+    document.getElementById('donutTotal').textContent = total;
+
+    // Draw donut
+    var canvas = document.getElementById('donutChart');
+    var ctx = canvas.getContext('2d');
+    var size = 200;
+    var cx = size / 2, cy = size / 2;
+    var outerR = 90, innerR = 62;
+
+    canvas.width = size * 2; canvas.height = size * 2;
+    canvas.style.width = size + 'px'; canvas.style.height = size + 'px';
+    ctx.scale(2, 2);
+    ctx.clearRect(0, 0, size, size);
+
+    if (total === 0) {
+      ctx.beginPath();
+      ctx.arc(cx, cy, outerR, 0, Math.PI * 2);
+      ctx.arc(cx, cy, innerR, 0, Math.PI * 2, true);
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.fill();
+    } else {
+      var startAngle = -Math.PI / 2;
+      entries.forEach(function(entry, i) {
+        var slice = (entry[1] / total) * Math.PI * 2;
+        var endAngle = startAngle + slice;
+        ctx.beginPath();
+        ctx.arc(cx, cy, outerR, startAngle, endAngle);
+        ctx.arc(cx, cy, innerR, endAngle, startAngle, true);
+        ctx.closePath();
+        ctx.fillStyle = SVC_COLORS[i % SVC_COLORS.length];
+        ctx.fill();
+        startAngle = endAngle;
+      });
+    }
+
+    // Service list
+    var listEl = document.getElementById('serviceList');
+    listEl.innerHTML = entries.map(function(entry, i) {
+      return '<li><span class="service-dot" style="background:' + SVC_COLORS[i % SVC_COLORS.length] + '"></span>' +
+             '<span class="service-list-name">' + entry[0] + '</span>' +
+             '<span class="service-list-count">' + entry[1] + '</span></li>';
+    }).join('');
+
+    // Top service
+    document.getElementById('topService').textContent = entries.length ? entries[0][0] : '—';
+  }
+
+  // ===== SERVICE FILTER =====
+  function populateServiceFilter() {
+    var sel = document.getElementById('filterService');
+    var current = sel.value;
+    var services = {};
+    allData.forEach(function(s) { if (s.service) services[s.service] = 1; });
+    var html = '<option value="">Всички услуги</option>';
+    Object.keys(services).sort().forEach(function(s) {
+      html += '<option value="' + s + '">' + s + '</option>';
+    });
+    sel.innerHTML = html;
+    sel.value = current;
+  }
+
+  // ===== RENDER TABLE =====
+  function renderTable() {
+    var statusFilter = document.getElementById('filterStatus').value;
+    var serviceFilter = document.getElementById('filterService').value;
+    var search = document.getElementById('filterSearch').value.toLowerCase().trim();
+
+    var filtered = allData.filter(function(s) {
+      if (statusFilter && s.status !== statusFilter) return false;
+      if (serviceFilter && s.service !== serviceFilter) return false;
+      if (search) {
+        var haystack = ((s.name || '') + ' ' + (s.phone || '') + ' ' + (s.email || '')).toLowerCase();
+        if (haystack.indexOf(search) === -1) return false;
+      }
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      document.getElementById('tableBody').innerHTML =
+        '<tr><td colspan="7"><div class="empty-state"><i class="fa-solid fa-inbox"></i>Няма намерени заявки</div></td></tr>';
+      return;
+    }
+
+    document.getElementById('tableBody').innerHTML = filtered.map(function(s) {
+      var date = s.created_at ? new Date(s.created_at) : null;
+      var dateStr = date ? date.toLocaleDateString('bg-BG', { day: '2-digit', month: 'short' }) : '—';
+      var timeStr = date ? date.toLocaleTimeString('bg-BG', { hour: '2-digit', minute: '2-digit' }) : '';
+      var status = s.status || 'new';
+      var phone = s.phone || '—';
+      var waLink = phone !== '—' ? 'https://wa.me/' + phone.replace(/[^0-9]/g, '') : '#';
+
+      return '<tr data-id="' + s.id + '">' +
+        '<td><div style="font-weight:500;color:var(--text)">' + dateStr + '</div><div style="font-size:.75rem;color:var(--text-muted)">' + timeStr + '</div></td>' +
+        '<td class="td-name">' + (s.name || '—') + '</td>' +
+        '<td class="td-service" title="' + (s.service || '') + '">' + (s.service || '—') + '</td>' +
+        '<td>' + (s.package || '—') + '</td>' +
+        '<td>' + phone + '</td>' +
+        '<td><span class="status-badge status-' + status + '" onclick="window._statusClick(event,' + s.id + ',\'' + status + '\')">' + (STATUS_LABELS[status] || status) + '</span></td>' +
+        '<td><div class="action-btns">' +
+          '<button class="action-btn whatsapp" title="WhatsApp" onclick="window.open(\'' + waLink + '\',\'_blank\')"><i class="fa-brands fa-whatsapp"></i></button>' +
+          '<button class="action-btn" title="Детайли" onclick="window._showDetail(' + s.id + ')"><i class="fa-solid fa-eye"></i></button>' +
+        '</div></td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  // Filters
+  document.getElementById('filterStatus').addEventListener('change', renderTable);
+  document.getElementById('filterService').addEventListener('change', renderTable);
+  document.getElementById('filterSearch').addEventListener('input', renderTable);
+
+  // ===== STATUS CHANGE =====
+  var currentDropdown = null;
+
+  window._statusClick = function(e, id, currentStatus) {
+    e.stopPropagation();
+    if (currentDropdown) { currentDropdown.remove(); currentDropdown = null; }
+
+    var dd = document.createElement('div');
+    dd.className = 'status-dropdown';
+    dd.style.position = 'fixed';
+    dd.style.left = e.clientX + 'px';
+    dd.style.top = e.clientY + 'px';
+
+    var statuses = ['new', 'in_progress', 'done', 'cancelled'];
+    statuses.forEach(function(st) {
+      var btn = document.createElement('button');
+      btn.textContent = (st === currentStatus ? '• ' : '') + STATUS_LABELS[st];
+      btn.onclick = function() {
+        updateStatus(id, st);
+        dd.remove();
+        currentDropdown = null;
+      };
+      dd.appendChild(btn);
+    });
+
+    document.body.appendChild(dd);
+    currentDropdown = dd;
+  };
+
+  document.addEventListener('click', function() {
+    if (currentDropdown) { currentDropdown.remove(); currentDropdown = null; }
+  });
+
+  function updateStatus(id, status) {
+    var token = sessionStorage.getItem(TOKEN_KEY);
+    fetch(API_BASE + '/admin-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ id: id, status: status })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(result) {
+      if (result.ok) {
+        // Update local data
+        allData.forEach(function(s) { if (s.id === id) s.status = status; });
+        updateStats();
+        renderTable();
+      }
+    });
+  }
+
+  // ===== DETAIL MODAL =====
+  window._showDetail = function(id) {
+    var s = allData.find(function(x) { return x.id === id; });
+    if (!s) return;
+
+    document.getElementById('modalTitle').textContent = (s.name || 'Заявка') + ' — ' + (s.service || 'Без услуга');
+
+    var rows = [
+      ['Дата', s.created_at ? new Date(s.created_at).toLocaleString('bg-BG') : '—'],
+      ['Име', s.name || '—'],
+      ['Телефон', s.phone || '—'],
+      ['Имейл', s.email || '—'],
+      ['Услуга', s.service || '—'],
+      ['Пакет', s.package || '—'],
+      ['Контакт метод', s.contact_method || '—'],
+      ['Съобщение', s.message || '—'],
+      ['Файлове', s.files_count ? s.files_count + ' файл(а): ' + (s.file_names || []).join(', ') : 'Няма'],
+      ['Статус', STATUS_LABELS[s.status] || s.status || '—']
+    ];
+
+    // Extra data
+    if (s.extra_data && typeof s.extra_data === 'object') {
+      Object.entries(s.extra_data).forEach(function(pair) {
+        rows.push([pair[0], pair[1] || '—']);
+      });
+    }
+
+    document.getElementById('modalBody').innerHTML = rows.map(function(r) {
+      return '<div class="detail-row"><div class="detail-label">' + r[0] + '</div><div class="detail-value">' + r[1] + '</div></div>';
+    }).join('');
+
+    document.getElementById('detailModal').classList.add('active');
+  };
+
+  document.getElementById('modalClose').addEventListener('click', function() {
+    document.getElementById('detailModal').classList.remove('active');
+  });
+  document.getElementById('detailModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('active');
+  });
+
+})();
+</script>
+
+</body>
+</html>
