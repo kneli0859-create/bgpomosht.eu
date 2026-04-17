@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AI Асистент — BG Помощ Админ</title>
+<link rel="icon" href="images/favicon.webp" type="image/webp">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0e27;
+    --bg-purple: #1a1f4a;
+    --gold: #d4a843;
+    --gold-dark: #c8941e;
+    --accent-purple: #a878dc;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255,255,255,0.55);
+    --text-muted: rgba(255,255,255,0.4);
+    --border: rgba(255,255,255,0.08);
+    --border-light: rgba(255,255,255,0.15);
+    --glass: rgba(255,255,255,0.04);
+    --glass-strong: rgba(255,255,255,0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #0d1340 50%, #150a35 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .bg-orb {
+    position: fixed; border-radius: 50%; filter: blur(100px); opacity: .2; pointer-events: none; z-index: 0;
+  }
+  .bg-orb--1 { width: 500px; height: 500px; background: #d4a843; top: -10%; right: -15%; }
+  .bg-orb--2 { width: 400px; height: 400px; background: #a878dc; bottom: -10%; left: -10%; }
+
+  /* Layout */
+  .app {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 64px 1fr;
+    grid-template-areas: 'hdr hdr' 'side main';
+    height: 100vh;
+  }
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; grid-template-areas: 'hdr' 'main'; }
+    .sidebar { display: none; }
+  }
+
+  /* Header */
+  .hdr {
+    grid-area: hdr;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    background: rgba(10, 14, 39, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .hdr-left { display: flex; align-items: center; gap: 14px; }
+  .hdr-logo {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--bg-deep); font-weight: 700; font-size: .85rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hdr-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 1rem;
+  }
+  .hdr-title span { color: var(--gold); }
+  .hdr-actions { display: flex; gap: 8px; }
+  .hdr-btn {
+    background: var(--glass); border: 1px solid var(--border);
+    color: var(--text-primary); padding: 8px 14px;
+    border-radius: 10px; cursor: pointer; font-size: .85rem;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+    transition: all .2s;
+  }
+  .hdr-btn:hover { background: var(--glass-strong); border-color: var(--border-light); }
+  .hdr-btn.primary { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--bg-deep); border-color: transparent; font-weight: 600; }
+
+  /* Sidebar */
+  .sidebar {
+    grid-area: side;
+    background: rgba(10, 14, 39, 0.6);
+    border-right: 1px solid var(--border);
+    padding: 20px 16px;
+    overflow-y: auto;
+  }
+  .side-section-title {
+    font-size: .72rem; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted); margin: 14px 0 10px; font-weight: 600;
+  }
+  .quick-btn {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; text-align: left;
+    background: var(--glass); border: 1px solid var(--border);
+    color: var(--text-primary); padding: 11px 13px;
+    border-radius: 10px; cursor: pointer; font-size: .85rem;
+    margin-bottom: 8px; transition: all .2s;
+    font-family: inherit;
+  }
+  .quick-btn:hover {
+    background: linear-gradient(135deg, rgba(212,168,67,0.15), rgba(168,120,220,0.1));
+    border-color: rgba(212,168,67,0.35);
+    transform: translateX(2px);
+  }
+  .quick-btn i { width: 18px; text-align: center; color: var(--gold); }
+  .side-hint {
+    font-size: .75rem; color: var(--text-muted); line-height: 1.5;
+    padding: 12px; background: var(--glass); border-radius: 10px;
+    border: 1px solid var(--border); margin-top: 16px;
+  }
+
+  /* Main chat */
+  .main {
+    grid-area: main;
+    display: flex; flex-direction: column;
+    min-height: 0;
+  }
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 20px 100px;
+    scroll-behavior: smooth;
+  }
+  .messages-inner {
+    max-width: 820px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .empty-state {
+    text-align: center; padding: 60px 20px;
+  }
+  .empty-state-icon {
+    width: 72px; height: 72px; margin: 0 auto 18px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(212,168,67,0.25), rgba(168,120,220,0.2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; color: var(--gold);
+    border: 1px solid rgba(212,168,67,0.3);
+  }
+  .empty-state h2 {
+    font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; margin-bottom: 6px;
+  }
+  .empty-state p { color: var(--text-secondary); font-size: .92rem; max-width: 520px; margin: 0 auto; }
+
+  /* Messages */
+  .msg {
+    display: flex; gap: 12px;
+    animation: msgIn .25s ease-out;
+  }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .msg-avatar {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: .82rem; font-weight: 600;
+  }
+  .msg.user .msg-avatar {
+    background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;
+  }
+  .msg.assistant .msg-avatar {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--bg-deep);
+  }
+  .msg-body { flex: 1; min-width: 0; }
+  .msg-role {
+    font-size: .72rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .msg-content {
+    font-size: .92rem; line-height: 1.55; color: var(--text-primary);
+    background: var(--glass); border: 1px solid var(--border);
+    padding: 12px 16px; border-radius: 14px;
+    white-space: pre-wrap; word-wrap: break-word;
+  }
+  .msg.user .msg-content {
+    background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(37,99,235,0.08));
+    border-color: rgba(59,130,246,0.25);
+  }
+  .msg.assistant .msg-content {
+    background: linear-gradient(135deg, rgba(212,168,67,0.08), rgba(168,120,220,0.05));
+    border-color: rgba(212,168,67,0.25);
+  }
+  .msg-content code {
+    background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;
+    font-family: 'Courier New', monospace; font-size: .85em;
+  }
+  .msg-content pre {
+    background: rgba(0,0,0,0.35); padding: 12px; border-radius: 8px;
+    overflow-x: auto; margin: 8px 0; border: 1px solid var(--border);
+    font-family: 'Courier New', monospace; font-size: .82rem; line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  .msg-content pre code { background: transparent; padding: 0; }
+  .msg-content strong { color: var(--gold); font-weight: 600; }
+
+  .tool-trace {
+    margin-top: 8px; font-size: .75rem; color: var(--text-muted);
+  }
+  .tool-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(168,120,220,0.1); border: 1px solid rgba(168,120,220,0.25);
+    padding: 3px 9px; border-radius: 999px; margin-right: 5px;
+    color: #d4a5ff;
+  }
+  .tool-badge i { font-size: .7rem; }
+
+  .typing-dots {
+    display: inline-flex; gap: 4px; padding: 8px 12px;
+  }
+  .typing-dots span {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+    animation: dotPulse 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: .15s; }
+  .typing-dots span:nth-child(3) { animation-delay: .3s; }
+  @keyframes dotPulse { 0%, 60%, 100% { opacity: .3; transform: scale(.8); } 30% { opacity: 1; transform: scale(1); } }
+
+  /* Composer */
+  .composer {
+    position: sticky; bottom: 0;
+    background: linear-gradient(to top, rgba(10,14,39,0.95) 50%, rgba(10,14,39,0));
+    padding: 16px 20px;
+  }
+  .composer-inner {
+    max-width: 820px; margin: 0 auto;
+    background: rgba(14,18,50,0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 10px 10px 10px 16px;
+    display: flex; align-items: flex-end; gap: 10px;
+    transition: border-color .2s;
+  }
+  .composer-inner:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,168,67,0.12); }
+  .composer textarea {
+    flex: 1;
+    background: transparent; border: none; resize: none;
+    color: var(--text-primary); font-family: inherit; font-size: .94rem;
+    line-height: 1.5; padding: 8px 0;
+    max-height: 180px; min-height: 24px;
+    outline: none;
+  }
+  .composer textarea::placeholder { color: var(--text-muted); }
+  .send-btn {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--bg-deep); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+    flex-shrink: 0;
+  }
+  .send-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,168,67,0.35); }
+  .send-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .send-btn i { font-size: 1rem; }
+
+  .composer-hint {
+    max-width: 820px; margin: 8px auto 0; text-align: center;
+    font-size: .72rem; color: var(--text-muted);
+  }
+
+  /* Login gate */
+  .login-gate {
+    position: fixed; inset: 0; z-index: 300;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(10,14,39,0.95); backdrop-filter: blur(20px);
+    padding: 20px;
+  }
+  .login-card {
+    background: var(--glass-strong); border: 1px solid var(--border-light);
+    border-radius: 20px; padding: 32px; max-width: 360px; width: 100%;
+    text-align: center;
+  }
+  .login-card h2 { font-family: 'Space Grotesk', sans-serif; margin-bottom: 20px; }
+  .login-card p { color: var(--text-secondary); font-size: .85rem; margin-bottom: 14px; }
+  .login-card a {
+    display: inline-block; background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--bg-deep); padding: 11px 22px; border-radius: 10px;
+    text-decoration: none; font-weight: 600;
+  }
+
+  @media (max-width: 560px) {
+    .hdr-title { font-size: .9rem; }
+    .messages { padding: 16px 14px 120px; }
+    .msg-content { font-size: .88rem; padding: 10px 13px; }
+    .composer { padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-orb bg-orb--1"></div>
+<div class="bg-orb bg-orb--2"></div>
+
+<div id="loginGate" class="login-gate" hidden>
+  <div class="login-card">
+    <h2>🔒 Нужен е логин</h2>
+    <p>За да използваш AI асистента, първо трябва да си влязъл в админ панела.</p>
+    <a href="/admin.html"><i class="fa-solid fa-arrow-right-to-bracket"></i> Към логин</a>
+  </div>
+</div>
+
+<div class="app">
+  <header class="hdr">
+    <div class="hdr-left">
+      <div class="hdr-logo">BG</div>
+      <div class="hdr-title">AI <span>Асистент</span></div>
+    </div>
+    <div class="hdr-actions">
+      <a href="/admin.html" class="hdr-btn"><i class="fa-solid fa-table-columns"></i> <span style="display:none" class="label-md">Админ</span></a>
+      <button class="hdr-btn" id="clearBtn" title="Нов разговор"><i class="fa-solid fa-rotate-left"></i></button>
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <div class="side-section-title">Бързи действия</div>
+    <button class="quick-btn" data-prompt="Покажи ми всички нови заявки"><i class="fa-solid fa-inbox"></i> Нови заявки</button>
+    <button class="quick-btn" data-prompt="Кои заявки висят повече от 30 минути без контакт?"><i class="fa-solid fa-clock"></i> Чакащи &gt; 30 мин</button>
+    <button class="quick-btn" data-prompt="Намери дубликати — клиенти с повече от една заявка"><i class="fa-solid fa-copy"></i> Дубликати</button>
+    <button class="quick-btn" data-prompt="Дай ми dashboard stats — колко заявки, коя е топ услугата, приходи"><i class="fa-solid fa-chart-line"></i> Stats</button>
+    <button class="quick-btn" data-prompt="Вземи най-новата заявка и ми напиши готов WhatsApp draft за нея"><i class="fa-brands fa-whatsapp"></i> Draft за най-нова</button>
+    <button class="quick-btn" data-prompt="Анализирай всички нови заявки и ми кажи кои са с приоритет"><i class="fa-solid fa-brain"></i> Приоритети</button>
+
+    <div class="side-section-title">Какво мога</div>
+    <div class="side-hint">
+      Питай ме с нормални думи. Аз ще правя заявки в базата, ще пиша WhatsApp draft-ове, ще маркирам статуси, ще анализирам и ще добавям бележки — вместо теб.
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="messages" id="messages">
+      <div class="messages-inner" id="messagesInner">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-state-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <h2>Здравей, Симеон 👋</h2>
+          <p>Аз съм твоят AI асистент. Мога да преглеждам заявки, да пиша съобщения, да маркирам статуси и да правя анализи — всичко в базата. Питай с нормални думи или кликни на някое от бързите действия вляво.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="composer">
+      <div class="composer-inner">
+        <textarea id="input" placeholder="Питай ме каквото искаш... напр. 'покажи новите заявки' или 'напиши draft за клиент #5'" rows="1"></textarea>
+        <button class="send-btn" id="sendBtn" title="Изпрати (Enter)"><i class="fa-solid fa-arrow-up"></i></button>
+      </div>
+      <div class="composer-hint">Enter за изпращане · Shift+Enter за нов ред · Groq Llama 3.3 70b</div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var API_BASE = '/api';
+  var TOKEN_KEY = 'bgp_admin_token';
+  var HISTORY_KEY = 'bgp_ai_chat_history';
+
+  function getToken() { try { return localStorage.getItem(TOKEN_KEY); } catch (e) { return null; } }
+
+  if (!getToken()) {
+    document.getElementById('loginGate').hidden = false;
+    return;
+  }
+
+  var messagesEl = document.getElementById('messagesInner');
+  var emptyState = document.getElementById('emptyState');
+  var input = document.getElementById('input');
+  var sendBtn = document.getElementById('sendBtn');
+  var clearBtn = document.getElementById('clearBtn');
+
+  var conversation = loadHistory();
+  renderAll();
+
+  function loadHistory() {
+    try {
+      var raw = localStorage.getItem(HISTORY_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function saveHistory() {
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(conversation.slice(-40))); } catch (e) {}
+  }
+
+  function escapeHtml(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function formatContent(text) {
+    if (!text) return '';
+    // code fences
+    text = escapeHtml(text);
+    text = text.replace(/```([\s\S]*?)```/g, function(_, code) {
+      return '<pre><code>' + code.trim() + '</code></pre>';
+    });
+    text = text.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+    // bold
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // bullet lists
+    text = text.replace(/(^|\n)[-•] /g, '$1• ');
+    return text;
+  }
+
+  function renderAll() {
+    messagesEl.innerHTML = '';
+    if (conversation.length === 0) {
+      messagesEl.appendChild(emptyState);
+      return;
+    }
+    conversation.forEach(function(m) { appendMessage(m, false); });
+    scrollBottom();
+  }
+
+  function appendMessage(m, scroll) {
+    if (emptyState.parentNode) emptyState.remove();
+    // only render user + assistant visible; skip raw tool messages
+    if (m.role === 'tool') return;
+    if (m.role === 'assistant' && !m.content && (!m.tool_calls || m.tool_calls.length === 0)) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'msg ' + m.role;
+    var avatarInitial = m.role === 'user' ? 'Т' : 'AI';
+    var roleLabel = m.role === 'user' ? 'Ти' : 'AI асистент';
+
+    var toolBadgesHtml = '';
+    if (m.role === 'assistant' && m.tool_calls && m.tool_calls.length > 0) {
+      toolBadgesHtml = '<div class="tool-trace">' + m.tool_calls.map(function(tc) {
+        var name = (tc.function && tc.function.name) || 'tool';
+        var ICONS = {
+          list_submissions: 'fa-list', get_submission: 'fa-eye',
+          update_status: 'fa-pen', add_note: 'fa-sticky-note',
+          mark_contacted: 'fa-check', draft_whatsapp: 'fa-brands fa-whatsapp',
+          analyze_submission: 'fa-brain', get_stats: 'fa-chart-line',
+          find_duplicates: 'fa-copy', find_overdue: 'fa-clock'
+        };
+        var icon = ICONS[name] || 'fa-bolt';
+        var iconClass = icon.indexOf('fa-brands') === 0 ? icon : 'fa-solid ' + icon;
+        return '<span class="tool-badge"><i class="' + iconClass + '"></i> ' + escapeHtml(name) + '</span>';
+      }).join('') + '</div>';
+    }
+
+    var contentHtml = m.content ? formatContent(m.content) : '';
+    wrap.innerHTML =
+      '<div class="msg-avatar">' + avatarInitial + '</div>' +
+      '<div class="msg-body">' +
+        '<div class="msg-role">' + roleLabel + '</div>' +
+        (contentHtml ? '<div class="msg-content">' + contentHtml + '</div>' : '') +
+        toolBadgesHtml +
+      '</div>';
+    messagesEl.appendChild(wrap);
+    if (scroll !== false) scrollBottom();
+  }
+
+  function scrollBottom() {
+    var m = document.getElementById('messages');
+    m.scrollTop = m.scrollHeight;
+  }
+
+  function showTyping() {
+    var wrap = document.createElement('div');
+    wrap.className = 'msg assistant';
+    wrap.id = 'typingIndicator';
+    wrap.innerHTML =
+      '<div class="msg-avatar">AI</div>' +
+      '<div class="msg-body">' +
+        '<div class="msg-role">AI асистент</div>' +
+        '<div class="msg-content"><span class="typing-dots"><span></span><span></span><span></span></span></div>' +
+      '</div>';
+    messagesEl.appendChild(wrap);
+    scrollBottom();
+  }
+  function hideTyping() {
+    var el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+  }
+
+  async function sendMessage(text) {
+    if (!text || !text.trim()) return;
+    text = text.trim();
+
+    var userMsg = { role: 'user', content: text };
+    conversation.push(userMsg);
+    appendMessage(userMsg);
+    saveHistory();
+
+    input.value = '';
+    autosize();
+    setBusy(true);
+    showTyping();
+
+    // Only send user+assistant+tool messages to API (no system — backend adds it)
+    var payload = conversation.filter(function(m) {
+      return m.role === 'user' || m.role === 'assistant' || m.role === 'tool';
+    });
+
+    try {
+      var r = await fetch(API_BASE + '/admin-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getToken()
+        },
+        body: JSON.stringify({ messages: payload })
+      });
+
+      var data;
+      try { data = await r.json(); } catch (e) { data = null; }
+      hideTyping();
+
+      if (!r.ok || !data || !data.ok) {
+        var errMsg = (data && data.message) || ('HTTP ' + r.status);
+        if (r.status === 401) {
+          try { localStorage.removeItem(TOKEN_KEY); } catch (e) {}
+          location.href = '/admin.html';
+          return;
+        }
+        appendMessage({ role: 'assistant', content: '⚠️ Грешка: ' + errMsg });
+        return;
+      }
+
+      // Append all new messages (assistant + tool) to conversation
+      (data.messages || []).forEach(function(m) {
+        conversation.push(m);
+        appendMessage(m);
+      });
+      saveHistory();
+    } catch (e) {
+      hideTyping();
+      appendMessage({ role: 'assistant', content: '⚠️ Мрежова грешка: ' + e.message });
+    } finally {
+      setBusy(false);
+      input.focus();
+    }
+  }
+
+  function setBusy(busy) {
+    sendBtn.disabled = busy;
+    input.disabled = busy;
+  }
+
+  function autosize() {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 180) + 'px';
+  }
+
+  input.addEventListener('input', autosize);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(input.value);
+    }
+  });
+  sendBtn.addEventListener('click', function() { sendMessage(input.value); });
+
+  document.querySelectorAll('.quick-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var p = btn.getAttribute('data-prompt');
+      if (p) sendMessage(p);
+    });
+  });
+
+  clearBtn.addEventListener('click', function() {
+    if (!confirm('Започни нов разговор? Историята ще се изтрие.')) return;
+    conversation = [];
+    saveHistory();
+    renderAll();
+    input.focus();
+  });
+
+  input.focus();
+})();
+</script>
+</body>
+</html>

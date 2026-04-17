@@ -231,7 +231,7 @@
       display: flex; align-items: center; gap: 12px;
     }
 
-    .dash-refresh-btn, .dash-logout-btn {
+    .dash-refresh-btn, .dash-logout-btn, .dash-ai-btn {
       padding: 9px 18px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
@@ -242,9 +242,18 @@
       cursor: pointer;
       transition: all .25s;
       font-family: var(--font-body);
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
     }
     .dash-refresh-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,168,67,0.06); }
     .dash-logout-btn:hover { border-color: var(--red); color: var(--red); background: rgba(248,113,113,0.06); }
+    .dash-ai-btn {
+      background: linear-gradient(135deg, rgba(212,168,67,0.18), rgba(168,120,220,0.14));
+      border-color: rgba(212,168,67,0.4);
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .dash-ai-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(212,168,67,0.25); border-color: var(--gold); }
 
     .dash-time {
       color: var(--text-muted);
@@ -1135,6 +1144,7 @@
     </div>
     <div class="dash-header-right">
       <span class="dash-time" id="dashTime"></span>
+      <a href="/ai-chat.html" class="dash-ai-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Чат</a>
       <button class="dash-refresh-btn" id="refreshBtn"><i class="fa-solid fa-arrows-rotate"></i> Обнови</button>
       <button class="dash-logout-btn" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Изход</button>
     </div>
