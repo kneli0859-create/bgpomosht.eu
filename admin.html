@@ -1144,7 +1144,7 @@
     </div>
     <div class="dash-header-right">
       <span class="dash-time" id="dashTime"></span>
-      <a href="/ai-chat.html" class="dash-ai-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Чат</a>
+      <a href="/ai-chat.html" id="aiChatBtn" class="dash-ai-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Чат</a>
       <button class="dash-refresh-btn" id="refreshBtn"><i class="fa-solid fa-arrows-rotate"></i> Обнови</button>
       <button class="dash-logout-btn" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Изход</button>
     </div>
@@ -1572,6 +1572,7 @@ BG Помощ</div>
     .then(function(data) {
       if (data.ok && data.token) {
         localStorage.setItem(TOKEN_KEY, data.token);
+        document.cookie = 'bgp_admin_token=' + encodeURIComponent(data.token) + '; Max-Age=604800; Path=/; SameSite=Strict';
         showDashboard(); loadData();
       } else {
         loginError.textContent = data.message || 'Грешка при вход';
@@ -1587,8 +1588,27 @@ BG Помощ</div>
     updateTime(); setInterval(updateTime, 60000);
   }
 
-  document.getElementById('logoutBtn').addEventListener('click', function() { localStorage.removeItem(TOKEN_KEY); location.reload(); });
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    localStorage.removeItem(TOKEN_KEY);
+    try { sessionStorage.removeItem(TOKEN_KEY); } catch(e){}
+    document.cookie = 'bgp_admin_token=; Max-Age=0; Path=/; SameSite=Strict';
+    location.reload();
+  });
   document.getElementById('refreshBtn').addEventListener('click', function() { loadData(); });
+
+  // AI Chat button: pass token via URL hash (survives any storage quirk in Brave/iOS)
+  var aiBtn = document.getElementById('aiChatBtn');
+  if (aiBtn) {
+    aiBtn.addEventListener('click', function(e) {
+      var t = localStorage.getItem(TOKEN_KEY);
+      if (t) {
+        e.preventDefault();
+        // Also set a cookie as backup
+        document.cookie = 'bgp_admin_token=' + encodeURIComponent(t) + '; Max-Age=604800; Path=/; SameSite=Strict';
+        window.location.href = '/ai-chat.html#t=' + encodeURIComponent(t);
+      }
+    });
+  }
 
   function updateTime() {
     var now = new Date();
