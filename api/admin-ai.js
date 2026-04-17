@@ -107,7 +107,7 @@ module.exports = async function handler(req, res) {
   const token = authHeader.replace('Bearer ', '');
   if (!verifyToken(token)) return res.status(401).json({ ok: false, message: 'Unauthorized' });
 
-  if (!GROQ_API_KEY) return res.status(500).json({ ok: false, message: 'AI not configured', debug: { b64Present: !!process.env.GROQ_KEY_B64, b64Len: (process.env.GROQ_KEY_B64||'').length, allKeys: Object.keys(process.env).filter(k => k.includes('GROQ') || k.includes('KEY') || k === 'SUPABASE_URL').sort() } });
+  if (!GROQ_API_KEY) return res.status(500).json({ ok: false, message: 'AI not configured' });
   if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) return res.status(500).json({ ok: false, message: 'Database not configured' });
 
   try {
