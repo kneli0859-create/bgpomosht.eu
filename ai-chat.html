@@ -359,7 +359,7 @@
   var TOKEN_KEY = 'bgp_admin_token';
   var HISTORY_KEY = 'bgp_ai_chat_history';
 
-  function getToken() { try { return localStorage.getItem(TOKEN_KEY); } catch (e) { return null; } }
+  function getToken() { try { return sessionStorage.getItem(TOKEN_KEY); } catch (e) { return null; } }
 
   if (!getToken()) {
     document.getElementById('loginGate').hidden = false;
@@ -516,7 +516,7 @@
       if (!r.ok || !data || !data.ok) {
         var errMsg = (data && data.message) || ('HTTP ' + r.status);
         if (r.status === 401) {
-          try { localStorage.removeItem(TOKEN_KEY); } catch (e) {}
+          try { sessionStorage.removeItem(TOKEN_KEY); } catch (e) {}
           location.href = '/admin.html';
           return;
         }
