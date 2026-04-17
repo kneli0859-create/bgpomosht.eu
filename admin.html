@@ -1542,6 +1542,15 @@ BG Помощ</div>
   var loginForm = document.getElementById('loginForm');
   var loginError = document.getElementById('loginError');
 
+  // Migrate old sessionStorage token -> localStorage (one-time, for existing logged-in users)
+  try {
+    var oldToken = sessionStorage.getItem(TOKEN_KEY);
+    if (oldToken && !localStorage.getItem(TOKEN_KEY)) {
+      localStorage.setItem(TOKEN_KEY, oldToken);
+      sessionStorage.removeItem(TOKEN_KEY);
+    }
+  } catch (e) {}
+
   var savedToken = localStorage.getItem(TOKEN_KEY);
   if (savedToken) { showDashboard(); loadData(); }
 
