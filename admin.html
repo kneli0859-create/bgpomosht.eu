@@ -1542,7 +1542,7 @@ BG Помощ</div>
   var loginForm = document.getElementById('loginForm');
   var loginError = document.getElementById('loginError');
 
-  var savedToken = sessionStorage.getItem(TOKEN_KEY);
+  var savedToken = localStorage.getItem(TOKEN_KEY);
   if (savedToken) { showDashboard(); loadData(); }
 
   loginForm.addEventListener('submit', function(e) {
@@ -1562,7 +1562,7 @@ BG Помощ</div>
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.ok && data.token) {
-        sessionStorage.setItem(TOKEN_KEY, data.token);
+        localStorage.setItem(TOKEN_KEY, data.token);
         showDashboard(); loadData();
       } else {
         loginError.textContent = data.message || 'Грешка при вход';
@@ -1578,7 +1578,7 @@ BG Помощ</div>
     updateTime(); setInterval(updateTime, 60000);
   }
 
-  document.getElementById('logoutBtn').addEventListener('click', function() { sessionStorage.removeItem(TOKEN_KEY); location.reload(); });
+  document.getElementById('logoutBtn').addEventListener('click', function() { localStorage.removeItem(TOKEN_KEY); location.reload(); });
   document.getElementById('refreshBtn').addEventListener('click', function() { loadData(); });
 
   function updateTime() {
@@ -1588,13 +1588,13 @@ BG Помощ</div>
 
   // ===== LOAD DATA =====
   function loadData() {
-    var token = sessionStorage.getItem(TOKEN_KEY);
+    var token = localStorage.getItem(TOKEN_KEY);
     if (!token) return;
     document.getElementById('tableBody').innerHTML = '<tr><td colspan="7"><div class="spinner"></div></td></tr>';
 
     fetch(API_BASE + '/admin-data', { headers: { 'Authorization': 'Bearer ' + token } })
     .then(function(r) {
-      if (r.status === 401) { sessionStorage.removeItem(TOKEN_KEY); location.reload(); throw new Error('Unauthorized'); }
+      if (r.status === 401) { localStorage.removeItem(TOKEN_KEY); location.reload(); throw new Error('Unauthorized'); }
       return r.json();
     })
     .then(function(result) {
@@ -1807,7 +1807,7 @@ BG Помощ</div>
   document.addEventListener('click', function() { if (currentDropdown) { currentDropdown.remove(); currentDropdown = null; } });
 
   function updateStatus(id, status) {
-    var token = sessionStorage.getItem(TOKEN_KEY);
+    var token = localStorage.getItem(TOKEN_KEY);
     fetch(API_BASE + '/admin-data', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
@@ -1929,7 +1929,7 @@ BG Помощ</div>
   function runAI(action) {
     var id = _currentDetailId;
     if (!id) return;
-    var token = sessionStorage.getItem(TOKEN_KEY);
+    var token = localStorage.getItem(TOKEN_KEY);
     var wrap = document.getElementById('aiOutputWrap');
     var out = document.getElementById('aiOutput');
     var waBtn = document.getElementById('aiWhatsAppBtn');
@@ -2027,7 +2027,7 @@ BG Помощ</div>
   document.getElementById('notesSaveBtn').addEventListener('click', function() {
     if (!notesCurrentId) return;
     var notes = document.getElementById('notesText').value;
-    var token = sessionStorage.getItem(TOKEN_KEY);
+    var token = localStorage.getItem(TOKEN_KEY);
     var btn = this;
     btn.disabled = true; btn.textContent = 'Запазване...';
 
@@ -2094,7 +2094,7 @@ BG Помощ</div>
     var newOnes = allData.filter(function(s) { return s.status === 'new'; });
     if (newOnes.length === 0) { showToast('Няма нови заявки за маркиране'); return; }
     if (!confirm('Маркирай ' + newOnes.length + ' нови заявки като "В процес"?')) return;
-    var token = sessionStorage.getItem(TOKEN_KEY);
+    var token = localStorage.getItem(TOKEN_KEY);
     Promise.all(newOnes.map(function(s) {
       return fetch(API_BASE + '/admin-data', {
         method: 'POST',
@@ -2111,7 +2111,7 @@ BG Помощ</div>
     var old = allData.filter(function(s) { return s.status === 'new' && s.created_at && (now - new Date(s.created_at) > 86400000); });
     if (old.length === 0) { showToast('Няма стари заявки'); return; }
     if (!confirm('Маркирай ' + old.length + ' заявки (> 1 ден) като "В процес"?')) return;
-    var token = sessionStorage.getItem(TOKEN_KEY);
+    var token = localStorage.getItem(TOKEN_KEY);
     Promise.all(old.map(function(s) {
       return fetch(API_BASE + '/admin-data', {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
