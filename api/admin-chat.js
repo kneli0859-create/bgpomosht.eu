@@ -456,8 +456,21 @@ const SYSTEM_PROMPT = [
   KB.formatKnowledgeForPrompt()
 ].join('\n');
 
+// Groq rejects tool_calls:null on assistant messages — strip the field when empty.
+function sanitizeForGroq(msgs) {
+  return msgs.map(function (m) {
+    if (m && m.role === 'assistant') {
+      var out = { role: 'assistant', content: m.content || '' };
+      if (Array.isArray(m.tool_calls) && m.tool_calls.length > 0) out.tool_calls = m.tool_calls;
+      return out;
+    }
+    return m;
+  });
+}
+
 async function runAgentLoop(supabase, userMessages) {
-  const messages = [{ role: 'system', content: SYSTEM_PROMPT }].concat(userMessages);
+  const clean = sanitizeForGroq(userMessages);
+  const messages = [{ role: 'system', content: SYSTEM_PROMPT }].concat(clean);
   const newMessages = [];
   const toolTrace = [];
 
@@ -467,11 +480,11 @@ async function runAgentLoop(supabase, userMessages) {
 
     // Push assistant message (may have content AND/OR tool_calls)
     messages.push(assistantMsg);
-    newMessages.push({
-      role: 'assistant',
-      content: assistantMsg.content || '',
-      tool_calls: assistantMsg.tool_calls || null
-    });
+    const persisted = { role: 'assistant', content: assistantMsg.content || '' };
+    if (Array.isArray(assistantMsg.tool_calls) && assistantMsg.tool_calls.length > 0) {
+      persisted.tool_calls = assistantMsg.tool_calls;
+    }
+    newMessages.push(persisted);
 
     const toolCalls = assistantMsg.tool_calls || [];
     if (toolCalls.length === 0) break; // done — final text response
