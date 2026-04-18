@@ -6,6 +6,8 @@
 const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
 const KB = require('./lib/knowledge-base');
+const { callGoogleAPI } = require('./lib/google-auth');
+const { buildRawMessage, summarizeMessage, extractBodies, getHeader } = require('./lib/gmail-helpers');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
@@ -14,7 +16,7 @@ const GROQ_API_KEY = (process.env.GROQ_KEY_B64
   ? Buffer.from(process.env.GROQ_KEY_B64, 'base64').toString('utf8').trim()
   : (process.env.GROQ_API_KEY || process.env.GROQ_TOKEN || ''));
 const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
-const MAX_TOOL_ROUNDS = 6;
+const MAX_TOOL_ROUNDS = 10;
 
 function verifyToken(token) {
   try {
@@ -159,6 +161,205 @@ const TOOLS = [
       parameters: {
         type: 'object',
         properties: { minutes: { type: 'number', description: 'Минути от създаване, default 30' } }
+      }
+    }
+  },
+  // ───────── GMAIL TOOLS ─────────
+  {
+    type: 'function',
+    function: {
+      name: 'gmail_list',
+      description: 'Листва/търси писма в Gmail. Примери на q: "is:unread", "from:john@x.com", "subject:оферта", "after:2026/04/15", "has:attachment", "label:INBOX newer_than:7d". Връща compact summary (без тяло).',
+      parameters: {
+        type: 'object',
+        properties: {
+          q: { type: 'string', description: 'Gmail search query (както в UI-а). Остави празно за inbox.' },
+          maxResults: { type: 'number', description: 'Max писма, default 15, max 100' },
+          labelIds: { type: 'string', description: 'Comma-separated labels (INBOX, UNREAD, STARRED, SENT, TRASH, SPAM)' }
+        }
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'gmail_read',
+      description: 'Чете пълното съдържание на едно писмо — headers + plain + html body.',
+      parameters: {
+        type: 'object',
+        properties: { id: { type: 'string', description: 'Gmail message ID' } },
+        required: ['id']
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'gmail_send',
+      description: 'Изпраща ново писмо от свързания Gmail акаунт.',
+      parameters: {
+        type: 'object',
+        properties: {
+          to: { type: 'string', description: 'Email получател' },
+          subject: { type: 'string' },
+          message: { type: 'string', description: 'Plain text тяло' },
+          html: { type: 'string', description: 'Optional HTML тяло' }
+        },
+        required: ['to', 'subject', 'message']
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'gmail_reply',
+      description: 'Отговор в същия thread на дадено писмо.',
+      parameters: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Gmail message ID на оригиналното писмо' },
+          message: { type: 'string' },
+          html: { type: 'string' },
+          replyAll: { type: 'boolean', description: 'Включи To+Cc адресите' }
+        },
+        required: ['id', 'message']
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'gmail_modify',
+      description: 'Маркира писмо (read/unread/archive/star/important/spam). Използвай за "маркирай като прочетено", "архивирай", "звезда на това", etc.',
+      parameters: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Message ID' },
+          action: {
+            type: 'string',
+            enum: ['read', 'unread', 'archive', 'inbox', 'star', 'unstar', 'important', 'unimportant', 'spam', 'unspam'],
+            description: 'Готова операция'
+          }
+        },
+        required: ['id', 'action']
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'gmail_trash',
+      description: 'Move писмо в Кошчето (или restore с restore=true).',
+      parameters: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          restore: { type: 'boolean', description: 'True за възстановяване от trash' }
+        },
+        required: ['id']
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'gmail_delete_permanent',
+      description: 'ПЕРМАНЕНТНО изтрива писмо. НЕ може да се върне. Използвай само ако user изрично поиска "изтрий завинаги".',
+      parameters: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          confirm: { type: 'string', description: 'Винаги подай "PERMANENT" когато user изрично е потвърдил' }
+        },
+        required: ['id', 'confirm']
+      }
+    }
+  },
+  // ───────── CALENDAR TOOLS ─────────
+  {
+    type: 'function',
+    function: {
+      name: 'calendar_list',
+      description: 'Листва events от календара в даден диапазон. Default: следващите 14 дни.',
+      parameters: {
+        type: 'object',
+        properties: {
+          timeMin: { type: 'string', description: 'ISO-8601 (default: сега)' },
+          timeMax: { type: 'string', description: 'ISO-8601 (default: +14 дни)' },
+          q: { type: 'string', description: 'Текстово търсене' },
+          maxResults: { type: 'number', description: 'default 25' }
+        }
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'calendar_create',
+      description: 'Създава ново event в календара.',
+      parameters: {
+        type: 'object',
+        properties: {
+          title: { type: 'string' },
+          date: { type: 'string', description: 'YYYY-MM-DD' },
+          time: { type: 'string', description: 'HH:MM, default 09:00' },
+          durationMinutes: { type: 'number', description: 'default 60' },
+          description: { type: 'string' },
+          location: { type: 'string' },
+          attendees: { type: 'array', items: { type: 'string' }, description: 'Email адреси' }
+        },
+        required: ['title', 'date']
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'calendar_update',
+      description: 'Обновява event (title, date, time, description, attendees, durationMinutes). Само подадените полета се променят.',
+      parameters: {
+        type: 'object',
+        properties: {
+          eventId: { type: 'string' },
+          title: { type: 'string' },
+          date: { type: 'string', description: 'YYYY-MM-DD' },
+          time: { type: 'string', description: 'HH:MM' },
+          durationMinutes: { type: 'number' },
+          description: { type: 'string' },
+          location: { type: 'string' },
+          attendees: { type: 'array', items: { type: 'string' } }
+        },
+        required: ['eventId']
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'calendar_delete',
+      description: 'Изтрива event от календара (с confirm="DELETE").',
+      parameters: {
+        type: 'object',
+        properties: {
+          eventId: { type: 'string' },
+          confirm: { type: 'string', description: 'Винаги подай "DELETE" когато user е потвърдил' }
+        },
+        required: ['eventId', 'confirm']
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'calendar_freebusy',
+      description: 'Връща заети интервали в даден период. Използвай за "кога съм свободен" / "намери час".',
+      parameters: {
+        type: 'object',
+        properties: {
+          timeMin: { type: 'string', description: 'ISO-8601' },
+          timeMax: { type: 'string', description: 'ISO-8601' }
+        },
+        required: ['timeMin', 'timeMax']
       }
     }
   }
@@ -416,6 +617,263 @@ async function toolFindOverdue(supabase, args) {
   };
 }
 
+// ───────── GMAIL TOOL IMPLEMENTATIONS ─────────
+
+async function toolGmailList(_, args) {
+  const maxResults = Math.min(args.maxResults || 15, 100);
+  const params = new URLSearchParams();
+  if (args.q) params.set('q', args.q);
+  params.set('maxResults', String(maxResults));
+  if (args.labelIds) {
+    String(args.labelIds).split(',').forEach(l => {
+      if (l.trim()) params.append('labelIds', l.trim().toUpperCase());
+    });
+  }
+  const listRes = await callGoogleAPI(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages?' + params.toString(),
+    { method: 'GET' }
+  );
+  const ids = (listRes.data.messages || []).map(m => m.id);
+  if (ids.length === 0) return { count: 0, messages: [] };
+
+  const metaFields = 'id,threadId,snippet,internalDate,labelIds,payload/headers';
+  const details = await Promise.all(ids.map(async id => {
+    try {
+      const r = await callGoogleAPI(
+        'https://gmail.googleapis.com/gmail/v1/users/me/messages/' + id +
+          '?format=metadata&fields=' + encodeURIComponent(metaFields) +
+          '&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=To&metadataHeaders=Date',
+        { method: 'GET' }
+      );
+      return summarizeMessage(r.data);
+    } catch (_) { return null; }
+  }));
+  return {
+    count: details.filter(Boolean).length,
+    resultSizeEstimate: listRes.data.resultSizeEstimate || 0,
+    messages: details.filter(Boolean)
+  };
+}
+
+async function toolGmailRead(_, args) {
+  const r = await callGoogleAPI(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages/' + encodeURIComponent(args.id) + '?format=full',
+    { method: 'GET' }
+  );
+  const summary = summarizeMessage(r.data);
+  const bodies = extractBodies(r.data.payload);
+  // Trim very large bodies for LLM context
+  const plain = (bodies.plain || '').slice(0, 6000);
+  return Object.assign({}, summary, {
+    bodyPlain: plain,
+    bodyHtmlLength: (bodies.html || '').length,
+    attachmentsCount: bodies.attachments.length,
+    attachments: bodies.attachments.map(a => ({ filename: a.filename, size: a.size, mimeType: a.mimeType }))
+  });
+}
+
+async function toolGmailSend(_, args) {
+  if (!args.to || !args.subject || (!args.message && !args.html)) {
+    return { error: 'to, subject, message required' };
+  }
+  const { access_token, email: fromEmail } = await require('./lib/google-auth').getValidAccessToken();
+  const raw = buildRawMessage({
+    from: fromEmail, to: args.to, subject: args.subject,
+    message: args.message || '', html: args.html || null
+  });
+  const r = await callGoogleAPI(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages/send',
+    { method: 'POST', body: JSON.stringify({ raw }) }
+  );
+  return { ok: true, id: r.data.id, threadId: r.data.threadId, from: r.email };
+}
+
+async function toolGmailReply(_, args) {
+  if (!args.id || (!args.message && !args.html)) return { error: 'id and message required' };
+  const metaFields = 'id,threadId,payload/headers';
+  const orig = await callGoogleAPI(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages/' + encodeURIComponent(args.id) +
+      '?format=metadata&fields=' + encodeURIComponent(metaFields) +
+      '&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=To&metadataHeaders=Cc&metadataHeaders=Message-ID&metadataHeaders=References',
+    { method: 'GET' }
+  );
+  const headers = (orig.data.payload && orig.data.payload.headers) || [];
+  const origFrom = getHeader(headers, 'From');
+  const origMsgId = getHeader(headers, 'Message-ID') || getHeader(headers, 'Message-Id');
+  const origRefs = getHeader(headers, 'References');
+  let subj = getHeader(headers, 'Subject') || '';
+  if (!/^re:\s/i.test(subj)) subj = 'Re: ' + subj;
+
+  const references = ((origRefs ? origRefs + ' ' : '') + (origMsgId || '')).trim();
+  const raw = buildRawMessage({
+    from: orig.email, to: origFrom, subject: subj,
+    message: args.message || '', html: args.html || null,
+    inReplyTo: origMsgId || undefined,
+    references: references || undefined
+  });
+  const send = await callGoogleAPI(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages/send',
+    { method: 'POST', body: JSON.stringify({ raw, threadId: orig.data.threadId }) }
+  );
+  return { ok: true, id: send.data.id, threadId: send.data.threadId, to: origFrom };
+}
+
+const GMAIL_ACTIONS = {
+  read: { remove: ['UNREAD'] }, unread: { add: ['UNREAD'] },
+  archive: { remove: ['INBOX'] }, inbox: { add: ['INBOX'] },
+  star: { add: ['STARRED'] }, unstar: { remove: ['STARRED'] },
+  important: { add: ['IMPORTANT'] }, unimportant: { remove: ['IMPORTANT'] },
+  spam: { add: ['SPAM'], remove: ['INBOX'] }, unspam: { remove: ['SPAM'] }
+};
+
+async function toolGmailModify(_, args) {
+  const preset = GMAIL_ACTIONS[String(args.action).toLowerCase()];
+  if (!preset) return { error: 'Unknown action: ' + args.action };
+  const r = await callGoogleAPI(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages/' + encodeURIComponent(args.id) + '/modify',
+    {
+      method: 'POST',
+      body: JSON.stringify({ addLabelIds: preset.add || [], removeLabelIds: preset.remove || [] })
+    }
+  );
+  return { ok: true, id: r.data.id, action: args.action, labelIds: r.data.labelIds || [] };
+}
+
+async function toolGmailTrash(_, args) {
+  const path = args.restore ? 'untrash' : 'trash';
+  const r = await callGoogleAPI(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages/' + encodeURIComponent(args.id) + '/' + path,
+    { method: 'POST' }
+  );
+  return { ok: true, id: r.data.id, action: path };
+}
+
+async function toolGmailDeletePermanent(_, args) {
+  if (args.confirm !== 'PERMANENT') return { error: 'confirm: "PERMANENT" required' };
+  await callGoogleAPI(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages/' + encodeURIComponent(args.id),
+    { method: 'DELETE' }
+  );
+  return { ok: true, id: args.id, deleted: true };
+}
+
+// ───────── CALENDAR TOOL IMPLEMENTATIONS ─────────
+
+function dateToISO(date, time) {
+  if (!date) return null;
+  const t = time && /^\d{2}:\d{2}$/.test(time) ? time : '09:00';
+  return date + 'T' + t + ':00';
+}
+
+async function toolCalendarList(_, args) {
+  const timeMin = args.timeMin || new Date().toISOString();
+  const timeMax = args.timeMax || new Date(Date.now() + 14 * 24 * 3600 * 1000).toISOString();
+  const maxResults = Math.min(args.maxResults || 25, 250);
+  const params = new URLSearchParams({
+    singleEvents: 'true', orderBy: 'startTime',
+    timeMin, timeMax, maxResults: String(maxResults)
+  });
+  if (args.q) params.set('q', args.q);
+  const r = await callGoogleAPI(
+    'https://www.googleapis.com/calendar/v3/calendars/primary/events?' + params.toString(),
+    { method: 'GET' }
+  );
+  const events = (r.data.items || []).map(ev => ({
+    id: ev.id, status: ev.status, summary: ev.summary || '',
+    description: (ev.description || '').slice(0, 400),
+    location: ev.location || '',
+    start: ev.start, end: ev.end,
+    attendees: (ev.attendees || []).map(a => ({ email: a.email, responseStatus: a.responseStatus })),
+    htmlLink: ev.htmlLink
+  }));
+  return { count: events.length, timeZone: r.data.timeZone, events };
+}
+
+async function toolCalendarCreate(_, args) {
+  if (!args.title || !args.date) return { error: 'title and date required' };
+  const tz = 'Europe/Berlin';
+  const startISO = dateToISO(args.date, args.time);
+  const dur = parseInt(args.durationMinutes, 10) || 60;
+  const endMs = new Date(startISO).getTime() + dur * 60000;
+  const end = new Date(endMs);
+  const pad = n => String(n).padStart(2, '0');
+  const endISO = end.getFullYear() + '-' + pad(end.getMonth()+1) + '-' + pad(end.getDate()) +
+    'T' + pad(end.getHours()) + ':' + pad(end.getMinutes()) + ':00';
+
+  const body = {
+    summary: args.title,
+    description: args.description || '',
+    location: args.location || '',
+    start: { dateTime: startISO, timeZone: tz },
+    end:   { dateTime: endISO,   timeZone: tz }
+  };
+  if (Array.isArray(args.attendees) && args.attendees.length) {
+    body.attendees = args.attendees.map(e => ({ email: e }));
+  }
+  const r = await callGoogleAPI(
+    'https://www.googleapis.com/calendar/v3/calendars/primary/events',
+    { method: 'POST', body: JSON.stringify(body) }
+  );
+  return { ok: true, id: r.data.id, htmlLink: r.data.htmlLink, summary: r.data.summary, start: r.data.start, end: r.data.end };
+}
+
+async function toolCalendarUpdate(_, args) {
+  if (!args.eventId) return { error: 'eventId required' };
+  const tz = 'Europe/Berlin';
+  const patch = {};
+  if (args.title) patch.summary = args.title;
+  if (args.description !== undefined) patch.description = args.description;
+  if (args.location !== undefined) patch.location = args.location;
+  if (Array.isArray(args.attendees)) patch.attendees = args.attendees.map(e => ({ email: e }));
+
+  if (args.date || args.time) {
+    patch.start = { dateTime: dateToISO(args.date, args.time), timeZone: tz };
+    const dur = parseInt(args.durationMinutes, 10) || 60;
+    const endMs = new Date(patch.start.dateTime).getTime() + dur * 60000;
+    const end = new Date(endMs);
+    const pad = n => String(n).padStart(2, '0');
+    const endISO = end.getFullYear() + '-' + pad(end.getMonth()+1) + '-' + pad(end.getDate()) +
+      'T' + pad(end.getHours()) + ':' + pad(end.getMinutes()) + ':00';
+    patch.end = { dateTime: endISO, timeZone: tz };
+  }
+
+  if (Object.keys(patch).length === 0) return { error: 'No fields to update' };
+
+  const r = await callGoogleAPI(
+    'https://www.googleapis.com/calendar/v3/calendars/primary/events/' + encodeURIComponent(args.eventId),
+    { method: 'PATCH', body: JSON.stringify(patch) }
+  );
+  return { ok: true, id: r.data.id, summary: r.data.summary, start: r.data.start, end: r.data.end, htmlLink: r.data.htmlLink };
+}
+
+async function toolCalendarDelete(_, args) {
+  if (!args.eventId) return { error: 'eventId required' };
+  if (args.confirm !== 'DELETE') return { error: 'confirm: "DELETE" required' };
+  await callGoogleAPI(
+    'https://www.googleapis.com/calendar/v3/calendars/primary/events/' + encodeURIComponent(args.eventId),
+    { method: 'DELETE' }
+  );
+  return { ok: true, eventId: args.eventId, deleted: true };
+}
+
+async function toolCalendarFreeBusy(_, args) {
+  if (!args.timeMin || !args.timeMax) return { error: 'timeMin and timeMax required' };
+  const r = await callGoogleAPI(
+    'https://www.googleapis.com/calendar/v3/freeBusy',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        timeMin: args.timeMin,
+        timeMax: args.timeMax,
+        timeZone: 'Europe/Berlin',
+        items: [{ id: 'primary' }]
+      })
+    }
+  );
+  const cal = (r.data.calendars && r.data.calendars.primary) || {};
+  return { busy: cal.busy || [], errors: cal.errors || [] };
+}
+
 const TOOL_IMPL = {
   list_submissions: toolListSubmissions,
   get_submission: toolGetSubmission,
@@ -426,7 +884,21 @@ const TOOL_IMPL = {
   analyze_submission: toolAnalyze,
   get_stats: (s, a) => toolStats(s),
   find_duplicates: toolFindDuplicates,
-  find_overdue: toolFindOverdue
+  find_overdue: toolFindOverdue,
+  // Gmail
+  gmail_list: toolGmailList,
+  gmail_read: toolGmailRead,
+  gmail_send: toolGmailSend,
+  gmail_reply: toolGmailReply,
+  gmail_modify: toolGmailModify,
+  gmail_trash: toolGmailTrash,
+  gmail_delete_permanent: toolGmailDeletePermanent,
+  // Calendar
+  calendar_list: toolCalendarList,
+  calendar_create: toolCalendarCreate,
+  calendar_update: toolCalendarUpdate,
+  calendar_delete: toolCalendarDelete,
+  calendar_freebusy: toolCalendarFreeBusy
 };
 
 // ---------- CHAT LOOP ----------
@@ -434,24 +906,45 @@ const TOOL_IMPL = {
 const SYSTEM_PROMPT = [
   'Ти си AI агент-асистент за admin панела на bgpomosht.eu — услуги за българи в Европа.',
   'Говориш БЪЛГАРСКИ, неформално но професионално. Кратко и по същество.',
+  'Днешна дата: ' + new Date().toISOString().slice(0, 10) + ' (Europe/Berlin).',
   '',
-  'ТИ МОЖЕШ ДА ДЕЙСТВАШ — използвай функциите когато user поиска. Не го карай да прави нещата сам.',
-  'Примери:',
+  'ТИ МОЖЕШ ДА ДЕЙСТВАШ НА 3 НИВА — използвай функциите когато user поиска. Не го карай да прави нещата сам.',
+  '',
+  '▸ ЗАЯВКИ (Supabase):',
   '- "Покажи новите" → list_submissions(status=new)',
   '- "Намери дубликати" → find_duplicates()',
-  '- "Кои заявки висят повече от час" → find_overdue(minutes=60)',
-  '- "Напиши съобщение на клиент #5" → draft_whatsapp(id=5) и покажи текста',
+  '- "Кои висят над час" → find_overdue(minutes=60)',
+  '- "Напиши съобщение на #5" → draft_whatsapp(id=5)',
   '- "Маркирай #5 като контактиран" → mark_contacted(id=5)',
   '- "Анализирай #5" → analyze_submission(id=5)',
-  '- "Добави бележка към #5: обади се обратно" → add_note(id=5, note=...)',
-  '- "Колко заявки имам днес" → get_stats()',
+  '- "Статистики" → get_stats()',
+  '',
+  '▸ GMAIL:',
+  '- "Покажи новите писма" → gmail_list(q="is:unread", maxResults=15)',
+  '- "Търси писма от Иван" → gmail_list(q="from:ivan")',
+  '- "Прочети писмото" → gmail_read(id=...)',
+  '- "Отговори на това" → gmail_reply(id=..., message=...)',
+  '- "Изпрати писмо до X" → gmail_send(to=..., subject=..., message=...)',
+  '- "Маркирай като прочетено" → gmail_modify(id=..., action="read")',
+  '- "Архивирай" → gmail_modify(id=..., action="archive")',
+  '- "Изтрий" → gmail_trash(id=...). Permanent delete САМО с изрично потвърждение от user.',
+  '',
+  '▸ КАЛЕНДАР:',
+  '- "Какво имам тази седмица" → calendar_list(timeMin=сега, timeMax=+7d)',
+  '- "Намери свободен час във вторник" → calendar_freebusy(timeMin, timeMax)',
+  '- "Създай среща за утре 10ч с Иван" → calendar_create(title, date, time, attendees=[...])',
+  '- "Премести срещата за четвъртък" → calendar_update(eventId, date, time)',
+  '- "Изтрий срещата" → calendar_delete(eventId, confirm="DELETE")',
   '',
   'ВАЖНО:',
-  '- Винаги използвай ID-та от реални заявки — не измисляй.',
-  '- Ако user не каже ID, първо list_submissions или попитай.',
-  '- След действие потвърждавай с 1 изречение ("Готово — маркирах #5 като контактиран").',
-  '- Ако върнеш draft съобщение, форматирай го в code block с тройни backticks.',
-  '- При много резултати покажи само важното — име, услуга, статус, ID. Не дъмпвай JSON.',
+  '- Винаги използвай реални ID — никога не измисляй.',
+  '- Ако user не каже ID, първо listни и попитай кой.',
+  '- При destructive операции (trash, delete, permanent) — при първо споменаване потвърди с user ("Да изтрия ли #X? Кажи да.") ОСВЕН АКО user вече е потвърдил в същото съобщение.',
+  '- За permanent delete/calendar_delete ВИНАГИ подавай confirm параметър.',
+  '- След действие потвърждавай с 1 изречение ("Готово — маркирах #5 като прочетено").',
+  '- Draft съобщения форматирай в code block с ```.',
+  '- При много резултати показвай само важното (име, тема, дата). НЕ дъмпвай JSON.',
+  '- ISO дати: използвай YYYY-MM-DDTHH:MM:SSZ или +01:00 offset.',
   '',
   KB.formatKnowledgeForPrompt()
 ].join('\n');
@@ -528,7 +1021,12 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ ok: false, message: 'Method not allowed' });
 
-  // Auth removed — AI Chat is open access
+  // Require admin token — AI agent има достъп до Gmail/Calendar tools, не бива open access
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace(/^Bearer\s+/i, '');
+  if (!token || !verifyToken(token)) {
+    return res.status(401).json({ ok: false, message: 'Unauthorized — моля логни се отново в admin' });
+  }
 
   if (!GROQ_API_KEY) return res.status(500).json({ ok: false, message: 'AI not configured' });
   if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) return res.status(500).json({ ok: false, message: 'Database not configured' });

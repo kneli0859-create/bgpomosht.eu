@@ -67,4 +67,40 @@ async function getValidAccessToken(email) {
   return { access_token: row.access_token, email: row.email };
 }
 
-module.exports = { getValidAccessToken };
+// Call Google API with automatic 401 retry (force-refresh access token once).
+// url: full URL. opts: fetch options (headers auto-merged with Authorization).
+// Returns parsed JSON (or {} on 204). Throws Error with .status + .details on failure.
+async function callGoogleAPI(url, opts, email) {
+  const doCall = async (accessToken) => {
+    const headers = Object.assign({}, opts.headers || {}, {
+      Authorization: 'Bearer ' + accessToken
+    });
+    if (opts.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
+    const r = await fetch(url, Object.assign({}, opts, { headers }));
+    const text = await r.text();
+    let j = {};
+    if (text) { try { j = JSON.parse(text); } catch (_) { j = { raw: text }; } }
+    return { ok: r.ok, status: r.status, body: j };
+  };
+
+  const { access_token, email: tokenEmail } = await getValidAccessToken(email);
+  let res = await doCall(access_token);
+
+  if (res.status === 401) {
+    // Force refresh and retry once
+    const row = await loadTokenRow(tokenEmail);
+    const refreshed = await refreshAccessToken(row);
+    res = await doCall(refreshed.access_token);
+  }
+
+  if (!res.ok) {
+    const msg = (res.body && res.body.error && (res.body.error.message || res.body.error)) || ('Google API ' + res.status);
+    const err = new Error(typeof msg === 'string' ? msg : JSON.stringify(msg));
+    err.status = res.status;
+    err.details = res.body;
+    throw err;
+  }
+  return { data: res.body, email: tokenEmail };
+}
+
+module.exports = { getValidAccessToken, callGoogleAPI };

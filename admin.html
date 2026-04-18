@@ -1578,6 +1578,22 @@ BG Помощ</div>
           <div class="integ-status" id="evStatus" hidden></div>
         </div>
 
+        <!-- Quick test card -->
+        <div class="integ-card glass">
+          <div class="integ-header">
+            <i class="fa-solid fa-flask"></i>
+            <h3>Бърз тест</h3>
+          </div>
+          <div class="integ-form">
+            <label>Email получател<input type="email" id="qtEmail" placeholder="test@example.com"></label>
+            <div class="integ-row">
+              <button type="button" class="integ-btn" id="qtSendEmailBtn"><i class="fa-solid fa-paper-plane"></i> Send test email</button>
+              <button type="button" class="integ-btn" id="qtCreateEventBtn"><i class="fa-solid fa-calendar-check"></i> Create test event</button>
+            </div>
+          </div>
+          <div class="integ-status" id="qtStatus" hidden></div>
+        </div>
+
       </div>
     </div><!-- /tab-integrations -->
 
@@ -1827,6 +1843,91 @@ BG Помощ</div>
       } finally {
         btn.disabled = false;
         btn.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Създай среща';
+      }
+    });
+  }
+
+  // Quick test buttons
+  function qtGetEmail() {
+    var v = (document.getElementById('qtEmail').value || '').trim();
+    if (!v) {
+      setStatus(document.getElementById('qtStatus'), 'error', '<i class="fa-solid fa-triangle-exclamation"></i> Въведи email');
+      return null;
+    }
+    return v;
+  }
+
+  async function sendEmail(email) {
+    var r = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        subject: 'Test email от BG Помощ',
+        message: 'Това е тестов имейл от admin панела на bgpomosht.eu.\n\nАко го получаваш — Gmail интеграцията работи.'
+      })
+    });
+    var j = await r.json();
+    if (!j.ok) throw new Error(j.message || 'Неуспешно изпращане');
+    return j;
+  }
+
+  async function createEvent(email) {
+    var d = new Date(Date.now() + 24*60*60*1000);
+    var yyyy = d.getFullYear();
+    var mm = String(d.getMonth()+1).padStart(2,'0');
+    var dd = String(d.getDate()).padStart(2,'0');
+    var body = {
+      title: 'Test event — BG Помощ',
+      date: yyyy + '-' + mm + '-' + dd,
+      time: '10:00',
+      description: 'Тестова среща от admin панела.',
+      durationMinutes: 30
+    };
+    if (email) body.attendees = [email];
+    var r = await fetch('/api/create-event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    var j = await r.json();
+    if (!j.ok) throw new Error(j.message || 'Неуспешно създаване');
+    return j;
+  }
+
+  var qtSendBtn = document.getElementById('qtSendEmailBtn');
+  if (qtSendBtn) {
+    qtSendBtn.addEventListener('click', async function() {
+      var email = qtGetEmail(); if (!email) return;
+      var status = document.getElementById('qtStatus');
+      qtSendBtn.disabled = true;
+      setStatus(status, 'loading', '<i class="fa-solid fa-circle-notch fa-spin"></i> Изпращам тестов имейл...');
+      try {
+        var j = await sendEmail(email);
+        setStatus(status, 'success', '<i class="fa-solid fa-check"></i> Изпратено до <strong>' + email + '</strong> (ID: ' + j.id + ')');
+      } catch (err) {
+        setStatus(status, 'error', '<i class="fa-solid fa-triangle-exclamation"></i> ' + err.message);
+      } finally {
+        qtSendBtn.disabled = false;
+      }
+    });
+  }
+
+  var qtEventBtn = document.getElementById('qtCreateEventBtn');
+  if (qtEventBtn) {
+    qtEventBtn.addEventListener('click', async function() {
+      var email = (document.getElementById('qtEmail').value || '').trim();
+      var status = document.getElementById('qtStatus');
+      qtEventBtn.disabled = true;
+      setStatus(status, 'loading', '<i class="fa-solid fa-circle-notch fa-spin"></i> Създавам тестова среща...');
+      try {
+        var j = await createEvent(email);
+        var link = j.htmlLink ? ' — <a href="' + j.htmlLink + '" target="_blank" rel="noopener">виж в календара</a>' : '';
+        setStatus(status, 'success', '<i class="fa-solid fa-check"></i> Създадена тестова среща' + link);
+      } catch (err) {
+        setStatus(status, 'error', '<i class="fa-solid fa-triangle-exclamation"></i> ' + err.message);
+      } finally {
+        qtEventBtn.disabled = false;
       }
     });
   }
