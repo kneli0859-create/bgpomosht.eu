@@ -900,6 +900,91 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
+    /* ===== INTEGRATIONS ===== */
+    .integrations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .integ-card {
+      padding: 24px;
+      border-radius: 16px;
+    }
+    .integ-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .integ-header i { color: var(--gold); font-size: 1.3rem; }
+    .integ-header h3 { margin: 0; font-size: 1.05rem; color: #fff; }
+    .integ-form { display: flex; flex-direction: column; gap: 12px; }
+    .integ-form label {
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: .85rem; color: rgba(255,255,255,0.7);
+    }
+    .integ-form input, .integ-form textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: #fff;
+      font-size: .95rem;
+      font-family: inherit;
+      transition: border-color .2s;
+    }
+    .integ-form input:focus, .integ-form textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    .integ-form textarea { resize: vertical; min-height: 80px; }
+    .integ-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .integ-btn {
+      margin-top: 6px;
+      padding: 13px 20px;
+      background: linear-gradient(135deg, #d4a843, #c8941e);
+      color: #0a0e27;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: .95rem;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .integ-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(212,168,67,0.3);
+    }
+    .integ-btn:disabled { opacity: .6; cursor: not-allowed; }
+    .integ-status {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: .88rem;
+      line-height: 1.5;
+    }
+    .integ-status.success {
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid rgba(46, 204, 113, 0.3);
+      color: #7de2a3;
+    }
+    .integ-status.error {
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.3);
+      color: #ff9a8a;
+    }
+    .integ-status.loading {
+      background: rgba(212,168,67,0.08);
+      border: 1px solid rgba(212,168,67,0.2);
+      color: var(--gold);
+    }
+    .integ-status a { color: inherit; text-decoration: underline; word-break: break-all; }
+    @media (max-width: 480px) {
+      .integ-card { padding: 18px; }
+      .integ-row { grid-template-columns: 1fr; }
+    }
+
     /* ===== ACTION BAR ===== */
     .action-bar {
       display: flex; gap: 10px; flex-wrap: wrap;
@@ -1156,6 +1241,7 @@
     <div class="dash-tabs">
       <button class="dash-tab active" data-tab="dashboard"><i class="fa-solid fa-chart-line"></i> Дашборд</button>
       <button class="dash-tab" data-tab="automation"><i class="fa-solid fa-wand-magic-sparkles"></i> Автоматизация</button>
+      <button class="dash-tab" data-tab="integrations"><i class="fa-solid fa-plug"></i> Интеграции</button>
     </div>
 
     <!-- ===== TAB 1: DASHBOARD ===== -->
@@ -1454,6 +1540,47 @@ BG Помощ</div>
       </div>
     </div><!-- /tab-automation -->
 
+    <!-- ===== TAB 3: INTEGRATIONS ===== -->
+    <div class="tab-content" id="tab-integrations">
+      <div class="integrations-grid">
+
+        <!-- Gmail card -->
+        <div class="integ-card glass">
+          <div class="integ-header">
+            <i class="fa-solid fa-envelope"></i>
+            <h3>Изпрати имейл (Gmail)</h3>
+          </div>
+          <form id="emailForm" class="integ-form">
+            <label>До (email)<input type="email" id="emMailTo" placeholder="client@example.com" required></label>
+            <label>Тема<input type="text" id="emMailSubject" placeholder="Оферта от BG Помощ" required></label>
+            <label>Съобщение<textarea id="emMailMessage" rows="6" placeholder="Здравейте, ето вашата оферта..." required></textarea></label>
+            <button type="submit" class="integ-btn" id="emSendBtn"><i class="fa-solid fa-paper-plane"></i> Изпрати</button>
+          </form>
+          <div class="integ-status" id="emStatus" hidden></div>
+        </div>
+
+        <!-- Calendar card -->
+        <div class="integ-card glass">
+          <div class="integ-header">
+            <i class="fa-solid fa-calendar-plus"></i>
+            <h3>Създай среща (Google Calendar)</h3>
+          </div>
+          <form id="eventForm" class="integ-form">
+            <label>Заглавие<input type="text" id="evTitle" placeholder="Консултация Иван" required></label>
+            <div class="integ-row">
+              <label>Дата<input type="date" id="evDate" required></label>
+              <label>Час<input type="time" id="evTime" value="10:00" required></label>
+            </div>
+            <label>Имейл гост (опционално)<input type="email" id="evEmail" placeholder="guest@example.com"></label>
+            <label>Описание<textarea id="evDesc" rows="3" placeholder="WhatsApp обаждане / онлайн среща"></textarea></label>
+            <button type="submit" class="integ-btn" id="evSaveBtn"><i class="fa-solid fa-calendar-check"></i> Създай среща</button>
+          </form>
+          <div class="integ-status" id="evStatus" hidden></div>
+        </div>
+
+      </div>
+    </div><!-- /tab-integrations -->
+
   </div>
 </div>
 
@@ -1618,6 +1745,91 @@ BG Помощ</div>
     u.searchParams.set('_r', Date.now());
     window.location.replace(u.toString());
   });
+
+  // ===== INTEGRATIONS: Gmail + Calendar =====
+  function setStatus(el, kind, html) {
+    el.hidden = false;
+    el.className = 'integ-status ' + kind;
+    el.innerHTML = html;
+  }
+
+  var emailForm = document.getElementById('emailForm');
+  if (emailForm) {
+    emailForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var status = document.getElementById('emStatus');
+      var btn = document.getElementById('emSendBtn');
+      var to = document.getElementById('emMailTo').value.trim();
+      var subject = document.getElementById('emMailSubject').value.trim();
+      var message = document.getElementById('emMailMessage').value.trim();
+      if (!to || !subject || !message) return;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Изпращам...';
+      setStatus(status, 'loading', '<i class="fa-solid fa-circle-notch fa-spin"></i> Изпращам имейл...');
+      try {
+        var r = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: to, subject: subject, message: message })
+        });
+        var j = await r.json();
+        if (!j.ok) throw new Error(j.message || 'Неуспешно изпращане');
+        setStatus(status, 'success', '<i class="fa-solid fa-check"></i> Изпратено до <strong>' + to + '</strong> (ID: ' + j.id + ')');
+        emailForm.reset();
+      } catch (err) {
+        setStatus(status, 'error', '<i class="fa-solid fa-triangle-exclamation"></i> ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Изпрати';
+      }
+    });
+  }
+
+  var eventForm = document.getElementById('eventForm');
+  if (eventForm) {
+    // Default date = today
+    var today = new Date();
+    var yyyy = today.getFullYear();
+    var mm = String(today.getMonth()+1).padStart(2,'0');
+    var dd = String(today.getDate()).padStart(2,'0');
+    document.getElementById('evDate').value = yyyy + '-' + mm + '-' + dd;
+
+    eventForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var status = document.getElementById('evStatus');
+      var btn = document.getElementById('evSaveBtn');
+      var title = document.getElementById('evTitle').value.trim();
+      var date = document.getElementById('evDate').value;
+      var time = document.getElementById('evTime').value;
+      var email = document.getElementById('evEmail').value.trim();
+      var desc = document.getElementById('evDesc').value.trim();
+      if (!title || !date || !time) return;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Създавам...';
+      setStatus(status, 'loading', '<i class="fa-solid fa-circle-notch fa-spin"></i> Създавам среща в календара...');
+      try {
+        var body = { title: title, date: date, time: time, description: desc, durationMinutes: 60 };
+        if (email) body.attendees = [email];
+        var r = await fetch('/api/create-event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        var j = await r.json();
+        if (!j.ok) throw new Error(j.message || 'Неуспешно създаване');
+        var link = j.htmlLink ? ' — <a href="' + j.htmlLink + '" target="_blank" rel="noopener">виж в календара</a>' : '';
+        setStatus(status, 'success', '<i class="fa-solid fa-check"></i> Създадена среща за ' + date + ' ' + time + link);
+        eventForm.reset();
+        document.getElementById('evDate').value = yyyy + '-' + mm + '-' + dd;
+        document.getElementById('evTime').value = '10:00';
+      } catch (err) {
+        setStatus(status, 'error', '<i class="fa-solid fa-triangle-exclamation"></i> ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Създай среща';
+      }
+    });
+  }
 
   // AI Chat button: pass token via URL hash (survives any storage quirk in Brave/iOS)
   var aiBtn = document.getElementById('aiChatBtn');
