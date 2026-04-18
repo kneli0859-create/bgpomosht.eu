@@ -1783,9 +1783,12 @@ BG Помощ</div>
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Изпращам...';
       setStatus(status, 'loading', '<i class="fa-solid fa-circle-notch fa-spin"></i> Изпращам имейл...');
       try {
-        var r = await fetch('/api/send-email', {
+        var r = await fetch('/api/router?action=send-email', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': localStorage.getItem(TOKEN_KEY) || ''
+          },
           body: JSON.stringify({ email: to, subject: subject, message: message })
         });
         var j = await r.json();
@@ -1826,9 +1829,12 @@ BG Помощ</div>
       try {
         var body = { title: title, date: date, time: time, description: desc, durationMinutes: 60 };
         if (email) body.attendees = [email];
-        var r = await fetch('/api/create-event', {
+        var r = await fetch('/api/router?action=create-event', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': localStorage.getItem(TOKEN_KEY) || ''
+          },
           body: JSON.stringify(body)
         });
         var j = await r.json();
@@ -1858,9 +1864,12 @@ BG Помощ</div>
   }
 
   async function sendEmail(email) {
-    var r = await fetch('/api/send-email', {
+    var r = await fetch('/api/router?action=send-email', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': localStorage.getItem(TOKEN_KEY) || ''
+      },
       body: JSON.stringify({
         email: email,
         subject: 'Test email от BG Помощ',
@@ -1885,9 +1894,12 @@ BG Помощ</div>
       durationMinutes: 30
     };
     if (email) body.attendees = [email];
-    var r = await fetch('/api/create-event', {
+    var r = await fetch('/api/router?action=create-event', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': localStorage.getItem(TOKEN_KEY) || ''
+      },
       body: JSON.stringify(body)
     });
     var j = await r.json();
