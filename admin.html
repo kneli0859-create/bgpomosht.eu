@@ -1146,6 +1146,7 @@
       <span class="dash-time" id="dashTime"></span>
       <a href="/ai-chat.html?v=3" id="aiChatBtn" class="dash-ai-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Чат</a>
       <button class="dash-refresh-btn" id="refreshBtn"><i class="fa-solid fa-arrows-rotate"></i> Обнови</button>
+      <button class="dash-refresh-btn" id="hardRefreshBtn" title="Изчиства кеш и презарежда — използвай след нови промени"><i class="fa-solid fa-bolt"></i> Хард рефреш</button>
       <button class="dash-logout-btn" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Изход</button>
     </div>
   </header>
@@ -1595,6 +1596,28 @@ BG Помощ</div>
     location.reload();
   });
   document.getElementById('refreshBtn').addEventListener('click', function() { loadData(); });
+
+  // Hard refresh: unregister service workers + clear caches + bust URL + reload
+  document.getElementById('hardRefreshBtn').addEventListener('click', async function() {
+    var btn = this;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Презареждам...';
+    try {
+      if ('serviceWorker' in navigator) {
+        var regs = await navigator.serviceWorker.getRegistrations();
+        for (var i = 0; i < regs.length; i++) { try { await regs[i].unregister(); } catch(e){} }
+      }
+      if (window.caches && caches.keys) {
+        var keys = await caches.keys();
+        await Promise.all(keys.map(function(k){ return caches.delete(k); }));
+      }
+    } catch (e) {}
+    var t = localStorage.getItem(TOKEN_KEY);
+    if (t) document.cookie = 'bgp_admin_token=' + encodeURIComponent(t) + '; Max-Age=604800; Path=/; SameSite=Strict';
+    var u = new URL(window.location.href);
+    u.searchParams.set('_r', Date.now());
+    window.location.replace(u.toString());
+  });
 
   // AI Chat button: pass token via URL hash (survives any storage quirk in Brave/iOS)
   var aiBtn = document.getElementById('aiChatBtn');
