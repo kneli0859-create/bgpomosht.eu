@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin.html
+Disallow: /ai-chat.html
 
 Sitemap: https://bgpomosht.eu/sitemap.xml
