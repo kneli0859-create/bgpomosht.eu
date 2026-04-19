@@ -15,9 +15,9 @@
 //              calendar-delete, calendar-freebusy
 //   Open:      send-email, create-event  (no admin auth — preserved from originals)
 
-const { getValidAccessToken, callGoogleAPI } = require('./lib/google-auth');
-const { buildRawMessage, summarizeMessage, extractBodies, getHeader } = require('./lib/gmail-helpers');
-const { requireAdmin, verifyToken, setCORS } = require('./lib/admin-auth');
+const { getValidAccessToken, callGoogleAPI } = require('./_lib/google-auth');
+const { buildRawMessage, summarizeMessage, extractBodies, getHeader } = require('./_lib/gmail-helpers');
+const { requireAdmin, verifyToken, setCORS } = require('./_lib/admin-auth');
 
 // Actions requiring full admin Bearer auth (AI agent tools).
 const PROTECTED = new Set([

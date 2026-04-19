@@ -3,7 +3,7 @@
 const Busboy     = require('busboy');
 const nodemailer = require('nodemailer');
 const { createClient } = require('@supabase/supabase-js');
-const { autoDraft } = require('./lib/ai-autodraft');
+const { autoDraft } = require('./_lib/ai-autodraft');
 
 // Vercel environment variables
 const GMAIL_USER = process.env.GMAIL_USER || 'simeonv38@gmail.com';

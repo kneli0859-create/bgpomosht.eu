@@ -2,7 +2,7 @@
 
 const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
-const KB = require('./lib/knowledge-base');
+const KB = require('./_lib/knowledge-base');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';

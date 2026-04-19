@@ -5,9 +5,9 @@
 
 const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
-const KB = require('./lib/knowledge-base');
-const { callGoogleAPI } = require('./lib/google-auth');
-const { buildRawMessage, summarizeMessage, extractBodies, getHeader } = require('./lib/gmail-helpers');
+const KB = require('./_lib/knowledge-base');
+const { callGoogleAPI } = require('./_lib/google-auth');
+const { buildRawMessage, summarizeMessage, extractBodies, getHeader } = require('./_lib/gmail-helpers');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
@@ -676,7 +676,7 @@ async function toolGmailSend(_, args) {
   if (!args.to || !args.subject || (!args.message && !args.html)) {
     return { error: 'to, subject, message required' };
   }
-  const { access_token, email: fromEmail } = await require('./lib/google-auth').getValidAccessToken();
+  const { access_token, email: fromEmail } = await require('./_lib/google-auth').getValidAccessToken();
   const raw = buildRawMessage({
     from: fromEmail, to: args.to, subject: args.subject,
     message: args.message || '', html: args.html || null
